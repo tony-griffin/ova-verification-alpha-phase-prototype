@@ -1,30 +1,47 @@
 const express = require('express')
 const router = express.Router()
 
-// Run this code when a form is submitted to '/ask_apply_veteran_card_answer'
-router.post("/ask_apply_veteran_card_answer", function (req, res) {
+// Run this code when a form is submitted to '/ask-apply-veteran-card-answer'
+router.post("/ask-apply-veteran-card-answer", function (req, res) {
   
-  // Make a variable and give it the value from 'how-many-balls'
   var answer = req.session.data["ask-apply-veteran-card"];
-
-  // Check whether the variable matches a condition
-  if (answer == "yes") {
-    // Send user to next page
-    res.redirect("/juggling-trick");
+  console.log("ANSWER: ", answer);
+  
+  if (answer === "yes") {
+    res.redirect("/govuk_prove_id_start");
   } else {
-    // Send user to ineligible page
     res.redirect("/prove_id_start");
   }
 });
 
 
-router.post("/verify_your_identity_answer", function (req, res) {
+router.post("/verify-your-identity-answer", function (req, res) {
   var answer = req.session.data["verify-your-identity"];
 
   if (answer == "verify-identity-photo-address") {
     res.redirect("/upload_photo_passport");
   } else {
     res.redirect("/upload_photo_drivers_licence");
+  }
+});
+
+router.post("/govuk-prove-id-start-answer", function (req, res) {
+  var answer = req.session.data["govuk-prove-id-confirmation-check"];
+
+  if (answer == "govuk-prove-id-confirmation-check-agree") {
+    res.redirect("/govuk_prove_id_choice");
+  } else {
+    res.redirect("/govuk_prove_id_start_no_confirm");
+  }
+});
+
+router.post("/govuk-prove-id-choice-verify-answer", function (req, res) {
+  var answer = req.session.data["govuk-prove-id-choice-verify-your-identity"];
+
+  if (answer == "govuk-prove-id-choice-sign-create") {
+    res.redirect("/govuk_create_or_sign_in");
+  } else {
+    res.redirect("/govuk_redirect_verify_your_identity");
   }
 });
 
