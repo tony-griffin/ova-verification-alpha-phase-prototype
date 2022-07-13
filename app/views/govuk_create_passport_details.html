@@ -43,6 +43,15 @@
         id: "govuk-create-passport-surname",
         name: "govuk-create-passport-surname"
       }) }}
+       
+      {{ govukInput({
+        label: {
+          text: "Given names"
+        },
+        classes: "govuk-input--width30",
+        id: "govuk-create-passport-given-name",
+        name: "govuk-create-passport-given-name"
+      }) }}
       
       {{ govukInput({
         label: {
@@ -52,8 +61,8 @@
         hint: {
           text: "You do not have to fill this in if you do not have any middle names"
         },
-        id: "govuk-create-passport-surname",
-        name: "govuk-create-passport-surname"
+        id: "govuk-create-passport-middlename",
+        name: "govuk-create-passport-middlename"
       }) }}
       
        {{ govukDateInput({
