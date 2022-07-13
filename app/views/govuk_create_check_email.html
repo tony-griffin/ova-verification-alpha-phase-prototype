@@ -17,9 +17,10 @@
       Check your email
       </h1>
       
-      {{ govukInsetText({
-        text: 'We have sent an email to your email'
-      }) }}
+      <div class="govuk-inset-text">
+       We have sent an email to: 
+       <h3 class="govuk-heading-s">{{ data['govuk_question_email'] }}</h3>
+      </div>
       
       <p>This email contains a 6 digit code.</p>
       

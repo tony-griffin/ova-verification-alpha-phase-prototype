@@ -5,10 +5,9 @@ const router = express.Router()
 router.post("/ask-apply-veteran-card-answer", function (req, res) {
   
   var answer = req.session.data["ask-apply-veteran-card"];
-  console.log("ANSWER: ", answer);
   
   if (answer === "yes") {
-    res.redirect("/govuk_prove_id_start");
+    res.redirect("/start_veteran_apply_id_card");
   } else {
     res.redirect("/prove_id_start");
   }
