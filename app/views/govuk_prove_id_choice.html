@@ -45,9 +45,9 @@
        
        <p>We'll only use the information you give us to make sure that you are who you say you are.</p>
       
-      <form class="form" action="/govuk-prove-id-choice-verify-answer" method="post">
+      <form class="form" action="govuk_create_or_sign_in" method="post">
       
-          {{ govukRadios({
+          {# {{ govukRadios({
               idPrefix: "govuk-prove-id-choice-verify-your-identity",
               name: "govuk-prove-id-choice-verify-your-identity",
               fieldset: {
@@ -67,7 +67,18 @@
                   text: "Prove your identity another way"
                 }
               ]
-          }) }}
+          }) }} #}
+          
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                Would you like to prove your identity another way?
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+              If you are unable to upload any of the necessary documents then you can also verify your identity <a href="#">by post</a> or in person at your <a href="#">local drop in centre</a>.
+            </div>
+          </details>
 
         <button class="govuk-button" data-module="govuk-button">Continue</button>
 
