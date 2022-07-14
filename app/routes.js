@@ -9,7 +9,7 @@ router.post("/ask-apply-veteran-card-answer", function (req, res) {
   if (answer === "yes") {
     res.redirect("/start_veteran_apply_id_card");
   } else {
-    res.redirect("/prove_id_start");
+    res.redirect("/verify_your_identity");
   }
 });
 
