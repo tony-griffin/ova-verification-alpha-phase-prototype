@@ -1,18 +1,16 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 // Run this code when a form is submitted to '/ask-apply-veteran-card-answer'
 router.post("/ask-apply-veteran-card-answer", function (req, res) {
-  
   var answer = req.session.data["ask-apply-veteran-card"];
-  
+
   if (answer === "yes") {
     res.redirect("/start_veteran_apply_id_card");
   } else {
     res.redirect("/verify_your_identity");
   }
 });
-
 
 router.post("/verify-your-identity-answer", function (req, res) {
   var answer = req.session.data["verify-your-identity"];
@@ -28,7 +26,7 @@ router.post("/govuk-prove-id-start-answer", function (req, res) {
   var answer = req.session.data["govuk-prove-id-confirmation-check"];
 
   if (answer == "govuk-prove-id-confirmation-check-agree") {
-    res.redirect("/govuk_prove_id_choice");
+    res.redirect("/govuk_prove_id_explanation");
   } else {
     res.redirect("/govuk_prove_id_start_no_confirm");
   }
@@ -36,4 +34,4 @@ router.post("/govuk-prove-id-start-answer", function (req, res) {
 
 // Add your routes here - above the module.exports line
 
-module.exports = router
+module.exports = router;
