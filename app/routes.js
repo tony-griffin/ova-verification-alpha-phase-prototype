@@ -34,16 +34,6 @@ router.post("/govuk-prove-id-start-answer", function (req, res) {
   }
 });
 
-router.post("/govuk-prove-id-choice-verify-answer", function (req, res) {
-  var answer = req.session.data["govuk-prove-id-choice-verify-your-identity"];
-
-  if (answer == "govuk-prove-id-choice-sign-create") {
-    res.redirect("/govuk_create_or_sign_in");
-  } else {
-    res.redirect("/govuk_redirect_verify_your_identity");
-  }
-});
-
 // Add your routes here - above the module.exports line
 
 module.exports = router
