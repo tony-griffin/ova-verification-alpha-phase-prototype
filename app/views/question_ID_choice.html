@@ -16,31 +16,31 @@
       <form class="form" action="application_complete" method="post">
 
        {{ govukRadios({
-  idPrefix: "what-branch-of-the-armed-forces-did-you-serve-with",
-  name: "what-branch-of-the-armed-forces-did-you-serve-with",
-  fieldset: {
-    legend: {
-      text: "How do you want your ID?",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  items: [
-    {
-      value: "physical card",
-      text: "Physical card"
-    },
-    {
-      value: "digital id",
-      text: "Digital ID"
-    }
-  ]
-}) }}
+        idPrefix: "what-branch-of-the-armed-forces-did-you-serve-with",
+        name: "what-branch-of-the-armed-forces-did-you-serve-with",
+        fieldset: {
+          legend: {
+            text: "How do you want your ID?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "physical card",
+            text: "Physical card"
+          },
+          {
+            value: "digital id",
+            text: "Digital ID"
+          }
+        ]
+      }) }}
        
        {{ govukDetails({
-  summaryText: "How do I use my card",
-  text: "Your card will have a unique card number which some services may ask for. You can use your digital or physicalID card in the same way to prove your veteran status"
-}) }}
+        summaryText: "How do I use my card",
+        text: "Your card will have a unique card number which some services may ask for. You can use your digital or physicalID card in the same way to prove your veteran status"
+      }) }}
 
         <button class="govuk-button" data-module="govuk-button">Continue</button>
 

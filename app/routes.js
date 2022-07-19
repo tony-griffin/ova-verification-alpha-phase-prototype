@@ -32,6 +32,34 @@ router.post("/govuk-prove-id-start-answer", function (req, res) {
   }
 });
 
+router.post(
+  "/mod_request_info_you_someone_else_radio_answer",
+  function (req, res) {
+    var answer = req.session.data["mod_request_info_you_someone_else_radio"];
+
+    if (answer === "myself-radio-button" || answer === "someone-else-radio-button") {
+      res.redirect("/mod_access_email_radio");
+    } else {
+      res.redirect("/mod_request_info_you_someone_else_radio_error");
+    }
+  }
+);
+
+router.post("/mod_access_email_radio_answer", function (req, res) {
+  var answer = req.session.data["mod_access_email_radio"];
+
+  console.log("ANSWER: ", answer);
+
+  if (
+    answer === "mod_access_email_radio_yes" ||
+    answer === "mod_access_email_radio_no"
+  ) {
+    res.redirect("/mod_access_email_radio");
+  } else {
+    res.redirect("/mod_access_email_radio_error");
+  }
+});
+
 // Add your routes here - above the module.exports line
 
 module.exports = router;
