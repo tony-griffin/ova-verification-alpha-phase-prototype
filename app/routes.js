@@ -37,7 +37,10 @@ router.post(
   function (req, res) {
     var answer = req.session.data["mod_request_info_you_someone_else_radio"];
 
-    if (answer === "myself-radio-button" || answer === "someone-else-radio-button") {
+    if (
+      answer === "myself-radio-button" ||
+      answer === "someone-else-radio-button"
+    ) {
       res.redirect("/mod_access_email_radio");
     } else {
       res.redirect("/mod_request_info_you_someone_else_radio_error");
@@ -47,8 +50,6 @@ router.post(
 
 router.post("/mod_access_email_radio_answer", function (req, res) {
   var answer = req.session.data["mod_access_email_radio"];
-
-  console.log("ANSWER: ", answer);
 
   if (
     answer === "mod_access_email_radio_yes" ||

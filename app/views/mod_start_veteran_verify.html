@@ -19,20 +19,40 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block header %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Verify you are a veteran</h1>
-
-    <p>
-      The veteran ID card can be used to confirm that someone has served in the
-      UK armed forces. Applying is a one-off process that, once completed will
-      assure veterans access to the services and benefits they are entitled to.
-    </p>
-
+    
     <p>Use this service to:</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li>Prove you served in the armed forces</li>
+      <li>Verify that you served in the armed forces</li>
       <li>Apply for a veteran ID card</li>
     </ul>
 
-    <h3 class="govuk-heading-s">What you will need:</h3>
+    <p>
+      Use this service to verify that you have served in HM aremed forces. You can do this fort yourself, or on behalf of another living person if you have their permission
+    </p>
+    
+    <p>
+     You can use this service if you are (or the person you're requesting information about is):
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>A former member of the armed forces</li>
+      <li>Someone who is authorised to verify a former member of the armed forces</li>
+    </ul>
+    
+    <p>
+     You can also <a href="#">register by post</a>
+    </p>
+    
+    <p>
+     The online service is also available in <a href="#">Welsh (Cymraeg)</a>
+    </p>
+    
+    <p>
+     You cannot register for this service if you are in the UK illegally
+    </p>
+
+    
+
+    {# <h3 class="govuk-heading-s">What you will need:</h3>
 
     <p>
       You will need to create an account and prove your identity before you can
@@ -49,9 +69,9 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block header %}
       <li>your driving licence</li>
       <li>a passport style photo</li>
       <li>your enlistment and discharge dates</li>
-    </ul>
+    </ul> #}
 
-    <h2 class="govuk-heading-m">Before you start</h2>
+    {# <h2 class="govuk-heading-m">Before you start</h2>
 
     <p>
       Do you want to <a href="#">verify veteran status</a> for someone else?
@@ -80,10 +100,10 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block header %}
       <li>
         a recent passport style photograph of yourself to be used on the card
       </li>
-    </ul>
+    </ul> #}
 
     <a
-      href="/mod_request_info_you_someone_else_radio"
+      href="/mod_veteran_verify_what_need"
       role="button"
       draggable="false"
       class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8"
@@ -109,8 +129,28 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block header %}
       <h2 class="govuk-heading-m" id="subsection-title">Related content</h2>
       <nav role="navigation" aria-labelledby="subsection-title">
         <ul class="govuk-list govuk-!-font-size-16">
+        <li>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Request records of deceased service personnel
+            </a>
+          </li>
           <li>
-            <a href="#"> Verify veteran status for someone else </a>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Military service records
+            </a>
+          </li>
+          <li>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Military service request forms
+            </a>
+          </li>
+          <li>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Military service search forms
+            </a>
+          </li>
+          <li>
+            <a href="#">Ministry of Defence medal form</a>
           </li>
           <li>
             <a href="https://www.gov.uk/government/organisations/veterans-uk">

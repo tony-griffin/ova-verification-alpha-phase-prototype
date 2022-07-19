@@ -19,43 +19,41 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
       passport has not been cancelled or reported as lost or stolen.
     </p>
 
-    <form class="form" action="govuk_create_home_postcode" method="post">
+    <form class="form" action="question_DOB" method="post">
     
-      {{ govukSelect({ id: "mod_question_name", name: "mod_question_name",
-      label: { text: "Title" }, items: [ { value: "mr", text: "Mr", selected:
-      true }, { value: "mrs", text: "Mrs" }, { value: "ms", text: "Ms" }, {
-      value: "mx", text: "Mx" } ] }) }} {{ govukInput({ label: { text: "First
-      name" }, classes: "govuk-input--width-30", id:
-      "mod_question_name_first_name", name: "mod_question_name_first_name" }) }}
+      {{ govukSelect(
+        { id: "mod_question_name", 
+          name: "mod_question_name",
+          label: { text: "Title (optional)" }, items: [ 
+                   { value: "", text: "", selected: true }, 
+                   { value: "mr", text: "Mr"}, 
+                   { value: "mrs", text: "Mrs"}, 
+                   { value: "ms", text: "Ms" }, 
+                   { value: "mx", text: "Mx" } ] }) }} 
       
-      {{ govukInput({ label: { text: "Last name" }, classes:
-      "govuk-input--width-30", id: "mod_question_name_last_name", name:
-      "mod_question_name_last_name" }) }}
+      {{
+      govukInput(
+        { label: { text: "First name" }, 
+          classes:"govuk-input--width-30", 
+          id: "mod_question_name_first_name", 
+          name: "mod_question_name_first_name",
+          value: data["mod_question_name_first_name"] }) }} 
+      
+      {{ govukInput(
+        { label: { text: "Last name" }, 
+          classes: "govuk-input--width-30", 
+          id: "mod_question_name_last_name", 
+          name: "mod_question_name_last_name",
+          value: data["mod_question_name_last_name"] }) }}
 
       <h3 class="govuk-heading-m">Have you ever changed your name?</h3>
 
-      {# {% set textHtml %} {{ govukInput({ id:
-      "mod_question_name_changed_input", name:
-      "mod_question_name_changed_input", type: "tel", autocomplete: "tel",
-      classes: "govuk-!-width-two-thirds", label: { text: "Tell us any other
-      names your information may be held under" } }) }} {% endset -%} {{
-      govukRadios({ idPrefix: "mod_question_name_changed", name:
-      "mod_question_name_changed", fieldset: { legend: { text: "",
-      isPageHeading: false, classes: "govuk-fieldset__legend--l" } }, hint: {
-      text: "You’ll only need to answer 'Yes' if your information might be held
-      under another name" }, items: [ { value: "mod_question_name_changed_yes",
-      text: "Yes", checked: checked("mod_question_name_changed",
-      "mod_question_name_changed_yes"), conditional: { html: textHtml } }, {
-      value: "mod_question_name_changed_no", text: "No", checked:
-      checked("mod_question_name_changed", "mod_question_name_changed_no") } ]
-      }) }} #}
-
       <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+        <fieldset class="govuk-fieldset" aria-describedby="previous-names">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading"></h1>
           </legend>
-          <div id="contact-hint" class="govuk-hint">
+          <div id="mod_question_name_changed_hint" class="govuk-hint">
             You’ll only need to answer 'Yes' if your information might be held
             under another name
           </div>
@@ -63,13 +61,13 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
             <div class="govuk-radios__item">
               <input
                 class="govuk-radios__input"
-                id="contact"
-                name="contact"
+                id="mod_question_name_change_yes"
+                name="mod_question_name_change"
                 type="radio"
-                value="email"
+                value="yes"
                 data-aria-controls="conditional-contact"
               />
-              <label class="govuk-label govuk-radios__label" for="contact">
+              <label class="govuk-label govuk-radios__label" for="mod_question_name_change_yes">
                 Yes
               </label>
             </div>
@@ -78,7 +76,7 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
               id="conditional-contact"
             >
               <div class="govuk-form-group">
-                <label class="govuk-label" for="contact-by-email">
+                <label class="govuk-label" for="more-detail">
                   Tell us any other names your information may be held under
                 </label>
                 <textarea
@@ -94,32 +92,14 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
             <div class="govuk-radios__item">
               <input
                 class="govuk-radios__input"
-                id="contact-2"
-                name="contact"
+                id="mod_question_name_change_no"
+                name="mod_question_name_change"
                 type="radio"
-                value="phone"
-                data-aria-controls="conditional-contact-2"
+                value="no"
               />
-              <label class="govuk-label govuk-radios__label" for="contact-2">
+              <label class="govuk-label govuk-radios__label" for="mod_question_name_change_no">
                 No
               </label>
-            </div>
-            <div
-              class="govuk-radios__conditional govuk-radios__conditional--hidden"
-              id="conditional-contact-3"
-            >
-              <div class="govuk-form-group">
-                <label class="govuk-label" for="contact-by-text">
-                  Mobile phone number
-                </label>
-                <input
-                  class="govuk-input govuk-!-width-one-third"
-                  id="contact-by-text"
-                  name="contact-by-text"
-                  type="tel"
-                  autocomplete="tel"
-                />
-              </div>
             </div>
           </div>
         </fieldset>

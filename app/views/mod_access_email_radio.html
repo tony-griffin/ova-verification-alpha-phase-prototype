@@ -1,6 +1,6 @@
 {% extends "layout.html" %} {% block pageTitle %} Question page template – {{
 serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
-<a class="govuk-back-link" href="/mod_request_info_you_someone_else_radio"
+<a class="govuk-back-link" href="/mod_veteran_verify_what_need"
   >Back</a
 >
 {% endblock %} {% block content %}
@@ -10,7 +10,7 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
     <h1 class="govuk-heading-l">Do you have access to an email address?</h1>
 
     <p>
-      We can process your address faster if you verify your email address.
+      We can process your request faster if you verify your email address.
     </p>
 
     <p>
@@ -44,12 +44,55 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
               ] 
        }) }}
       
+      {{ govukDetails({
+          summaryText: "Why we are asking this question",
+          text: "To be filled in"
+        }) }}
+      
       <button class="govuk-button" data-module="govuk-button">
         Continue
       </button>
     </form>
-
-    <p>If you already have a GOV.UK account you can <a href="">sign in</a></p>
+    
+    
+  </div>
+  
+  <div class="govuk-grid-column-one-third">
+    <aside class="app-related-items" role="complementary">
+      <h2 class="govuk-heading-m" id="subsection-title">Related content</h2>
+      <nav role="navigation" aria-labelledby="subsection-title">
+        <ul class="govuk-list govuk-!-font-size-16">
+        <li>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Request records of deceased service personnel
+            </a>
+          </li>
+          <li>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Military service records
+            </a>
+          </li>
+          <li>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Military service request forms
+            </a>
+          </li>
+          <li>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Military service search forms
+            </a>
+          </li>
+          <li>
+            <a href="#">Ministry of Defence medal form</a>
+          </li>
+          <li>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Veterans UK
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
   </div>
 </div>
 
