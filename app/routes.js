@@ -54,7 +54,7 @@ router.post("/mod_access_email_radio_answer", function (req, res) {
     answer === "mod_access_email_radio_yes" ||
     answer === "mod_access_email_radio_no"
   ) {
-    res.redirect("/mod_access_email_radio");
+    res.redirect("/mod_question_name");
   } else {
     res.redirect("/mod_access_email_radio_error");
   }
