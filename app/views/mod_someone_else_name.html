@@ -1,0 +1,158 @@
+{% extends "layout.html" %} {% block pageTitle %} Question page template – {{
+serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
+<a class="govuk-back-link" href="/mod_request_info_you_someone_else_radio">Back</a>
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      Your details
+    </h1>
+
+    <form class="form" action="mod_someone_else_name_answer" method="post">
+    
+      {{ govukSelect(
+        { id: "mod_someone_else_name", 
+          name: "mod_someone_else_name",
+          label: { text: "Title (optional)" },
+          classes:"govuk-input--width-10",
+          items: [ 
+                   { value: "", text: "", selected: true }, 
+                   { value: "mr", text: "Mr"}, 
+                   { value: "mrs", text: "Mrs"}, 
+                   { value: "ms", text: "Ms" }, 
+                   { value: "mx", text: "Mx" } 
+                  ] }) }} 
+      
+      {{
+      govukInput(
+        { label: { text: "First name" }, 
+          classes:"govuk-input--width-30", 
+          id: "mod_someone_else_name_first_name", 
+          name: "mod_someone_else_name_first_name",
+          value: data["mod_someone_else_name_first_name"] }) }} 
+      
+      {{ govukInput(
+        { label: { text: "Last name" }, 
+          classes: "govuk-input--width-30", 
+          id: "mod_someone_else_name_last_name", 
+          name: "mod_someone_else_name_last_name",
+          value: data["mod_someone_else_name_last_name"] }) }}
+
+      <h3 class="govuk-heading-m">What is your relationship to the person you are requesting information about?</h3>
+      
+      {{ govukInsetText({
+        text: "If you have both a personal and professional relationship, select your professional role. For example, if you are their solicitor, but you are also their civil partner, you should select 'Solictor' instead of 'Civil Partner'."
+      }) }}
+
+      {# <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="previous-names">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading"></h1>
+          </legend>
+          <div id="mod_question_name_changed_hint" class="govuk-hint">
+            If you have both a personal and professional relationship, select your professional role. For example, if you are their solicitor, but you are also their civil partner, you should select 'Solictor' instead of 'Civil Partner'.
+          </div>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input
+                class="govuk-radios__input"
+                id="mod_question_name_change_yes"
+                name="mod_question_name_change"
+                type="radio"
+                value="yes"
+                data-aria-controls="conditional-contact"
+              />
+              <label class="govuk-label govuk-radios__label" for="mod_question_name_change_yes">
+                Yes
+              </label>
+            </div>
+            <div
+              class="govuk-radios__conditional govuk-radios__conditional--hidden"
+              id="conditional-contact"
+            >
+              <div class="govuk-form-group">
+                <label class="govuk-label" for="more-detail">
+                  Tell us any other names your information may be held under
+                </label>
+                <textarea
+                  class="govuk-textarea"
+                  id="more-detail"
+                  name="more-detail"
+                  rows="5"
+                  aria-describedby="more-detail-hint"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="govuk-radios__item">
+              <input
+                class="govuk-radios__input"
+                id="mod_question_name_change_no"
+                name="mod_question_name_change"
+                type="radio"
+                value="no"
+              />
+              <label class="govuk-label govuk-radios__label" for="mod_question_name_change_no">
+                No
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div> #}
+      
+      {{ govukRadios({
+        idPrefix: "mod_someone_else_name_radio",
+        name: "mod_someone_else_name_radio",
+        fieldset: {
+          legend: {
+            text: "",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "solicitor",
+            text: "Solicitor",
+            checked: checked("mod_someone_else_name_radio", "solicitor")
+          },
+          {
+            value: "doctor",
+            text: "Doctor",
+            checked: checked("mod_someone_else_name_radio", "doctor")
+          },
+          {
+            value: "civil_partner_spouse",
+            text: "Civil Partner/Spouse",
+            checked: checked("mod_someone_else_name_radio", "civil_partner_spouse")
+          },
+          {
+            value: "parent",
+            text: "Parent",
+            checked: checked("mod_someone_else_name_radio", "parent")
+          },
+          {
+            value: "sibling",
+            text: "Sibling",
+            checked: checked("mod_someone_else_name_radio", "sibling")
+          },
+          {
+            value: "children",
+            text: "Children",
+            checked: checked("mod_someone_else_name_radio", "children")
+          },
+          {
+            value: "other",
+            text: "Other",
+            checked: checked("mod_someone_else_name_radio", "other")
+          }
+        ]
+      }) }}
+
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
