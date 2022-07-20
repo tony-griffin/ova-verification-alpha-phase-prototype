@@ -23,13 +23,17 @@
       </li>
     </ol>
     
-    <a class="govuk-back-link" href="/prove_id_start">Back</a>
+    <a class="govuk-back-link" href="/mod_prove_id_start">Back</a>
   </div>
 {% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+    
+    {{ govukErrorSummary({ titleText: "There is a problem", errorList: [ { text:
+    "Please choose an option if you wish to continue", href:
+    "/mod_prove_id_gov_acc" } ] }) }}
 
       <h1 class="govuk-heading-l">
        Prove your identity with a GOV.UK account
@@ -60,11 +64,11 @@
       
       <h3 class="govuk-heading-s">Choose a way to prove your identity</h3>
       
-      <form class="form" action="/create_govuk_acc" method="post">
+      <form class="form" action="mod_prove_id_gov_acc_answer" method="post">
       
-          {{ govukRadios({
-              idPrefix: "sign-in-identity",
-              name: "sign-in-identity",
+           {{ govukRadios({
+              idPrefix: "mod_prove_id_gov_acc_radio",
+              name: "mod_prove_id_gov_acc_radio",
               fieldset: {
                 legend: {
                   text: "",
@@ -74,17 +78,21 @@
               },
               items: [
                 {
-                  value: "govuk-account",
-                text: "Continue to sign in or create a GOV.UK account"
+                  value: "mod_prove_id_gov_acc_radio_govuk_account",
+                text: "Continue to sign in or create a GOV.UK account",
+                checked: checked("mod_prove_id_gov_acc_radio", "mod_prove_id_gov_acc_radio_govuk_account")
               },
               {
-                value: "govuk-verify",
+                value: "mod_prove_id_gov_acc_radio_govuk_verify",
                 text: "Prove your identity another way",
                 hint: {
-                  text: "You can prove your identity online with GOV.UK Verify or have your identity documents checked in person ata Post Office."
+                  text: "You can prove your identity online with GOV.UK Verify or have your identity documents checked in person ata Post Office.",
+                checked: checked("mod_prove_id_gov_acc_radio", "mod_prove_id_gov_acc_radio_govuk_verify")
                 }
               }
-              ]
+              ],
+      errorMessage: { text: "Please choose an option if you wish to continue"
+      }
           }) }}
 
       <button class="govuk-button" data-module="govuk-button">Continue</button>

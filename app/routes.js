@@ -37,14 +37,15 @@ router.post(
   function (req, res) {
     var answer = req.session.data["mod_request_info_you_someone_else_radio"];
 
-    if (
-      answer === "myself-radio-button" ||
-      answer === "someone-else-radio-button"
-    ) {
+    // console.log("ANSWER: ", answer);
+
+    if (answer === "myself-radio-button")
       res.redirect("/mod_access_email_radio");
-    } else {
-      res.redirect("/mod_request_info_you_someone_else_radio_error");
-    }
+
+    if (answer === "someone-else-radio-button")
+      res.redirect("/mod_access_email_radio");
+
+    if (!answer) res.redirect("/mod_request_info_you_someone_else_radio_error");
   }
 );
 
@@ -59,6 +60,30 @@ router.post("/mod_access_email_radio_answer", function (req, res) {
   } else {
     res.redirect("/mod_access_email_radio_error");
   }
+});
+
+router.post("/mod_prove_id_to_continue_radio_answer", function (req, res) {
+  var answer = req.session.data["mod_prove_id_to_continue_radio"];
+
+  if (answer === "mod_prove_id_to_continue_radio_sign_up")
+    res.redirect("/mod_prove_id_start");
+
+  if (answer === "mod_prove_id_to_continue_radio_another_way")
+    res.redirect("/verify_your_identity");
+
+  if (!answer) res.redirect("/mod_prove_id_to_continue_error");
+});
+
+router.post("/mod_prove_id_gov_acc_answer", function (req, res) {
+  var answer = req.session.data["mod_prove_id_gov_acc_radio"];
+
+  if (answer === "mod_prove_id_gov_acc_radio_govuk_account")
+    res.redirect("/create_govuk_acc");
+
+  if (answer === "mod_prove_id_gov_acc_radio_govuk_verify")
+    res.redirect("/verify_your_identity");
+
+  if (!answer) res.redirect("/mod_prove_id_gov_acc_error");
 });
 
 // Add your routes here - above the module.exports line

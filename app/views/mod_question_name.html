@@ -6,30 +6,23 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      Enter your details exactly as they appear on your UK passport
+      Full name at time of your discharge from the armed services
     </h1>
-
-    <p>
-      Your passport includes a lot of information that we can check to make sure
-      that you are who you say you are.
-    </p>
-
-    <p>
-      We'll check your details with the HM Passport Office to make sure your
-      passport has not been cancelled or reported as lost or stolen.
-    </p>
 
     <form class="form" action="question_DOB" method="post">
     
       {{ govukSelect(
         { id: "mod_question_name", 
           name: "mod_question_name",
-          label: { text: "Title (optional)" }, items: [ 
+          label: { text: "Title (optional)" },
+          classes:"govuk-input--width-10",
+          items: [ 
                    { value: "", text: "", selected: true }, 
                    { value: "mr", text: "Mr"}, 
                    { value: "mrs", text: "Mrs"}, 
                    { value: "ms", text: "Ms" }, 
-                   { value: "mx", text: "Mx" } ] }) }} 
+                   { value: "mx", text: "Mx" } 
+                  ] }) }} 
       
       {{
       govukInput(

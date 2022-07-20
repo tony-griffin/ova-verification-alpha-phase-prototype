@@ -1,6 +1,6 @@
 {% extends "layout.html" %} {% block pageTitle %} Question page template – {{
 serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
-<a class="govuk-back-link" href="/mod_veteran_verify_what_need"
+<a class="govuk-back-link" href="/mod_request_info_you_someone_else_radio"
   >Back</a
 >
 {% endblock %} {% block content %}
@@ -44,10 +44,30 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
               ] 
        }) }}
       
-      {{ govukDetails({
-          summaryText: "Why we are asking this question",
-          text: "To be filled in"
-        }) }}
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Why we are asking this question
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>
+            We will use your email address to contact you if we need more
+            information, including:
+          </p>
+
+          <ul class="govuk-list govuk-list--bullet">
+            <li>clarifying what information you need</li>
+            <li>obtaining further proof of your identity</li>
+          </ul>
+
+          <p>
+            You can continue without providing an email address, but you must
+            enter your contact details carefully, otherwise we may not be able
+            to process your request or send you a response.
+          </p>
+        </div>
+      </details>
       
       <button class="govuk-button" data-module="govuk-button">
         Continue

@@ -15,47 +15,33 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block header %}
     </li>
   </ol>
 
-  <a class="govuk-back-link" href="/mod_prove_id_gov_acc">Back</a>
+  <a class="govuk-back-link" href="/mod_prove_id_to_continue">Back</a>
 </div>
 {% endblock %} {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Create a GOV.UK account or sign in</h1>
-
-    <p>You'll need:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>An email address</li>
-      <li>A UK phone number</li>
-    </ul>
-
-    <a
-      href="/govuk_question_email"
-      role="button"
-      draggable="false"
-      class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8"
-      data-module="govuk-button"
-    >
-      Create a GOV.UK account
-      <svg
-        class="govuk-button__start-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="17.5"
-        height="19"
-        viewBox="0 0 33 40"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
-      </svg>
-    </a>
+    <h1 class="govuk-heading-l">Prove your identity to continue</h1>
 
     <p>
-      You need to prove your identity before you continue. You can create a
-      Gov.uk account to do this.
+      You need to prove your identity before you can continue. You'll need an
+      account to do this
     </p>
 
     <p>This will help protect you against online identity theft.</p>
+
+    <form class="form" action="mod_prove_id_gov_acc" method="post">
+      {# {{ govukCheckboxes({ idPrefix: "govuk-prove-id-confirmation-check",
+      name: "govuk-prove-id-confirmation-check", classes:
+      "govuk-checkboxes--small", fieldset: { legend: { text: "", isPageHeading:
+      false, classes: "govuk-fieldset__legend--m" } }, items: [ { value:
+      "govuk-prove-id-confirmation-check-agree", text: "By continuing, I agree
+      that I have read and understood the basic DBS check online application
+      privacy policy (opens in a new tab). I understand how the DBS will process
+      my personal data when I'm applying online, before my application is
+      submitted" } ] }) }} #}
+
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+    </form>
   </div>
 
   <div class="govuk-grid-column-one-third">
@@ -64,11 +50,13 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block header %}
       <nav role="navigation" aria-labelledby="subsection-title">
         <ul class="govuk-list govuk-!-font-size-16">
           <li>
-            <a href="#"> Verify veteran status for someone else </a>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              Verify veteran status for someone else
+            </a>
           </li>
           <li>
-            <a href="#" class="govuk-!-font-weight-bold">
-              More <span class="govuk-visually-hidden">in Subsection</span>
+            <a href="https://www.gov.uk/government/organisations/veterans-uk">
+              More
             </a>
           </li>
         </ul>
