@@ -33,19 +33,19 @@ router.post("/govuk-prove-id-start-answer", function (req, res) {
 });
 
 router.post(
-  "/mod_request_info_you_someone_else_radio_answer",
+  "/sp4v1_apply_behalf_someone_else_radio_answer",
   function (req, res) {
-    var answer = req.session.data["mod_request_info_you_someone_else_radio"];
+    var answer = req.session.data["sp4v1_apply_behalf_someone_else_radio"];
 
     // console.log("ANSWER: ", answer);
 
-    if (answer === "myself-radio-button")
-      res.redirect("/mod_question_name");
+    if (answer === "sp4v1_apply_behalf_someone_else_radio_yes")
+      res.redirect("/sp4v1_question_name");
 
-    if (answer === "someone-else-radio-button")
+    if (answer === "sp4v1_apply_behalf_someone_else_radio_no")
       res.redirect("/mod_someone_else_name");
 
-    if (!answer) res.redirect("/mod_request_info_you_someone_else_radio_error");
+    if (!answer) res.redirect("/sp4v1_apply_behalf_someone_else_radio_error");
   }
 );
 
@@ -96,6 +96,21 @@ router.post("/mod_someone_else_name_answer", function (req, res) {
     res.redirect("/verify_your_identity");
 
   if (!answer) res.redirect("/mod_prove_id_gov_acc_error");
+});
+
+router.post("/question_id_choice_answer", function (req, res) {
+  var answer = req.session.data["question_id_choice"];
+
+  if (answer === "question_id_choice_physical_card")
+    res.redirect("/application_complete");
+
+  if (answer === "question_id_choice_digital_card")
+    res.redirect("/application_complete");
+    
+  if (answer === "question_id_choice_both")
+    res.redirect("/application_complete");
+
+  if (!answer) res.redirect("/question_id_choice_error");
 });
 
 // Add your routes here - above the module.exports line

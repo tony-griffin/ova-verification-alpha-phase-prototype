@@ -10,8 +10,13 @@
 
 {% block content %}
 
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+    
+     {{ govukErrorSummary({ titleText: "There is a problem", errorList: [ { text:
+    "Please select an option if you wish to continue", href:
+    "/question_ID_choice" } ] }) }}
 
       <form class="form" action="question_id_choice_answer" method="post">
 
@@ -37,7 +42,7 @@
           },
           {
             value: "question_id_choice_both",
-            text: "both"
+            text: "Both"
           }
         ]
       }) }}
