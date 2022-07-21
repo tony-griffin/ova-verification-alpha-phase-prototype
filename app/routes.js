@@ -40,10 +40,10 @@ router.post(
     // console.log("ANSWER: ", answer);
 
     if (answer === "sp4v1_apply_behalf_someone_else_radio_yes")
-      res.redirect("/sp4v1_question_name");
+      res.redirect("/sp4v1_behalfOf_question_name_service");
 
     if (answer === "sp4v1_apply_behalf_someone_else_radio_no")
-      res.redirect("/mod_someone_else_name");
+      res.redirect("/sp4v1_question_name");
 
     if (!answer) res.redirect("/sp4v1_apply_behalf_someone_else_radio_error");
   }
@@ -112,6 +112,44 @@ router.post("/question_id_choice_answer", function (req, res) {
 
   if (!answer) res.redirect("/question_id_choice_error");
 });
+
+router.post(
+  "/sp4v1_behalfOf_relationship_to_radio_answer",
+  function (req, res) {
+    var answer = req.session.data["sp4v1_behalfOf_relationship_to_radio"];
+
+    if (answer) res.redirect("/sp4v1_behalfOf_question_email");
+
+    if (!answer) res.redirect("/sp4v1_behalfOf_relationship_to_radio_error");
+  }
+);
+
+router.post(
+  "/sp4v1_behalfOf_prove_veteran_id_radio_answer",
+  function (req, res) {
+    var answer = req.session.data["sp4v1_behalfOf_prove_veteran_id_radio"];
+
+    if (answer === "sp4v1_behalfOf_prove_veteran_id_radio_govuk_account")
+      res.redirect("/mod_prove_id_start");
+     
+    if (answer === "sp4v1_behalfOf_prove_veteran_id_radio_govuk_verify")
+      res.redirect("/sp4v1_behalfOf_id_verification_radio"); 
+
+    if (!answer) res.redirect("/sp4v1_behalfOf_prove_veteran_id_radio_error");
+  }
+);
+
+router.post(
+  "/sp4v1_behalfOf_id_verification_radio_answer",
+  function (req, res) {
+    var answer = req.session.data["sp4v1_behalfOf_id_verification_radio"];
+
+    if (answer )
+      res.redirect("/sp4v1_upload_photo");
+
+    if (!answer) res.redirect("/sp4v1_behalfOf_id_verification_radio_error");
+  }
+);
 
 // Add your routes here - above the module.exports line
 
