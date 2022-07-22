@@ -81,7 +81,7 @@ router.post("/mod_prove_id_gov_acc_answer", function (req, res) {
     res.redirect("/create_govuk_acc");
 
   if (answer === "mod_prove_id_gov_acc_radio_govuk_verify")
-    res.redirect("/verify_your_identity");
+    res.redirect("/postoffice_prove_id_start");
 
   if (!answer) res.redirect("/mod_prove_id_gov_acc_error");
 });
