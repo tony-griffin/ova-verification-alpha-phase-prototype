@@ -86,6 +86,20 @@ router.post("/mod_prove_id_gov_acc_answer", function (req, res) {
   if (!answer) res.redirect("/mod_prove_id_gov_acc_error");
 });
 
+router.post("/sp4v1_behalfOf_prove_id_gov_acc_answer", function (req, res) {
+  var answer = req.session.data["sp4v1_behalfOf_prove_id_gov_acc_radio"];
+
+  if (answer === "sp4v1_behalfOf_prove_id_gov_acc_radio_govuk_account")
+    res.redirect("/sp4v1_behalfOf_create_govuk_acc");
+
+  if (answer === "sp4v1_behalfOf_prove_id_gov_acc_radio_govuk_verify")
+    res.redirect(
+      "https://www.postoffice.co.uk/identity/in-branch-verification-service"
+    );
+
+  if (!answer) res.redirect("/sp4v1_behalfOf_prove_id_gov_acc_error");
+});
+
 router.post("/mod_someone_else_name_answer", function (req, res) {
   var answer = req.session.data["mod_someone_else_name_radio"];
 
@@ -97,6 +111,30 @@ router.post("/mod_someone_else_name_answer", function (req, res) {
 
   if (!answer) res.redirect("/mod_prove_id_gov_acc_error");
 });
+
+router.post(
+  "/sp4v1_behalfOf_apply_question_id_choice_answer",
+  function (req, res) {
+    var answer = req.session.data["question_id_choice"];
+
+    if (answer === "question_id_choice_physical_card")
+      res.redirect(
+        "/sp4v1_behalfOf_apply_application_complete"
+      );
+
+    if (answer === "question_id_choice_digital_card")
+      res.redirect(
+        "/sp4v1_behalfOf_apply_application_complete"
+      );
+
+    if (answer === "question_id_choice_both")
+      res.redirect(
+        "/sp4v1_behalfOf_apply_application_complete"
+      );
+
+    if (!answer) res.redirect("/sp4v1_behalfOf_apply_question_ID_choice_error");
+  }
+);
 
 router.post("/question_id_choice_answer", function (req, res) {
   var answer = req.session.data["question_id_choice"];
@@ -112,6 +150,8 @@ router.post("/question_id_choice_answer", function (req, res) {
 
   if (!answer) res.redirect("/question_id_choice_error");
 });
+
+
 
 router.post(
   "/sp4v1_behalfOf_relationship_to_radio_answer",
@@ -130,7 +170,7 @@ router.post(
     var answer = req.session.data["sp4v1_behalfOf_prove_veteran_id_radio"];
 
     if (answer === "sp4v1_behalfOf_prove_veteran_id_radio_govuk_account")
-      res.redirect("/mod_prove_id_start");
+      res.redirect("/sp4v1_behalfOf_prove_id_start");
      
     if (answer === "sp4v1_behalfOf_prove_veteran_id_radio_govuk_verify")
       res.redirect("/sp4v1_behalfOf_id_verification_radio"); 
@@ -150,6 +190,22 @@ router.post(
     if (!answer) res.redirect("/sp4v1_behalfOf_id_verification_radio_error");
   }
 );
+
+// router.post(
+//   "/create_govuk_acc_back_link",
+//   function (req, res) {
+//     var answer = req.session.data["backLink"];
+//     console.log("HISTORY: ",window.history.back());
+//     if (window.history.back() === "mod_prove_id_gov_acc") {
+//       answer = "mod_prove_id_gov_acc";
+//     }
+    
+//     if (window.history.back() === "sp4v1_behalfOf_prove_id_gov_acc") {
+//       answer = "sp4v1_behalfOf_prove_id_gov_acc";
+//     }
+    
+//   }
+// );
 
 // Add your routes here - above the module.exports line
 
