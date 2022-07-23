@@ -74,6 +74,18 @@ router.post("/mod_prove_id_to_continue_radio_answer", function (req, res) {
   if (!answer) res.redirect("/mod_prove_id_to_continue_error");
 });
 
+router.post("/sp4v1_verify_vet_prove_id_to_continue_radio_answer", function (req, res) {
+  var answer = req.session.data["sp4v1_verify_vet_prove_id_to_continue_radio"];
+
+  if (answer === "sp4v1_verify_vet_prove_id_to_continue_radio_apply_veteran")
+    res.redirect("#");
+
+  if (answer === "sp4v1_verify_vet_prove_id_to_continue_radio_prove_veteran")
+    res.redirect("/sp4v1_verify_vet_verify_your_identity");
+
+  if (!answer) res.redirect("/sp4v1_verify_vet_prove_id_to_continue_error");
+});
+
 router.post("/mod_prove_id_gov_acc_answer", function (req, res) {
   var answer = req.session.data["mod_prove_id_gov_acc_radio"];
 
