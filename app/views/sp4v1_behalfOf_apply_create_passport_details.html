@@ -14,7 +14,7 @@
     <div class="govuk-grid-column-two-thirds">
     
       <h1 class="govuk-heading-l">
-        Enter your details exactly as they appear on your UK passport
+        Enter your details exactly as they appear on your passport
       </h1>
       
       <p>Your passport includes a lot of information that we can check to make sure that you are who you say you are.</p>
@@ -64,19 +64,6 @@
         id: "govuk-create-passport-middlename",
         name: "govuk-create-passport-middlename"
       }) }}
-      
-       {{ govukDateInput({
-        id: "govuk-create-passport-dob",
-        namePrefix: "govuk-create-passport-dob",
-        fieldset: {
-          legend: {
-            text: "When was your passport issued?"
-          }
-        },
-        hint: {
-          text: "For example, 5 9 2012"
-        }
-      }) }}
        
        {{ govukDateInput({
         id: "govuk-create-passport-expiry",
@@ -88,6 +75,19 @@
         },
         hint: {
           text: "For example, 27 5 2032"
+        }
+      }) }}
+       
+       {{ govukDateInput({
+        id: "govuk-create-passport-dob",
+        namePrefix: "govuk-create-passport-dob",
+        fieldset: {
+          legend: {
+            text: "Date of birth"
+          }
+        },
+        hint: {
+          text: "For example, 5 9 1960"
         }
       }) }}
        

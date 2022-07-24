@@ -177,7 +177,7 @@ router.post(
       res.redirect("/sp4v1_verify_vet_apply_application_complete");
 
     if (!answer)
-      res.redirect("/sp4v1_verify_vet_apply_question_ID_choice_error");
+      res.redirect("/sp4v1_verify_vet_apply_application_complete");
   }
 );
 
@@ -201,7 +201,7 @@ router.post("/question_id_choice_answer", function (req, res) {
 router.post(
   "/sp4v1_behalfOf_relationship_to_radio_answer",
   function (req, res) {
-    var answer = req.session.data["sp4v1_behalfOf_relationship_to_radio"];
+    var answer = req.session.data["sp4v1_apply_behalfOf_relationship_to_radio"];
 
     if (answer) res.redirect("/sp4v1_behalfOf_question_email");
 

@@ -6,7 +6,7 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      Full name at time of your discharge from the armed services
+      Full name at time of discharge from the armed services
     </h1>
 
     <form class="form" action="question_DOB" method="post">
@@ -55,12 +55,12 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
               <input
                 class="govuk-radios__input"
                 id="sp4v1_question_name_change_yes"
-                name="sp4v1_question_name_change_yes"
+                name="sp4v1_question_name_change"
                 type="radio"
                 value="yes"
                 data-aria-controls="conditional-contact"
               />
-              <label class="govuk-label govuk-radios__label" for="sp4v1_question_name_change_yes">
+              <label class="govuk-label govuk-radios__label" for="sp4v1_question_name_change">
                 Yes
               </label>
             </div>
@@ -86,14 +86,15 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
               <input
                 class="govuk-radios__input"
                 id="sp4v1_question_name_change_no"
-                name="sp4v1_question_name_change_no"
+                name="sp4v1_question_name_change"
                 type="radio"
                 value="no"
               />
-              <label class="govuk-label govuk-radios__label" for="sp4v1_question_name_change_no">
+              <label class="govuk-label govuk-radios__label" for="sp4v1_question_name_change">
                 No
               </label>
             </div>
+            
           </div>
         </fieldset>
       </div>
