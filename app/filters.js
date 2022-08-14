@@ -9,22 +9,32 @@ module.exports = function (env) {
   /* ------------------------------------------------------------------
     add your methods to the filters obj below this comment block:
     @example:
+
     filters.sayHi = function(name) {
         return 'Hi ' + name + '!'
     }
+
     Which in your templates would be used as:
+
     {{ 'Paul' | sayHi }} => 'Hi Paul'
+
     Notice the first argument of your filters method is whatever
     gets 'piped' via '|' to the filter.
+
     Filters can take additional arguments, for example:
+
     filters.sayHi = function(name,tone) {
       return (tone == 'formal' ? 'Greetings' : 'Hi') + ' ' + name + '!'
     }
+
     Which would be used like this:
+
     {{ 'Joel' | sayHi('formal') }} => 'Greetings Joel!'
     {{ 'Gemma' | sayHi }} => 'Hi Gemma!'
+
     For more on filters and how to write them see the Nunjucks
     documentation.
+
   ------------------------------------------------------------------ */
   // -------------------------------------------------------------------
   // Imports and setup
@@ -43,9 +53,13 @@ module.exports = function (env) {
   Accepts arrays (as provided by design system date inputs) as 
   well as javascript dates
   ====================================================================
+
   Usage:
+
     {{ [1,1,1970] | govukDate }}
+
   = 1 January 1970
+
 */
 
   filters.govukDate = (date, format) => {
@@ -63,9 +77,13 @@ module.exports = function (env) {
   pattern to a real date. Primarly an internal function to be used by 
   the govukDate filter.
   ====================================================================
+
   Usage:
+
   {{ [1, 2, 2020] | arrayToGovukDate }}
+
   = 1 February 2020
+
 */
 
   filters.arrayToGovukDate = (array, format) => {
@@ -81,9 +99,13 @@ module.exports = function (env) {
   Convert js date object to govuk date (1 February 2020)
   Internal function to be used by govukDate filter
   ====================================================================
+
   Usage:
+
   {{ date | dateToGovukDate }}
+
   = 1 February 2020
+
 */
 
   filters.dateToGovukDate = (date, format = false) => {
@@ -102,9 +124,13 @@ module.exports = function (env) {
   --------------------------------------------------------------------
   Convert array to javascript date object
   ====================================================================
+
   Usage:
+
   {{ [1,2,2020] | arrayToDateObject }}
+
   = 2020-02-01T00:00:00.000Z
+
 */
 
   filters.arrayToDateObject = (array) => {
@@ -117,9 +143,13 @@ module.exports = function (env) {
   --------------------------------------------------------------------
   Today's date as javascript date object
   ====================================================================
+
   Usage:
+
     {{ "" | today }}
+
   = 2020-02-01T00:00:00.000Z
+
 */
 
   filters.today = () => {
@@ -132,9 +162,13 @@ module.exports = function (env) {
   --------------------------------------------------------------------
   Today’s or yesterday's date GOV.UK formatted
   ====================================================================
+
   Usage:
+
     {{ "" | todayGovuk }}
+
   = 19 March 2020
+
 */
 
   filters.todayGovuk = () => {
@@ -152,9 +186,13 @@ module.exports = function (env) {
   Convert a date in to an array of three numbers - useful for sending
   dates to govuk date inputs
   ====================================================================
+
   Usage:
+
     {{ "1 January 2021" | toDateArray }}
+
   = [1, 1, 2021]
+
 */
 
   // Output date array - for use in design system macros macros
@@ -176,11 +214,15 @@ module.exports = function (env) {
   --------------------------------------------------------------------
   Convert an array to date
   ====================================================================
+
   Usage:
+
   {{ "[05, 06, 2021]" | toDateObject }}
   = Sat Jun 05 2021 00:00:00 GMT+0100 (British Summer Time)
+
   {{ "2021-06-05T19:21:48.168Z" | toDateObject }}
   = Sat Jun 05 2021 20:21:48 GMT+0100 (British Summer Time)
+
 */
 
   filters.toDateObject = (date) => {
@@ -197,9 +239,13 @@ module.exports = function (env) {
   --------------------------------------------------------------------
   Return month names from numbers.
   ====================================================================
+
   Usage:
+
   {{ 1 | prettyMonth }}
+
   = January
+
 */
 
   filters.prettyMonth = (monthNumber) => {
@@ -217,6 +263,7 @@ module.exports = function (env) {
   Add support for sorting by date arrays
   ====================================================================
   Copied from https://github.com/mozilla/nunjucks/blob/master/nunjucks/src/filters.js#L425
+
   Requires positional args, no named args
 */
 
@@ -367,7 +414,9 @@ module.exports = function (env) {
 
   // Expose moment as a filter
   /* Usage:
+
 {{ date | moment('subtract', 1, "week") }} // return the date 1 week ago
+
 */
 
   filters.moment = (date, name, ...args) => {
@@ -380,9 +429,13 @@ module.exports = function (env) {
   --------------------------------------------------------------------
   Pretty format a timestamp
   ====================================================================
+
   Usage:
+
     {{ 2021-05-28T17:21:36.307Z | time }}
+
   = 6:21pm
+
 */
   filters.time = (str) => {
     var m = moment(str);
