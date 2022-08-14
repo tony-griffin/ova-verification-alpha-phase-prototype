@@ -153,7 +153,6 @@ router.post("/question_id_route", function (req, res) {
 
 router.post("/govuk_use_photo", function (req, res) {
   let answer = req.body["govuk_user_photo"];
-  console.log("PHOTO ANSWER: ", answer);
 
   if (!answer) {
     error = { text: "Select 'Yes' or 'No'" };
