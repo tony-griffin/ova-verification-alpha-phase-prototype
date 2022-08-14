@@ -138,7 +138,7 @@ router.post("/govuk_account_check", function (req, res) {
   }
 });
 
-router.post("/question_id_choice_route", function (req, res) {
+router.post("/question_id_route", function (req, res) {
   let answer = req.body["id_choice"];
 
   if (!answer) {
