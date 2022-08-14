@@ -99,6 +99,28 @@ const pem2jwk = require("rsa-pem-to-jwk");
 //   });
 // });
 
+router.post("/eligibility-check", function (req, res) {
+  const formermember = req.session.data["former-member"];
+  const ukresident = req.session.data["uk-resident"];
+  const post2005 = req.session.data["post-2005"];
+
+  if (formermember == "no" || ukresident == "no" || post2005 == "no") {
+    res.redirect("/ineligible");
+  }
+  if (formermember == "yes") {
+    delete req.session.data["former-member"]; // unset so we don't keep ending up here
+    res.redirect("/eligibility-two");
+  }
+  if (ukresident == "yes") {
+    delete req.session.data["uk-resident"]; // ditto
+    res.redirect("/eligibility-three");
+  }
+  if (post2005 == "yes") {
+    delete req.session.data["post-2005"];
+    res.redirect("/prove_id_start");
+  }
+});
+
 router.post("/eligibility-one", function (req, res) {
   const formermember = req.body["former-member"];
 
