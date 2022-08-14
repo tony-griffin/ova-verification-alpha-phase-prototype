@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="/question_discharge_date">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="question_id_route" method="post">
+
+       {% from "govuk/components/radios/macro.njk" import govukRadios %} 
+       
+       {{ govukRadios({
+        idPrefix: "id_choice",
+        name: "id_choice",
+        fieldset: {
+          legend: {
+            text: "How do you want your veteran card?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "Physical card",
+            text: "Physical card",
+            checked: checked("id_choice", "Physical card")
+          },
+          {
+            value: "Digital card",
+            text: "Digital card",
+            checked: checked("id_choice", "Digital card")
+          },
+          {
+            value: "Physical and Digital",
+            text: "Both",
+            checked: checked("id_choice", "Physical and Digital")
+          }
+        ],
+        errorMessage: error
+      }) }}
+       
+       {{ govukDetails({
+        summaryText: "How do I use my card",
+        text: "Your card will have a unique card number which some services may ask for. You can use your digital or physicalID card in the same way to prove your veteran status"
+      }) }}
+
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -143,7 +143,7 @@ router.post("/question_id_route", function (req, res) {
 
   if (!answer) {
     error = { text: "Please choose your preferred card format" };
-    return res.render("question_id_choice", { error });
+    return res.render("question_id_type", { error });
   }
 
   if (answer) {
