@@ -151,6 +151,33 @@ router.post("/govuk_account_check", function (req, res) {
   }
 });
 
+router.post("/question_choice_enlistment_date", function (req, res) {
+  var answer = req.session.data["enlistment-year-year"];
+
+  if (!answer) {
+    error = { text: "Enter a value for the year" };
+    return res.render("question_enlistment_date", { error });
+  }
+
+  if (answer) {
+    res.redirect("/question_discharge_date");
+  }
+});
+
+router.post("/question_choice_discharge_date", function (req, res) {
+  var answer = req.session.data["discharge-year-year"];
+  console.log("answer: ", answer);
+
+  if (!answer) {
+    error = { text: "Enter a value for the year" };
+    return res.render("question_discharge_date", { error });
+  }
+
+  if (answer) {
+    res.redirect("/question_id_type");
+  }
+});
+
 router.post("/question_id_route", function (req, res) {
   let answer = req.body["id_choice"];
 
