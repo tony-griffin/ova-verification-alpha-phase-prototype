@@ -112,7 +112,22 @@ router.post("/eligibility-two", function (req, res) {
   if (ukresident == "no") {
     res.redirect("/ineligible");
   } else {
-    res.redirect("/govuk_create_or_sign_in");
+    res.redirect("/eligibility-three");
+  }
+});
+
+router.post("/eligibility-three", function (req, res) {
+  post2005 = req.body["post-2005"];
+
+  if (!post2005) {
+    error = { text: "Select 'Yes' or 'No'" };
+    return res.render("eligibility-three", { error });
+  }
+
+  if (post2005 == "no") {
+    res.redirect("/ineligible");
+  } else {
+    res.redirect("/govuk_account_check");
   }
 });
 
@@ -134,7 +149,7 @@ router.post("/govuk_account_check", function (req, res) {
   if (answer == "yes") {
     res.redirect("/govuk_account_sign_in");
   } else {
-    res.redirect("/govuk_account_sign_in");
+    res.redirect("/govuk_create_or_sign_in");
   }
 });
 
