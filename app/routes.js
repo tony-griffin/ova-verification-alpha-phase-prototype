@@ -254,6 +254,22 @@ router.post("/govuk_vetcard_communications_check", function (req, res) {
   }
 });
 
+router.post("/govuk_vetcard_acc_summary_choice", function (req, res) {
+  let answer = req.session.data["id_choice"];
+
+  if (answer === "Physical card") {
+    res.redirect("/vetcard_application_complete_card_only");
+  }
+  
+  if (answer === "Digital card") {
+    res.redirect("/vetcard_application_complete_digital_only");
+  }
+  
+  if (answer === "Physical and Digital") {
+    res.redirect("/vetcard_application_complete_card_digital");
+  }
+});
+
 router.post("/question_served_with", function (req, res) {
   let answer = req.body["branch-served-with"];
 
