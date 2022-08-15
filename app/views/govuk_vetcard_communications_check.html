@@ -44,6 +44,11 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
           ],
           errorMessage: error
         }) }}
+        
+         {{ govukDetails({
+        summaryText: "What sort of communications will we send?",
+        text: "We will send post and/or email and SMS (short message service) text messages to customers using GOV.UK Notify. These could include updates about the support that veterans are eligable for, news about the veteran community and other relevant information for ex-service personnel."
+      }) }}
       
 
       <button class="govuk-button" data-module="govuk-button">Continue</button>

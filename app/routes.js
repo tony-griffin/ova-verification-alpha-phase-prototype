@@ -166,7 +166,6 @@ router.post("/question_choice_enlistment_date", function (req, res) {
 
 router.post("/question_choice_discharge_date", function (req, res) {
   var answer = req.session.data["discharge-year-year"];
-  console.log("answer: ", answer);
 
   if (!answer) {
     error = { text: "Enter a value for the year" };
