@@ -20,11 +20,13 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
           items: [
             {
               value: "yes",
-              text: "Yes"
+              text: "Yes",
+              checked: checked("former-member", "yes")
             },
             {
               value: "no",
-              text: "No"
+              text: "No",
+              checked: checked("former-member", "no")
             }
           ],
           errorMessage: error

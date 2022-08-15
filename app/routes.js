@@ -124,9 +124,7 @@ router.post("/eligibility-three", function (req, res) {
     return res.render("eligibility-three", { error });
   }
 
-  if (post2005 == "no") {
-    res.redirect("/ineligible");
-  } else {
+  if (post2005) {
     res.redirect("/govuk_account_check");
   }
 });
@@ -174,12 +172,16 @@ router.post("/govuk_use_photo", function (req, res) {
     return res.render("govuk_use_photo", { error });
   }
 
-  if (answer) {
+  if (answer === "yes") {
     res.redirect("/govuk_use_address");
+  }
+
+  if (answer === "no") {
+    res.redirect("/govuk_update_details_sign_in_photo");
   }
 });
 
-router.post("/govuk_use_address", function (req, res) {
+router.post("/govuk_use_address_choice", function (req, res) {
   let answer = req.body["govuk_user_address"];
 
   if (!answer) {
@@ -187,8 +189,12 @@ router.post("/govuk_use_address", function (req, res) {
     return res.render("govuk_use_address", { error });
   }
 
-  if (answer) {
+  if (answer == "yes") {
     res.redirect("/govuk_use_email");
+  }
+
+  if (answer == "no") {
+    res.redirect("/govuk_update_details_sign_in_address");
   }
 });
 
@@ -200,8 +206,12 @@ router.post("/govuk_use_email", function (req, res) {
     return res.render("govuk_use_email", { error });
   }
 
-  if (answer) {
+  if (answer === "yes") {
     res.redirect("/govuk_vetcard_communications_check");
+  }
+
+  if (answer === "no") {
+    res.redirect("/govuk_update_details_sign_in_email");
   }
 });
 
