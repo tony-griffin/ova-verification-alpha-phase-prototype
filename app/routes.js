@@ -86,6 +86,23 @@ const e = require("express");
 //   })
 // })
 
+router.post("/sp4v1_start_veteran_verify_choice", function (req, res) {
+  var answer = req.session.data["start_veteran_match_status"];
+
+  if (!answer) {
+    error = { text: "Select 'Success' or 'Fail'" };
+    return res.render("eligibility-two", { error });
+  }
+
+  if (answer === "Success") {
+    res.redirect("/sp4v1_start_veteran_verify");
+  }
+
+  if (answer === "Fail") {
+    res.redirect("/sp4v1_start_veteran_verify");
+  }
+});
+
 router.post("/eligibility-one", function (req, res) {
   const formermember = req.body["former-member"];
 
@@ -173,7 +190,7 @@ router.post("/question_choice_discharge_date", function (req, res) {
   }
 
   if (answer) {
-    res.redirect("/question_id_type");
+    res.redirect("/question_NIN");
   }
 });
 
@@ -250,21 +267,48 @@ router.post("/govuk_vetcard_communications_check", function (req, res) {
   }
 
   if (answer) {
-    res.redirect("/govuk_vetcard_account_summary");
+    res.redirect("/vetcard_communications_choice");
   }
 });
 
 router.post("/govuk_vetcard_acc_summary_choice", function (req, res) {
   let answer = req.session.data["id_choice"];
+  let matchStatus = req.session.data["start_veteran_match_status"];
+
+  if (matchStatus === "Fail") {
+    res.redirect("/vetcard_match_fail");
+  }
 
   if (answer === "Physical card") {
     res.redirect("/vetcard_application_complete_card_only");
   }
-  
+
   if (answer === "Digital card") {
     res.redirect("/vetcard_application_complete_digital_only");
   }
-  
+
+  if (answer === "Physical and Digital") {
+    res.redirect("/vetcard_application_complete_card_digital");
+  }
+});
+
+router.post("/vetcard_account_summary_choice", function (req, res) {
+  let answer = req.session.data["id_choice"];
+  let matchStatus = req.session.data["start_veteran_match_status"];
+  console.log(answer, matchStatus, req.session.data);
+
+  if (matchStatus === "Fail") {
+    res.redirect("/vetcard_match_fail");
+  }
+
+  if (answer === "Physical card") {
+    res.redirect("/vetcard_application_complete_card_only");
+  }
+
+  if (answer === "Digital card") {
+    res.redirect("/vetcard_application_complete_digital_only");
+  }
+
   if (answer === "Physical and Digital") {
     res.redirect("/vetcard_application_complete_card_digital");
   }
@@ -279,7 +323,7 @@ router.post("/question_served_with", function (req, res) {
   }
 
   if (answer) {
-    res.redirect("/vetcard_communications_choice");
+    res.redirect("/question_id_type");
   }
 });
 

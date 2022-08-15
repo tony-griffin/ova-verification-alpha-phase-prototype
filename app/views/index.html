@@ -6,13 +6,48 @@ endblock %} {% block content %}
     <h1 class="govuk-heading-xl">
       Prototype your service using GOV.UK Prototype Kit
       <span class="govuk-caption-xl">{{releaseVersion}}</span>
-      <span class="govuk-caption-l">Digital prototype  sprint 5 v0.3</span>
+      <span class="govuk-caption-l">Digital prototype sprint 5 v0.3</span>
     </h1>
     {{releaseVersion | log }}
 
-    <h2 class="govuk-heading-m">
+    {# <h2 class="govuk-heading-m">
       <a href="/sp4v1_start_veteran_verify">Apply for a veteran card</a>
-    </h2>
+    </h2> #}
+
+    <form class="form" action="/sp4v1_start_veteran_verify_choice" method="post">
+        {% from "govuk/components/radios/macro.njk" import govukRadios %}
+        
+        {{ govukRadios({
+          idPrefix: "start_veteran_match_status",
+          name: "start_veteran_match_status",
+          fieldset: {
+            legend: {
+              text: "Please select record match success or fail journey",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--s"
+            }
+          },
+          items: [
+            {
+              value: "Success",
+              text: "Success",
+              checked: checked("start_veteran_match_status", "Success")
+             
+            },
+            {
+              value: "Fail",
+              text: "Fail",
+              checked: checked("start_veteran_match_status", "Fail")
+             
+            }
+          ],
+          errorMessage: error
+        }) }}
+        
+       {{ govukButton({
+  text: "Apply for a Veteran Card"
+}) }}
+    </form>
 
     <h3 class="govuk-heading-s">Examples and documentation</h3>
 
@@ -26,5 +61,7 @@ endblock %} {% block content %}
     </ul>
   </div>
 </div>
+
+
 
 {% endblock %}
