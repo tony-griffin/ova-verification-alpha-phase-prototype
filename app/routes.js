@@ -129,22 +129,22 @@ router.post("/eligibility-two", function (req, res) {
   if (ukresident == "no") {
     res.redirect("/ineligible");
   } else {
-    res.redirect("/eligibility-three");
-  }
-});
-
-router.post("/eligibility-three", function (req, res) {
-  post2005 = req.body["post-2005"];
-
-  if (!post2005) {
-    error = { text: "Select 'Yes' or 'No'" };
-    return res.render("eligibility-three", { error });
-  }
-
-  if (post2005) {
     res.redirect("/govuk_account_check");
   }
 });
+
+// router.post("/eligibility-three", function (req, res) {
+//   post2005 = req.body["post-2005"];
+
+//   if (!post2005) {
+//     error = { text: "Select 'Yes' or 'No'" };
+//     return res.render("eligibility-three", { error });
+//   }
+
+//   if (post2005) {
+//     res.redirect("/govuk_account_check");
+//   }
+// });
 
 /* This is as far as I got before going on leave. Sorry. */
 router.post("/question_id_form", function (req, res) {
