@@ -7,7 +7,7 @@ const pem2jwk = require("rsa-pem-to-jwk");
 const { v4: uuidv4 } = require("uuid");
 
 const NotifyClient = require("notifications-node-client").NotifyClient,
-  notify = new NotifyClient(process.env.NOTIFYAPIKEY);
+  notify = new NotifyClient(process.env.NOTIFY_LIVE_API_KEY);
 
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
