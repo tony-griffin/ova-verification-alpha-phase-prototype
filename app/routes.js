@@ -4,7 +4,10 @@ const router = express.Router();
 const passport = require("passport");
 const { Issuer, Strategy, generators, custom } = require("openid-client");
 const pem2jwk = require("rsa-pem-to-jwk");
-const e = require("express");
+const { v4: uuidv4 } = require("uuid");
+
+const NotifyClient = require("notifications-node-client").NotifyClient,
+  notify = new NotifyClient(process.env.NOTIFYAPIKEY);
 
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
@@ -337,6 +340,75 @@ router.post("/vetcard_communications_choice", function (req, res) {
 
   if (answer) {
     res.redirect("/vetcard_account_summary_extra");
+  }
+});
+
+// The URL here needs to match the URL of the page that the user is on
+// when they type in their email address
+router.post("/notify_email_address_page", function (req, res) {
+  let personalisation = {
+    first_name: req.session.data["full_name"],
+    submission_reference: uuidv4(),
+  };
+
+  if (req.session.data["id_choice"] === "Physical card") {
+    notify
+      .sendEmail(
+        process.env.TEST_EMAIL_CARD_ONLY_TEMPLATE,
+        // `emailAddress` here needs to match the name of the form field in
+        // your HTML page
+        req.body.emailAddress,
+        {
+          personalisation: personalisation,
+          reference: uuidv4(),
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err));
+
+    // This is the URL the users will be redirected to once the email
+    // has been sent
+    res.redirect("/confirmation_page");
+  }
+
+  if (req.session.data["id_choice"] === "Digital card") {
+    notify
+      .sendEmail(
+        process.env.TEST_EMAIL_DIGITAL_ONLY_TEMPLATE,
+        // `emailAddress` here needs to match the name of the form field in
+        // your HTML page
+        req.body.emailAddress,
+        {
+          personalisation: personalisation,
+          reference: uuidv4(),
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err));
+
+    // This is the URL the users will be redirected to once the email
+    // has been sent
+    res.redirect("/confirmation_page");
+  }
+
+  if (req.session.data["id_choice"] === "Physical and Digital") {
+    notify
+      .sendEmail(
+        process.env.TEST_EMAIL_CARD_AND_DIGITAL_TEMPLATE,
+        // `emailAddress` here needs to match the name of the form field in
+        // your HTML page
+        req.body.emailAddress,
+        {
+          personalisation: personalisation,
+          reference: uuidv4(),
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err));
+
+    // This is the URL the users will be redirected to once the email
+    // has been sent
+    res.redirect("/confirmation_page");
   }
 });
 
