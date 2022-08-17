@@ -346,12 +346,14 @@ router.post("/vetcard_communications_choice", function (req, res) {
 // The URL here needs to match the URL of the page that the user is on
 // when they type in their email address
 router.post("/notify_email_address_page", function (req, res) {
+  let id_choice = req.session.data["id_choice"];
+
   let personalisation = {
     first_name: req.session.data["full_name"],
     submission_reference: uuidv4(),
   };
 
-  if (req.session.data["id_choice"] === "Physical card") {
+  if (id_choice === "Physical card") {
     notify
       .sendEmail(
         process.env.TEST_EMAIL_CARD_ONLY_TEMPLATE,
@@ -371,7 +373,7 @@ router.post("/notify_email_address_page", function (req, res) {
     res.redirect("/confirmation_page");
   }
 
-  if (req.session.data["id_choice"] === "Digital card") {
+  if (id_choice === "Digital card") {
     notify
       .sendEmail(
         process.env.TEST_EMAIL_DIGITAL_ONLY_TEMPLATE,
@@ -391,7 +393,7 @@ router.post("/notify_email_address_page", function (req, res) {
     res.redirect("/confirmation_page");
   }
 
-  if (req.session.data["id_choice"] === "Physical and Digital") {
+  if (id_choice === "Physical and Digital") {
     notify
       .sendEmail(
         process.env.TEST_EMAIL_CARD_AND_DIGITAL_TEMPLATE,
