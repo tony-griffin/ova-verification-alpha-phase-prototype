@@ -280,7 +280,7 @@ router.post("/govuk_use_email", function (req, res) {
   }
 
   if (answer === "yes") {
-    res.redirect("/govuk_vetcard_communications_check");
+    res.redirect("/govuk_vetcard_communications_preference");
   }
 
   if (answer === "no") {
@@ -288,12 +288,12 @@ router.post("/govuk_use_email", function (req, res) {
   }
 });
 
-router.post("/govuk_vetcard_communications_check", function (req, res) {
+router.post("/govuk_vetcard_communications_preference", function (req, res) {
   let answer = req.body["communications_choice"];
 
   if (answer === "_unchecked") {
     error = { text: "Please select an option" };
-    return res.render("govuk_vetcard_communications_check", { error });
+    return res.render("govuk_vetcard_communications_preference", { error });
   }
 
   if (answer) {
