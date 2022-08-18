@@ -30,5 +30,6 @@ module.exports = {
   "postal_address": ["14 Lime Court, Weston-super-mare BS22, 0AA"],
   "phone_number": ["07700 900457"],
   "service_number" : ["200210293847"],
-  "national_insurance_number" : ["QQ 12 34 56 C"]
+  "national_insurance_number" : ["QQ 12 34 56 C"],
+  "communications_choice" : ["N/A"]
 }
