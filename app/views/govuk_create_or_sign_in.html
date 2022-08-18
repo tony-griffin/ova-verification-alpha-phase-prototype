@@ -21,9 +21,17 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
 
     <p>If you already have a GOV.UK account you can <a href="/govuk_question_email">sign in</a></p>
 
-    {{ govukDetails({ summaryText: "About GOV.UK", text: "If you are unable to
-    upload any documents then you can also verify your identity by post or in
-    person at your local drop in centre." }) }}
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+         About GOV.UK accounts
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+      <p>GOV.UK accounts are new. They are the first step towards creating a single account that you can use to sign in to all government services. <p>GOV.UK accounts will eventually replace all other government accounts. We're working on adding more features and services.</p>
+      <p>For now, you need to use different accounts to access different government services</p>
+      </div>
+    </details>
   </div>
 </div>
 

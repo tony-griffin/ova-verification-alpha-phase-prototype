@@ -10,10 +10,6 @@ endblock %} {% block content %}
     </h1>
     {{releaseVersion | log }}
 
-    {# <h2 class="govuk-heading-m">
-      <a href="/sp4v1_start_veteran_verify">Apply for a veteran card</a>
-    </h2> #}
-
     <form class="form" action="/sp4v1_start_veteran_verify_choice" method="post">
         {% from "govuk/components/radios/macro.njk" import govukRadios %}
         
@@ -44,7 +40,7 @@ endblock %} {% block content %}
         }) }}
         
        {{ govukButton({
-  text: "Apply for a Veteran Card"
+  text: "Apply for a Veteran ID card"
 }) }}
     </form>
 
