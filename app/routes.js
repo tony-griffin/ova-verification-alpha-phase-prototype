@@ -5,8 +5,7 @@ const passport = require("passport");
 const { Issuer, Strategy, generators, custom } = require("openid-client");
 const pem2jwk = require("rsa-pem-to-jwk");
 const { v4: uuidv4 } = require("uuid");
-const { generateCustomUuid } = require('custom-uuid');
-
+const { generateCustomUuid } = require("custom-uuid");
 
 const NotifyClient = require("notifications-node-client").NotifyClient,
   notify = new NotifyClient(process.env.NOTIFY_LIVE_API_KEY);
@@ -173,6 +172,19 @@ router.post("/govuk_account_check", function (req, res) {
   }
 });
 
+router.post("/question_service_number_input", function (req, res) {
+  var answer = req.session.data["question_service_number"];
+
+  if (!answer) {
+    error = { text: "Please enter your service number" };
+    return res.render("question_service_number", { error });
+  }
+
+  if (answer) {
+    res.redirect("/question_enlistment_date");
+  }
+});
+
 router.post("/question_choice_enlistment_date", function (req, res) {
   var answer = req.session.data["enlistment-year-year"];
 
@@ -196,6 +208,19 @@ router.post("/question_choice_discharge_date", function (req, res) {
 
   if (answer) {
     res.redirect("/question_NIN");
+  }
+});
+
+router.post("/question_NIN_input", function (req, res) {
+  var answer = req.session.data["national_insurance_number-name"];
+
+  if (!answer) {
+    error = { text: "Please enter your national insurance number" };
+    return res.render("question_NIN", { error });
+  }
+
+  if (answer) {
+    res.redirect("/question_served_with");
   }
 });
 
@@ -353,7 +378,7 @@ router.post("/notify_email_address_page", function (req, res) {
   let personalisation = {
     first_name: req.session.data["full_name"],
     submission_reference: uuidv4(),
-    service_number: generateCustomUuid("123456789ABC", 11) // ⇨ 'B5B6699247862A569998'
+    service_number: generateCustomUuid("123456789ABC", 11), // ⇨ 'B5B6699247862A569998'
   };
 
   if (id_choice === "Physical card") {
