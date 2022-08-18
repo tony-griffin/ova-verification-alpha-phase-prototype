@@ -8,7 +8,7 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
     <h1 class="govuk-heading-l"> Sign in with your GOV.UK account</h1>
 
 
-    <form class="form" action="/govuk_account_password" method="post">
+    <form class="form" action="/govuk_account_sign_in_input" method="post">
     
     {{ govukInput({
       label: {
@@ -17,7 +17,8 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
       classes: "govuk-input--width-20",
       id: "govuk_question_email",
       name: "govuk_question_email",
-      value: data["govuk_question_email"]
+      value: data["govuk_question_email"],
+      errorMessage: error
     }) }}
     
       <button class="govuk-button" data-module="govuk-button">

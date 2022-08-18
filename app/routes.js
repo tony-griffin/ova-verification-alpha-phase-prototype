@@ -172,6 +172,47 @@ router.post("/govuk_account_check", function (req, res) {
   }
 });
 
+router.post("/govuk_account_sign_in_input", function (req, res) {
+  var answer = req.session.data["govuk_question_email"];
+
+  if (!answer) {
+    error = { text: "Enter the email address you registered on GOV.UK" };
+    return res.render("govuk_account_sign_in", { error });
+  }
+
+  if (answer) {
+    res.redirect("/govuk_account_password");
+  }
+});
+
+router.post("/govuk_account_password_input", function (req, res) {
+  var answer = req.session.data["govuk_password"];
+  console.log("PASSWORD: ", answer);
+
+  if (!answer) {
+    console.log("!!!!!!!!!! ", req.session.data);
+    error = { text: "Enter the password you registered on GOV.UK" };
+    return res.render("govuk_account_password", { error });
+  }
+
+  if (answer) {
+    res.redirect("/govuk_account_sign_in_confirmed");
+  }
+});
+
+router.post("/govuk_create_check_email_code", function (req, res) {
+  var answer = req.session.data["govuk_email_code"];
+
+  if (!answer) {
+    error = { text: "Please enter the 6 digit code sent to you" };
+    return res.render("govuk_create_check_email", { error });
+  }
+
+  if (answer) {
+    res.redirect("/govuk_account_sign_in_confirmed");
+  }
+});
+
 router.post("/question_service_number_input", function (req, res) {
   var answer = req.session.data["question_service_number"];
 
