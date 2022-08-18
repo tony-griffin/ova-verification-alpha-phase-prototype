@@ -280,7 +280,7 @@ router.post("/govuk_use_email", function (req, res) {
   }
 
   if (answer === "yes") {
-    res.redirect("/govuk_vetcard_communications_preference");
+    res.redirect("/govuk_vetcard_comms");
   }
 
   if (answer === "no") {
@@ -288,16 +288,33 @@ router.post("/govuk_use_email", function (req, res) {
   }
 });
 
+router.post("/govuk_vetcard_comms", function (req, res) {
+  let answer = req.body["govuk_comms_choice"];
+
+  if (!answer) {
+    error = { text: "Select 'Yes' or 'No'" };
+    return res.render("govuk_vetcard_comms", { error });
+  }
+
+  if (answer === "Yes") {
+    res.redirect("/govuk_vetcard_communications_preference");
+  }
+
+  if (answer === "No") {
+    res.redirect("/vetcard_account_summary_extra");
+  }
+});
+
 router.post("/govuk_vetcard_communications_preference", function (req, res) {
   let answer = req.body["communications_choice"];
 
   if (answer === "_unchecked") {
-    error = { text: "Please select an option" };
+    error = { text: "Please select at least one option" };
     return res.render("govuk_vetcard_communications_preference", { error });
   }
 
   if (answer) {
-    res.redirect("/vetcard_communications_choice");
+    res.redirect("/vetcard_account_summary_extra");
   }
 });
 
@@ -306,7 +323,7 @@ router.post("/govuk_vetcard_acc_summary_choice", function (req, res) {
   let matchStatus = req.session.data["start_veteran_match_status"];
 
   if (matchStatus === "Fail") {
-    res.redirect("/vetcard_match_fail");
+    res.redirect("/vetcard_application_complete_match_fail");
   }
 
   if (answer === "Physical card") {
@@ -328,7 +345,7 @@ router.post("/vetcard_account_summary_choice", function (req, res) {
   console.log(answer, matchStatus, req.session.data);
 
   if (matchStatus === "Fail") {
-    res.redirect("/vetcard_match_fail");
+    res.redirect("/vetcard_application_complete_match_fail");
   }
 
   if (answer === "Physical card") {
