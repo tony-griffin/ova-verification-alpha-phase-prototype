@@ -5,6 +5,8 @@ const passport = require("passport");
 const { Issuer, Strategy, generators, custom } = require("openid-client");
 const pem2jwk = require("rsa-pem-to-jwk");
 const { v4: uuidv4 } = require("uuid");
+const { generateCustomUuid } = require('custom-uuid');
+
 
 const NotifyClient = require("notifications-node-client").NotifyClient,
   notify = new NotifyClient(process.env.NOTIFY_LIVE_API_KEY);
@@ -351,6 +353,7 @@ router.post("/notify_email_address_page", function (req, res) {
   let personalisation = {
     first_name: req.session.data["full_name"],
     submission_reference: uuidv4(),
+    service_number: generateCustomUuid("123456789ABC", 11) // ⇨ 'B5B6699247862A569998'
   };
 
   if (id_choice === "Physical card") {
