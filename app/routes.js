@@ -187,10 +187,8 @@ router.post("/govuk_account_sign_in_input", function (req, res) {
 
 router.post("/govuk_account_password_input", function (req, res) {
   var answer = req.session.data["govuk_password"];
-  console.log("PASSWORD: ", answer);
 
   if (!answer) {
-    console.log("!!!!!!!!!! ", req.session.data);
     error = { text: "Enter the password you registered on GOV.UK" };
     return res.render("govuk_account_password", { error });
   }
@@ -383,7 +381,6 @@ router.post("/govuk_vetcard_acc_summary_choice", function (req, res) {
 router.post("/vetcard_account_summary_choice", function (req, res) {
   let answer = req.session.data["id_choice"];
   let matchStatus = req.session.data["start_veteran_match_status"];
-  console.log(answer, matchStatus, req.session.data);
 
   if (matchStatus === "Fail") {
     res.redirect("/vetcard_application_complete_match_fail");
