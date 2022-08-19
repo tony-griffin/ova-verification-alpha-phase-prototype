@@ -19,6 +19,8 @@ Example usage:
 
 module.exports = {
   // Insert values here
+
   checkVal: process.env.CHECK_TEST_VALUE,
+
   // backLink: "#!",
 };
