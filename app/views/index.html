@@ -39,9 +39,16 @@ endblock %} {% block content %}
           errorMessage: error
         }) }}
         
+         <h2 class="govuk-heading-s">Please note - when asked for your GOV.UK account</h2>
+         <ul class="govuk-list govuk-list--bullet">
+          <li>enter your email</li>
+          <li>you can enter any password</li>
+         </ul>
+         
+        
        {{ govukButton({
-  text: "Apply for a Veteran ID card"
-}) }}
+          text: "Apply for a Veteran ID card"
+        }) }}
     </form>
 
     <h2 class="govuk-heading-s">Examples and documentation</h2>
