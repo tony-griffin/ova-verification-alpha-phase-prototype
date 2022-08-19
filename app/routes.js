@@ -274,9 +274,9 @@ router.post("/question_choice_discharge_date", function (req, res) {
 });
 
 router.post("/question_NIN_input", function (req, res) {
-  var answer = req.session.data["national_insurance_number-name"];
+  var answer = req.session.data["national_insurance_number"];
   const regexUse = new RegExp(process.env.NIN_REGEX);
-  
+
   if (!answer) {
     error = { text: "Enter your national insurance number" };
     return res.render("question_NIN", { error });
