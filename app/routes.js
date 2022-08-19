@@ -6,6 +6,7 @@ const { Issuer, Strategy, generators, custom } = require("openid-client");
 const pem2jwk = require("rsa-pem-to-jwk");
 const { v4: uuidv4 } = require("uuid");
 const { generateCustomUuid } = require("custom-uuid");
+const validator = require("validator");
 
 const NotifyClient = require("notifications-node-client").NotifyClient,
   notify = new NotifyClient(process.env.NOTIFY_LIVE_API_KEY);
@@ -180,8 +181,11 @@ router.post("/govuk_account_sign_in_input", function (req, res) {
     return res.render("govuk_account_sign_in", { error });
   }
 
-  if (answer) {
+  if (answer && validator.isEmail(answer)) {
     res.redirect("/govuk_account_password");
+  } else {
+    error = { text: "Please enter a valid email address" };
+    return res.render("govuk_account_sign_in", { error });
   }
 });
 
@@ -219,8 +223,13 @@ router.post("/question_service_number_input", function (req, res) {
     return res.render("question_service_number", { error });
   }
 
-  if (answer) {
+  if (answer && answer.length === 11) {
     res.redirect("/question_enlistment_date");
+  } else {
+    error = {
+      text: "Please enter a valid service number length of 11 characters",
+    };
+    return res.render("question_service_number", { error });
   }
 });
 
@@ -232,8 +241,15 @@ router.post("/question_choice_enlistment_date", function (req, res) {
     return res.render("question_enlistment_date", { error });
   }
 
-  if (answer) {
+  if (
+    answer &&
+    validator.isAfter(answer, "1939") &&
+    validator.isBefore(answer)
+  ) {
     res.redirect("/question_discharge_date");
+  } else {
+    error = { text: "Please enter a valid year" };
+    return res.render("question_enlistment_date", { error });
   }
 });
 
@@ -245,8 +261,15 @@ router.post("/question_choice_discharge_date", function (req, res) {
     return res.render("question_discharge_date", { error });
   }
 
-  if (answer) {
+  if (
+    answer &&
+    validator.isBefore(answer) &&
+    validator.isAfter(answer, "1939")
+  ) {
     res.redirect("/question_NIN");
+  } else {
+    error = { text: "Please enter a valid year" };
+    return res.render("question_discharge_date", { error });
   }
 });
 
