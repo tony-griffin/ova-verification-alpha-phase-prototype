@@ -275,14 +275,18 @@ router.post("/question_choice_discharge_date", function (req, res) {
 
 router.post("/question_NIN_input", function (req, res) {
   var answer = req.session.data["national_insurance_number-name"];
-
+  const regexUse = new RegExp(process.env.NIN_REGEX);
+  
   if (!answer) {
     error = { text: "Please enter your national insurance number" };
     return res.render("question_NIN", { error });
   }
 
-  if (answer) {
+  if (answer && regexUse.test(answer)) {
     res.redirect("/question_served_with");
+  } else {
+    error = { text: "Please enter your national insurance number in the correct format" };
+    return res.render("question_NIN", { error });
   }
 });
 
