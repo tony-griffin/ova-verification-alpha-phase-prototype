@@ -184,7 +184,7 @@ router.post("/govuk_account_sign_in_input", function (req, res) {
   if (answer && validator.isEmail(answer)) {
     res.redirect("/govuk_account_password");
   } else {
-    error = { text: "Please enter a valid email address" };
+    error = { text: "Enter a valid email address" };
     return res.render("govuk_account_sign_in", { error });
   }
 });
@@ -206,7 +206,7 @@ router.post("/govuk_create_check_email_code", function (req, res) {
   var answer = req.session.data["govuk_email_code"];
 
   if (!answer) {
-    error = { text: "Please enter the 6 digit code sent to you" };
+    error = { text: "Enter the 6 digit code sent to you" };
     return res.render("govuk_create_check_email", { error });
   }
 
@@ -219,7 +219,7 @@ router.post("/question_service_number_input", function (req, res) {
   var answer = req.session.data["question_service_number"];
 
   if (!answer) {
-    error = { text: "Please enter your service number" };
+    error = { text: "Enter your service number" };
     return res.render("question_service_number", { error });
   }
 
@@ -227,7 +227,7 @@ router.post("/question_service_number_input", function (req, res) {
     res.redirect("/question_enlistment_date");
   } else {
     error = {
-      text: "Please enter a valid service number length of 11 characters",
+      text: "Enter a valid service number length of 11 characters",
     };
     return res.render("question_service_number", { error });
   }
@@ -248,7 +248,7 @@ router.post("/question_choice_enlistment_date", function (req, res) {
   ) {
     res.redirect("/question_discharge_date");
   } else {
-    error = { text: "Please enter a valid year" };
+    error = { text: "Enter a valid year" };
     return res.render("question_enlistment_date", { error });
   }
 });
@@ -268,7 +268,7 @@ router.post("/question_choice_discharge_date", function (req, res) {
   ) {
     res.redirect("/question_NIN");
   } else {
-    error = { text: "Please enter a valid year" };
+    error = { text: "Enter a valid year" };
     return res.render("question_discharge_date", { error });
   }
 });
@@ -278,14 +278,14 @@ router.post("/question_NIN_input", function (req, res) {
   const regexUse = new RegExp(process.env.NIN_REGEX);
   
   if (!answer) {
-    error = { text: "Please enter your national insurance number" };
+    error = { text: "Enter your national insurance number" };
     return res.render("question_NIN", { error });
   }
 
   if (answer && regexUse.test(answer)) {
     res.redirect("/question_served_with");
   } else {
-    error = { text: "Please enter your national insurance number in the correct format" };
+    error = { text: "Enter a National Insurance number in the correct format" };
     return res.render("question_NIN", { error });
   }
 });
@@ -294,7 +294,7 @@ router.post("/question_id_route", function (req, res) {
   let answer = req.body["id_choice"];
 
   if (!answer) {
-    error = { text: "Please choose your preferred card format" };
+    error = { text: "Choose your preferred card format" };
     return res.render("question_id_type", { error });
   }
 
@@ -375,7 +375,7 @@ router.post("/govuk_vetcard_communications_preference", function (req, res) {
   let answer = req.body["communications_choice"];
 
   if (answer === "_unchecked") {
-    error = { text: "Please select at least one option" };
+    error = { text: "Select at least one option" };
     return res.render("govuk_vetcard_communications_preference", { error });
   }
 
@@ -430,7 +430,7 @@ router.post("/question_served_with", function (req, res) {
   let answer = req.body["branch-served-with"];
 
   if (!answer) {
-    error = { text: "Please select an option" };
+    error = { text: "Select an option" };
     return res.render("question_served_with", { error });
   }
 
@@ -443,7 +443,7 @@ router.post("/vetcard_communications_choice", function (req, res) {
   let answer = req.body["vetcard_comms_choice"];
 
   if (!answer) {
-    error = { text: "Please select an option" };
+    error = { text: "Select an option" };
     return res.render("vetcard_communications_choice", { error });
   }
 
