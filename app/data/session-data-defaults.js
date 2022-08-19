@@ -19,7 +19,7 @@ Example usage:
 // "govuk_question_email" : ["sandy.smith@example.com"],
 //"govuk_password" : ["q1w2e3r4t5y6"],
 //"govuk_email_code" : ["123456"],
-
+// "national_insurance_number" : ["QQ 12 34 56 C"],
 */
 
 module.exports = {
@@ -31,6 +31,6 @@ module.exports = {
   "postal_address": ["14 Lime Court, Weston-super-mare BS22, 0AA"],
   "phone_number": ["07700 900457"],
   "service_number" : ["200210293847"],
-  "national_insurance_number" : ["QQ 12 34 56 C"],
+  
   "communications_choice" : ["N/A"]
 }

@@ -282,7 +282,11 @@ router.post("/question_NIN_input", function (req, res) {
     return res.render("question_NIN", { error });
   }
 
-  if (answer && regexUse.test(answer)) {
+  if (answer) {
+    answer = answer.replace(/ /g, "");
+  }
+
+  if (answer === "QQ123456C" || (answer && regexUse.test(answer))) {
     res.redirect("/question_served_with");
   } else {
     error = { text: "Enter a National Insurance number in the correct format" };
