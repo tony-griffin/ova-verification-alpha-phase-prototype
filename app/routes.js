@@ -479,7 +479,7 @@ router.post("/notify_email_address_page", function (req, res) {
         }
       )
       .then((response) => console.log(response))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("LOOK HERE!!!!!!",err.response.data));
 
     // This is the URL the users will be redirected to once the email
     // has been sent
