@@ -1,3 +1,5 @@
+const NotifyClient = require("notifications-node-client").NotifyClient,
+  notify = new NotifyClient(process.env.NOTIFYAPIKEY);
 const express = require("express");
 const router = express.Router();
 // Add your routes here - above the module.exports line
@@ -7,9 +9,6 @@ const pem2jwk = require("rsa-pem-to-jwk");
 const { v4: uuidv4 } = require("uuid");
 const { generateCustomUuid } = require("custom-uuid");
 const validator = require("validator");
-
-const NotifyClient = require("notifications-node-client").NotifyClient,
-  notify = new NotifyClient(process.env.NOTIFYAPIKEY);
 
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
