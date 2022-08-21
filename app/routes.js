@@ -459,11 +459,14 @@ router.post("/vetcard_communications_choice", function (req, res) {
 // when they type in their email address
 router.post("/notify_email_address_page", function (req, res) {
   let id_choice = req.session.data["id_choice"];
+  let full_name = req.session.data["full_name"];
+  let postal_address = req.session.data["postal_address"];
 
   let personalisation = {
-    first_name: req.session.data["full_name"],
+    full_name: full_name.toString(),
+    postal_address: postal_address.toString(),
     submission_reference: uuidv4(),
-    service_number: generateCustomUuid("123456789ABC", 11), // ⇨ 'B5B6699247862A569998'
+    service_number: generateCustomUuid("123456789ABC", 11), // ⇨ 'B5B66992471'
   };
 
   if (id_choice === "Physical card") {
