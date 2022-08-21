@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+  {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
 {% block beforeContent %}
@@ -13,47 +13,38 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      {# <h1 class="govuk-heading-xl">Your enlistment date</h1> #}
-
-      {# <form class="form" action="/start_veteran_apply_id_card" method="post"> #}
-      <form class="form" action="govuk_prove_id_start" method="post">
+      <form class="form" action="/question_choice_discharge_date" method="post">
 
           <div class="govuk-form-group">
             <fieldset class="govuk-fieldset" role="group"    aria-describedby="dob-hint">
+            
               <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                 <h1 class="govuk-fieldset__heading">
-                  Your discharge date
+                  What year did you leave the service?
                 </h1>
               </legend>
-              <div id="dob-hint" class="govuk-hint">
-                For example, 31 3 1980
-              </div>
-              <div class="govuk-date-input" id="dob">
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="dob-day">
-                      Day
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dob-day" name="dob-day" type="text" autocomplete="bday-day" inputmode="numeric">
-                  </div>
-                </div>
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="dob-month">
-                      Month
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dob-month" name="dob-month" type="text" autocomplete="bday-month" inputmode="numeric">
-                  </div>
-                </div>
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="dob-year">
-                      Year
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dob-year" name="dob-year" type="text" autocomplete="bday-year" inputmode="numeric">
-                  </div>
-                </div>
-              </div>
+              
+              {{ govukDateInput({
+                id: "discharge-year",
+                namePrefix: "discharge-year",
+                fieldset: {
+                  legend: {
+                    text: "",
+                    classes: "govuk-fieldset__legend--l"
+                  }
+                },
+                hint: {
+                  text: "For example, 1970"
+                },
+                items: [
+                  {
+                    classes: "govuk-input--width-4",
+                    name: "year",
+                    value: data['discharge-year-year']
+                  }
+                ],
+          errorMessage: error
+              }) }}
 
             </fieldset>
           </div>
@@ -63,8 +54,8 @@
 
         {{ govukDetails({
           summaryText: "How to find this",
-          text: "You can find this on your discharge letter or other forms of documentation. If you can't remember the exact date then input the year."
-        }) }}
+          text: "You can find this on your discharge letter or documentation about your pension. If you don't have access to these, contact the branch you served with."
+      }) }}
 
         <button class="govuk-button" data-module="govuk-button">Continue</button>
 

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+    {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="/govuk_vetcard_account_summary">Back</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+      <h1 class="govuk-heading-l">We could not confirm your service electronically</h1>
+      
+      <p>This means that the online data we can currently access didn't automatically match your service records.</p>
+      
+      <h2 class="govuk-heading-m">What happens next</h2>
+      
+      <p>We will proceed with checking your details manually, to verify your service. You do not need to do anything further at this point.</p>
+      
+      <p>We will be in touch with further information soon.</p>
+
+      {# {{ govukButton({
+        text: "Continue",
+        href: "/"
+      }) }} #}
+
+{% endblock %}

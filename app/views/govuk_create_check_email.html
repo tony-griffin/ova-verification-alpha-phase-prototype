@@ -28,7 +28,7 @@
       
       <p>Your code will expire after 15 minutes.</p>
       
-      <form class="form" action="govuk_create_passport_details" method="post">
+      <form class="form" action="govuk_create_check_email_code" method="post">
 
         {{ govukInput({
           label: {
@@ -36,15 +36,16 @@
             isPageHeading: false
         },
         classes: "govuk-input--width-5",
-        id: "govuk_question_email",
-        name: "govuk_question_email"
+        id: "govuk_email_code",
+        name: "govuk_email_code",
+        errorMessage: error
         }) }}
         
         <p><a href="#">Request a new code</a> if:</p>
         
         <ul class="govuk-list govuk-list--bullet">
           <li>the code is not working or has expired, or you did not receive one</li>
-          <li>you want to use a different emai address</li>
+          <li>you want to use a different email address</li>
         </ul>
         
         <button class="govuk-button" data-module="govuk-button">Continue</button>

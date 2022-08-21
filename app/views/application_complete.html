@@ -1,28 +1,21 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block pageTitle %} GOV.UK page template – {{
+serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block content %}
 
-{% block pageTitle %}
-  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
-{% endblock %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {{ govukPanel({ titleText: "Application complete", html: "Your reference
+    number<br /><strong>BING4123F</strong>" }) }}
 
-{% block content %}
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-    
-    {{ govukPanel({
-      titleText: "Application complete",
-      html: "Your reference number<br><strong>HDJ2123F</strong>"
-    }) }}
-    
-    <p>We have sent you a confirmataion email</p>
+    <p>We have sent you a confirmation email.</p>
 
     <h3 class="govuk-heading-s">What happens next</h3>
-    
-    <p>We will email you about ypur request in the next 24 hours</p>
-    
-    <p><a href="#">What did you think of this service?</a> (takes 30 seconds)</p>
 
-    </div>
+    <p>We will email you about ypur request in the next 24 hours</p>
+
+    <form class="form" action="application_complete_link_to_card" method="post">
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+    </form>
   </div>
+</div>
 
 {% endblock %}

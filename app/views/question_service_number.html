@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+  {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
 {% block beforeContent %}
-  <a class="govuk-back-link" href="/question_DOB">Back</a>
+  <a class="govuk-back-link" href="/govuk_account_sign_in_confirmed">Back</a>
 {% endblock %}
 
 {% block content %}
@@ -13,9 +13,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <h1 class="govuk-heading-l">Service number</h1>
+      <h1 class="govuk-heading-l">What was your service number?</h1>
 
-      <form class="form" action="question_served_with" method="post">
+      <form class="form" action="question_service_number_input" method="post">
 
         {{ govukInput({
           label: {
@@ -23,19 +23,21 @@
             isPageHeading: true
         },
         classes: "govuk-input--width-20",
-        id: "question_name",
-        name: "question_name"
+        id: "question_service_number",
+        name: "question_service_number",
+        errorMessage: error
         }) }}
         
         <details class="govuk-details" data-module="govuk-details">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
-              What is a service number?
+              Questions about your service number?
             </span>
           </summary>
           <div class="govuk-details__text">
-            Your service number will have been given to you during service. If you have had more than one please use your most recent. <br>
-            If you don't know your service number, or need any other help with this application, you can contact your local support centre
+          <div>
+            <p>If you have more than one service number, use your most recent.</p>
+            <p>If you don't know your service number you will need to contact the branch you last served with</p>
           </div>
         </details>
 

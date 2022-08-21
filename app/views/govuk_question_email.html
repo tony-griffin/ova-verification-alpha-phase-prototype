@@ -15,18 +15,17 @@
 
       <h1 class="govuk-heading-l">Enter your email address</h1>
       
-      <p>Enter your email address to create an account</p>
 
-      <form class="form" action="govuk_create_check_email" method="post">
+      <form class="form" action="govuk_submit_password" method="post">
 
         {{ govukInput({
           label: {
-            text: "Email address",
             isPageHeading: false
         },
         classes: "govuk-input--width-20",
         id: "govuk_question_email",
-        name: "govuk_question_email"
+        name: "govuk_question_email",
+        value: data['govuk_question_email']
         }) }}
 
         <button class="govuk-button" data-module="govuk-button">Continue</button>
