@@ -469,6 +469,10 @@ router.post("/notify_email_address_page", function (req, res) {
     service_number: generateCustomUuid("123456789ABC", 11), // ⇨ 'B5B66992471'
   };
 
+  if (!id_choice) {
+    id_choice = "Physical card";
+  }
+
   if (id_choice === "Physical card") {
     notify
       .sendEmail(
