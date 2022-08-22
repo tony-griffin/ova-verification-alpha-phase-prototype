@@ -5,16 +5,19 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form class="form" method="post">
-
+        
         {{ govukInput({
           label: {
-            text: "Email Address"
+            text: "Enter a valid email address",
+            classes: "govuk-label--m",
+            isPageHeading: true
           },
           id: "email-Address",
           name: "emailAddress",
           type: "email",
           autocomplete: "email",
-          spellcheck: false
+          spellcheck: false,
+          errorMessage: error
         }) }}
 
         {{ govukButton({

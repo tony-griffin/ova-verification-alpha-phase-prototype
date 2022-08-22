@@ -469,6 +469,11 @@ router.post("/notify_email_address_page", function (req, res) {
     service_number: generateCustomUuid("123456789ABC", 11), // ⇨ 'B5B66992471'
   };
 
+  if (!req.body.emailAddress) {
+    error = { text: "Enter a valid email address" };
+    return res.render("notify_email_address_page", { error });
+  }
+
   if (!id_choice) {
     id_choice = "Physical card";
   }
