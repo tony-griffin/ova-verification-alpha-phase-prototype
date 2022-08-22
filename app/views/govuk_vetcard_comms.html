@@ -36,6 +36,14 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
           ],
           errorMessage: error
         }) }}
+          {{ govukDetails({
+        summaryText: "What sort of communications will I be sent?",
+        text: <p>We send email and SMS (short message service) text messages to veterans using GOV.UK Notify. </p>
+
+<p>These could include updates about the support that veterans are eligible for, information about the wider veteran community and other relevant information for UK ex-service personnel.</p>
+
+<p>You can opt out of receiving communications at any time."</p>
+      }) }}
 
       <button class="govuk-button" data-module="govuk-button">Continue</button>
     </form>
