@@ -414,7 +414,7 @@ router.post("/vetcard_account_summary_choice", function (req, res) {
   let postal_address = req.session.data["postal_address"];
   let emailAddress = req.session.data["govuk_question_email"];
   let serviceNumber = req.session.data["question_service_number"];
-  
+
   let matchStatus = req.session.data["start_veteran_match_status"];
 
   let personalisation = {
@@ -429,7 +429,22 @@ router.post("/vetcard_account_summary_choice", function (req, res) {
   }
 
   if (matchStatus === "Fail") {
+    notify
+      .sendEmail(
+        process.env.TEST_EMAIL_UNHAPPY_PATH_TEMPLATE,
+        // `emailAddress` here needs to match the name of the form field in
+        // your HTML page
+        emailAddress.toString(),
+        {
+          personalisation: personalisation,
+          reference: uuidv4(),
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err.response.data));
+
     res.redirect("/vetcard_application_complete_match_fail");
+    return false;
   }
 
   if (id_choice === "Physical card") {
