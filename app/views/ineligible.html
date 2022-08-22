@@ -73,70 +73,7 @@
         </button>
         </form> -->
 
-    </div>
 
-    <div class="govuk-grid-column-one-third">
-      <aside class="app-related-items" role="complementary">
-        <h2 class="govuk-heading-m" id="subsection-title">Related content</h2>
-        <nav role="navigation" aria-labelledby="subsection-title">
-          <ul class="govuk-list govuk-!-font-size-16">
-            <li>
-              <a href="https://www.gov.uk/guidance/veterans-uk-contact-us" target="_new">
-                Request records of deceased service personnel
-              </a>
-            </li>
-            <li>
-              <a href="https://www.gov.uk/guidance/veterans-uk-contact-us" target="_new">
-                Military service records
-              </a>
-            </li>
-            <li>
-              <a href="https://www.gov.uk/guidance/veterans-uk-contact-us" target="_new">
-                Military service request forms
-              </a>
-            </li>
-            <li>
-              <a href="https://www.gov.uk/guidance/veterans-uk-contact-us" target="_new">
-                Military service search forms
-              </a>
-            </li>
-            <li>
-              <a href="#">Ministry of Defence medal form</a>
-            </li>
-            <li>
-              <a href="https://www.gov.uk/guidance/veterans-uk-contact-us" target="_new">
-                Veterans UK
-              </a>
-            </li>
-            <li>
-              <a href="/sp4v1_verify_vet_start" target="_new">
-                Veteran verify journey
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-    </div>
-  </div>
-{% endblock %}
-{% if useAutoStoreData %}
-  {% block footer %}
-    {{ govukFooter({
-      meta: {
-        items: [
-          {
-            href: "https://govuk-prototype-kit.herokuapp.com/",
-            text: "GOV.UK Prototype Kit " + releaseVersion
-          },
-          {
-            href: "/prototype-admin/clear-data",
-            text: "Clear data"
-          }
-        ],
-        visuallyHiddenTitle: "Footer links"
-      }
-    }) }}
-  {% endblock %}
 {% endif %}
 
 {% block bodyEnd %}
