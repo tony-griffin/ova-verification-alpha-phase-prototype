@@ -409,22 +409,80 @@ router.post("/govuk_vetcard_acc_summary_choice", function (req, res) {
 });
 
 router.post("/vetcard_account_summary_choice", function (req, res) {
-  let answer = req.session.data["id_choice"];
+  let id_choice = req.session.data["id_choice"];
+  let full_name = req.session.data["full_name"];
+  let postal_address = req.session.data["postal_address"];
+  let emailAddress = req.session.data["govuk_question_email"];
+  let serviceNumber = req.session.data["question_service_number"];
+  
   let matchStatus = req.session.data["start_veteran_match_status"];
+
+  let personalisation = {
+    full_name: full_name.toString(),
+    postal_address: postal_address.toString(),
+    submission_reference: uuidv4(),
+    service_number: serviceNumber.toString(),
+  };
+
+  if (!id_choice) {
+    id_choice = "Physical card";
+  }
 
   if (matchStatus === "Fail") {
     res.redirect("/vetcard_application_complete_match_fail");
   }
 
-  if (answer === "Physical card") {
+  if (id_choice === "Physical card") {
+    notify
+      .sendEmail(
+        process.env.TEST_EMAIL_CARD_ONLY_TEMPLATE,
+        // `emailAddress` here needs to match the name of the form field in
+        // your HTML page
+        emailAddress.toString(),
+        {
+          personalisation: personalisation,
+          reference: uuidv4(),
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err.response.data));
+
     res.redirect("/vetcard_application_complete_card_only");
   }
 
-  if (answer === "Digital card") {
+  if (id_choice === "Digital card") {
+    notify
+      .sendEmail(
+        process.env.TEST_EMAIL_DIGITAL_ONLY_TEMPLATE,
+        // `emailAddress` here needs to match the name of the form field in
+        // your HTML page
+        emailAddress.toString(),
+        {
+          personalisation: personalisation,
+          reference: uuidv4(),
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err.response.data));
+
     res.redirect("/vetcard_application_complete_digital_only");
   }
 
-  if (answer === "Physical and Digital") {
+  if (id_choice === "Physical and Digital") {
+    notify
+      .sendEmail(
+        process.env.TEST_EMAIL_CARD_AND_DIGITAL_TEMPLATE,
+        // `emailAddress` here needs to match the name of the form field in
+        // your HTML page
+        emailAddress.toString(),
+        {
+          personalisation: personalisation,
+          reference: uuidv4(),
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err.response.data));
+
     res.redirect("/vetcard_application_complete_card_digital");
   }
 });
