@@ -131,7 +131,7 @@ router.post("/eligibility-two", function (req, res) {
   }
 
   if (ukresident == "no") {
-    res.redirect("/ineligible");
+    res.redirect("/ineligible_non_resident");
   } else {
     res.redirect("/govuk_account_check");
   }
