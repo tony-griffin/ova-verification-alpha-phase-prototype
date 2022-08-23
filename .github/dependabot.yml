@@ -10,6 +10,6 @@ updates:
     schedule:
       interval: "weekly"
     ignore:
-      - dependency-name: ""del""
+      - dependency-name: "del"
         # Ignore only new versions for 7.x
         versions: ["7.x"]
