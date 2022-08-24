@@ -233,37 +233,45 @@ router.post("/question_service_number_input", function (req, res) {
 });
 
 router.post("/question_choice_enlistment_date", function (req, res) {
-  var answer = req.session.data["enlistment-year-year"];
+  let enlistmentYear = req.session.data["enlistment-year-year"];
+  let dischargeYear = req.session.data["discharge-year-year"];
 
-  if (!answer) {
+  if (!enlistmentYear) {
     error = { text: "Enter a value for the year" };
     return res.render("question_enlistment_date", { error });
   }
-
-  if (
-    answer &&
-    validator.isAfter(answer, "1939") &&
-    validator.isBefore(answer)
-  ) {
-    res.redirect("/question_discharge_date");
-  } else {
-    error = { text: "Enter a valid year" };
+  
+  if (dischargeYear && enlistmentYear && validator.isBefore(dischargeYear, enlistmentYear)) {
+    error = { text: "Enlistment year can not be before discharge year" };
     return res.render("question_enlistment_date", { error });
   }
+  
+    if (
+      enlistmentYear &&
+      validator.isAfter(enlistmentYear, "1939") &&
+      validator.isBefore(enlistmentYear)
+    ) {
+      res.redirect("/question_discharge_date");
+    } else {
+      error = { text: "Enter a valid year" };
+      return res.render("question_enlistment_date", { error });
+    }
 });
 
 router.post("/question_choice_discharge_date", function (req, res) {
-  var answer = req.session.data["discharge-year-year"];
+  let dischargeYear = req.session.data["discharge-year-year"];
+  let enlistmentYear = req.session.data["enlistment-year-year"];
 
-  if (!answer) {
+  if (!dischargeYear) {
     error = { text: "Enter a value for the year" };
     return res.render("question_discharge_date", { error });
   }
 
   if (
-    answer &&
-    validator.isBefore(answer) &&
-    validator.isAfter(answer, "1939")
+    dischargeYear &&
+    validator.isBefore(dischargeYear) && // is before today
+    validator.isAfter(dischargeYear, "1939") && (
+    validator.isAfter(dischargeYear, enlistmentYear) || dischargeYear === enlistmentYear)
   ) {
     res.redirect("/question_NIN");
   } else {
