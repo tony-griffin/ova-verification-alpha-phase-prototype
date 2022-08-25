@@ -22,7 +22,7 @@
         name: "what-was-your-name",
         fieldset: {
           legend: {
-            text: "What was your name when you were discharged from the Armed Forces?",
+            text: "We found these names in your GOV.UK account. What was your name when you were discharged from the armed forces?",
             isPageHeading: true,
             classes: "govuk-fieldset__legend--l"
           }
@@ -36,6 +36,18 @@
             value: data["previous_name"],
             text: data["previous_name"]
           }
+         <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text"> Why are we asking this? </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>We found these names for you in your GOV.UK account:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>We will use the name you used while you were in the armed forces to match you with your service records</li>
+            <li>The name you currently use will be printed on your veteran's ID card</li>
+          </ul>
+        </div>
+      </details>
         ]
         }) }}
         <button class="govuk-button" data-module="govuk-button">Continue</button>
