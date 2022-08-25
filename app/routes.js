@@ -10,6 +10,8 @@ const { v4: uuidv4 } = require("uuid");
 const { generateCustomUuid } = require("custom-uuid");
 const validator = require("validator");
 
+const fakeDIClaimResponse = require("./assets/javascripts/fakeDIClaim");
+
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
 // const cert = Buffer.from(process.env.CERT, 'base64').toString('utf8').replace(/\\n/gm, '\n')
@@ -240,22 +242,26 @@ router.post("/question_choice_enlistment_date", function (req, res) {
     error = { text: "Enter a value for the year" };
     return res.render("question_enlistment_date", { error });
   }
-  
-  if (dischargeYear && enlistmentYear && validator.isBefore(dischargeYear, enlistmentYear)) {
+
+  if (
+    dischargeYear &&
+    enlistmentYear &&
+    validator.isBefore(dischargeYear, enlistmentYear)
+  ) {
     error = { text: "Enlistment year can not be before discharge year" };
     return res.render("question_enlistment_date", { error });
   }
-  
-    if (
-      enlistmentYear &&
-      validator.isAfter(enlistmentYear, "1939") &&
-      validator.isBefore(enlistmentYear)
-    ) {
-      res.redirect("/question_discharge_date");
-    } else {
-      error = { text: "Enter a valid year" };
-      return res.render("question_enlistment_date", { error });
-    }
+
+  if (
+    enlistmentYear &&
+    validator.isAfter(enlistmentYear, "1939") &&
+    validator.isBefore(enlistmentYear)
+  ) {
+    res.redirect("/question_discharge_date");
+  } else {
+    error = { text: "Enter a valid year" };
+    return res.render("question_enlistment_date", { error });
+  }
 });
 
 router.post("/question_choice_discharge_date", function (req, res) {
@@ -270,8 +276,9 @@ router.post("/question_choice_discharge_date", function (req, res) {
   if (
     dischargeYear &&
     validator.isBefore(dischargeYear) && // is before today
-    validator.isAfter(dischargeYear, "1939") && (
-    validator.isAfter(dischargeYear, enlistmentYear) || dischargeYear === enlistmentYear)
+    validator.isAfter(dischargeYear, "1939") &&
+    (validator.isAfter(dischargeYear, enlistmentYear) ||
+      dischargeYear === enlistmentYear)
   ) {
     res.redirect("/question_NIN");
   } else {
@@ -279,6 +286,40 @@ router.post("/question_choice_discharge_date", function (req, res) {
     return res.render("question_discharge_date", { error });
   }
 });
+
+//////////////////////////////////////////////////////
+router.post("/question_name_from_DI", function (req, res) {
+  let enlistmentYear = req.session.data["enlistment-year-year"];
+  let birthYear = req.session.data["birthYear"];
+  birthYear = Number(enlistmentYear) - 20;
+
+  // Identity claim set up
+  const claimResponse = fakeDIClaimResponse(birthYear);
+  const claimNames = claimResponse.vc.credentialSubject.name;
+  console.log("Names: ", claimNames);
+  const claimBirthDate = claimResponse.vc.credentialSubject.birthDate;
+  console.log("Birthdate!!!!: ", claimBirthDate);
+
+
+  return res.render("question_name_from_DI");
+
+  // if (!answer) {
+  //   error = { text: "Enter your national insurance number" };
+  //   return res.render("question_NIN", { error });
+  // }
+
+  // if (answer) {
+  //   answer = answer.replace(/ /g, "");
+  // }
+
+  // if (answer === "QQ123456C" || (answer && regexUse.test(answer))) {
+  //   res.redirect("/question_served_with");
+  // } else {
+  //   error = { text: "Enter a National Insurance number in the correct format" };
+  //   return res.render("question_NIN", { error });
+  // }
+});
+/////////////////////////////////////////////////////
 
 router.post("/question_NIN_input", function (req, res) {
   var answer = req.session.data["national_insurance_number"];

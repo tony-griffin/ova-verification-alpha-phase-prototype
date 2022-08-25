@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  <a class="govuk-back-link" href="/start_veteran_verify">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form class="form" action="question_name_from_DI" method="post">
+
+      {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+      {{ govukRadios({
+        idPrefix: "what-was-your-name",
+        name: "what-was-your-name",
+        fieldset: {
+          legend: {
+            text: "NAME FROM DI!!! What was your name when you were discharged from the Armed Forces?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: data["full_name"],
+            text: data["full_name"]
+          },
+          {
+            value: data["previous_name"],
+            text: data["previous_name"]
+          }
+        ]
+        }) }}
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

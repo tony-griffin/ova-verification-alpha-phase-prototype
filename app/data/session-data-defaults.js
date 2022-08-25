@@ -31,7 +31,7 @@ module.exports = {
   "govuk_question_email" : [""],
   "postal_address": ["14 Lime Court, Weston-super-mare BS22, 0AA"],
   "phone_number": ["07700 900457"],
-  
+  "birthYear": [""],
   
   "communications_choice" : ["N/A"]
 }
