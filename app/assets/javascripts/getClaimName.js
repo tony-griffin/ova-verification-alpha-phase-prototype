@@ -1,29 +1,32 @@
-let claimNames = [
-  { validFrom: "2020-03-01", nameParts: [[Object], [Object]] },
-  { validUntil: "2020-03-01", nameParts: [[Object], [Object]] },
-];
+function getClaimNames(getFakeDIClaimResponse) {
+  const fakeJWT = getFakeDIClaimResponse;
+  const claimNames = fakeJWT.vc.credentialSubject.name;
 
-function getClaimName(claimNames) {
-  let names = [];
   let currentName = [];
   let previousNames = [];
   let namesExport = [];
 
-  names = claimNames.map((name) => {
-    if (name?.validFrom) {
+  claimNames.map((name) => {
+    if (name.validFrom) {
       name.nameParts.map((namePart) => {
-        currentName.push(namePart);
+        currentName.push(namePart.value);
       });
     }
 
-    if (name?.validUntil) {
+    if (name.validUntil) {
       name.nameParts.map((namePart) => {
-        previousNames.push(namePart);
+        previousNames.push(namePart.value);
       });
     }
   });
 
-  namesExport.push(currentName);
-  namesExport.push(previousNames);
+  namesExport.push(currentName.join(" "));
+  namesExport.push(previousNames.join(" "));
+
+  console.log("Names array!!!!!: ", namesExport);
   return namesExport;
 }
+
+module.exports = {
+  getClaimNames,
+};

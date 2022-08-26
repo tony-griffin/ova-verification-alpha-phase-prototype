@@ -1,4 +1,4 @@
-function fakeDIClaimResponse(birthYear) {
+function getFakeDIClaimResponse(birthYear) {
   let birthYearNumber = Number(birthYear);
 
   let fakeJWT = {
@@ -52,4 +52,6 @@ function fakeDIClaimResponse(birthYear) {
   return fakeJWT;
 }
 
-module.exports = fakeDIClaimResponse;
+module.exports = {
+  getFakeDIClaimResponse,
+};

@@ -10,7 +10,10 @@ const { v4: uuidv4 } = require("uuid");
 const { generateCustomUuid } = require("custom-uuid");
 const validator = require("validator");
 
-const fakeDIClaimResponse = require("./assets/javascripts/fakeDIClaim");
+const {
+  getFakeDIClaimResponse,
+} = require("./assets/javascripts/fakeDIClaimJWT");
+const { getClaimNames } = require("./assets/javascripts/getClaimName");
 
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
@@ -289,18 +292,18 @@ router.post("/question_choice_discharge_date", function (req, res) {
 
 //////////////////////////////////////////////////////
 router.post("/question_name_from_DI", function (req, res) {
-  let enlistmentYear = req.session.data["enlistment-year-year"];
-  let birthYear = req.session.data["birthYear"];
-  birthYear = Number(enlistmentYear) - 20;
+  let birthYear = Number(req.session.data["enlistment-year-year"]) - 20;
+  req.session.data["birthYear"] = birthYear;
 
   // Identity claim set up
-  const claimResponse = fakeDIClaimResponse(birthYear);
-  const claimNames = claimResponse.vc.credentialSubject.name;
-  console.log("Names: ", claimNames);
-  const claimBirthDate = claimResponse.vc.credentialSubject.birthDate;
-  console.log("Birthdate!!!!: ", claimBirthDate);
+  console.log("GET FAKE ID CLAIM!!!!: ", getFakeDIClaimResponse(birthYear));
 
+  const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear));
+  console.log("All Names: ", claimNames);
 
+  // const claimBirthDate = claimResponse.vc.credentialSubject.birthDate[0].value;
+  // console.log("Birthdate!!!!: ", claimBirthDate);
+  // e;
   return res.render("question_name_from_DI");
 
   // if (!answer) {
