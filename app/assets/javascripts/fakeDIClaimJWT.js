@@ -39,6 +39,32 @@ function getFakeDIClaimResponse(birthYear) {
               },
             ],
           },
+          {
+            validFrom: "1999-06-05",
+            nameParts: [
+              {
+                value: "Sandy",
+                type: "GivenName",
+              },
+              {
+                value: "Williams",
+                type: "FamilyName",
+              },
+            ],
+          },
+          {
+            validUntil: "1999-06-05",
+            nameParts: [
+              {
+                value: "Sandy",
+                type: "GivenName",
+              },
+              {
+                value: "Murphy",
+                type: "FamilyName",
+              },
+            ],
+          },
         ],
         birthDate: [
           {
