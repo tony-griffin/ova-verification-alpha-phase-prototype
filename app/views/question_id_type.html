@@ -51,10 +51,17 @@
         errorMessage: error
       }) }}
        
-       {{ govukDetails({
-        summaryText: "How do I use my card",
-        text: "The ID card is issued as both a physical card (like a driving licence) and a digital card, which you can store on a smartphone or other digital device. Both of them can be used face to face, by presenting them in person. They can also both be used online or over the phone by providing the unique identification number. "
-      }) }}
+       <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            How do I use my card
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>The ID card is issued as both a physical card (like a driving licence) and a digital card, which you can store on a smartphone or other digital device.</p>
+          <p>Both of them can be used face to face, by presenting them in person. They can also both be used online or over the phone by providing the unique identification number.</p>
+        </div>
+      </details>
 
         <button class="govuk-button" data-module="govuk-button">Continue</button>
 
