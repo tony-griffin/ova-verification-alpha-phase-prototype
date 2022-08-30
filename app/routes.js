@@ -13,7 +13,12 @@ const validator = require("validator");
 const {
   getFakeDIClaimResponse,
 } = require("./assets/javascripts/fakeDIClaimJWT");
-const { getClaimNames } = require("./assets/javascripts/getClaimName");
+const {
+  getClaimNames,
+  getPreviousNames,
+  displayPreviousDIClaimNames,
+} = require("./assets/javascripts/getClaimNames");
+const { forEach } = require("lodash");
 
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
@@ -283,7 +288,25 @@ router.post("/question_choice_discharge_date", function (req, res) {
     (validator.isAfter(dischargeYear, enlistmentYear) ||
       dischargeYear === enlistmentYear)
   ) {
-    res.redirect("/question_NIN");
+    // set up DI claim names
+    let birthYear = Number(req.session.data["enlistment-year-year"]) - 20;
+    req.session.data["birthYear"] = birthYear;
+
+    // Identity claim set up
+    const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear)); // All the names
+
+    // Set up session storage for current & previous names
+    req.session.data["current_DI_name"] = claimNames[0];
+    let previousNames = getPreviousNames(claimNames);
+    req.session.data["previous_DI_names"] = previousNames;
+
+    previousNames.forEach((name, index) => {
+      req.session.data[`previous_DI_name_${index + 1}`] = name;
+    });
+
+    console.log("Data Storage!!!---:", req.session.data);
+
+    res.redirect("/question_name_from_DI");
   } else {
     error = { text: "Enter a valid year" };
     return res.render("question_discharge_date", { error });
@@ -292,35 +315,33 @@ router.post("/question_choice_discharge_date", function (req, res) {
 
 //////////////////////////////////////////////////////
 router.post("/question_name_from_DI", function (req, res) {
-  let birthYear = Number(req.session.data["enlistment-year-year"]) - 20;
-  req.session.data["birthYear"] = birthYear;
+  // let birthYear = Number(req.session.data["enlistment-year-year"]) - 20;
+  // req.session.data["birthYear"] = birthYear;
 
-  // Identity claim set up
-  console.log("GET FAKE ID CLAIM!!!!: ", getFakeDIClaimResponse(birthYear));
+  // // Identity claim set up
+  // const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear)); // All the names
 
-  const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear));
-  console.log("All Names: ", claimNames);
+  // // Set up session storage for current & previous names
+  // req.session.data["current_DI_name"] = claimNames[0];
+  // let previousNames = getPreviousNames(claimNames);
+  // req.session.data["previous_DI_names"] = previousNames;
 
-  // const claimBirthDate = claimResponse.vc.credentialSubject.birthDate[0].value;
-  // console.log("Birthdate!!!!: ", claimBirthDate);
-  // e;
-  return res.render("question_name_from_DI");
+  // previousNames.forEach((name, index) => {
+  //   req.session.data[`previous_DI_name_${index + 1}`] = name;
+  // });
 
-  // if (!answer) {
-  //   error = { text: "Enter your national insurance number" };
-  //   return res.render("question_NIN", { error });
-  // }
+  // console.log("Data Storage!!!---:", req.session.data);
 
-  // if (answer) {
-  //   answer = answer.replace(/ /g, "");
-  // }
+  var answer = req.session.data["what_was_your_name"];
 
-  // if (answer === "QQ123456C" || (answer && regexUse.test(answer))) {
-  //   res.redirect("/question_served_with");
-  // } else {
-  //   error = { text: "Enter a National Insurance number in the correct format" };
-  //   return res.render("question_NIN", { error });
-  // }
+  if (!answer) {
+    error = { text: "Select a name" };
+    return res.render("question_name_from_DI", { error });
+  }
+
+  if (answer) {
+    return res.redirect("/question_NIN");
+  }
 });
 /////////////////////////////////////////////////////
 

@@ -26,6 +26,7 @@ Example usage:
 module.exports = {
   // Insert values here
   "full_name" : ["Sandy Smith"],
+  "current_name" : [""],
   "previous_name" : ["Sandy Williams"],
   "date-of-birth" : ["01", "06", "1960"],
   "govuk_question_email" : [""],
@@ -34,4 +35,5 @@ module.exports = {
   "birthYear": [""],
   
   "communications_choice" : ["N/A"]
+  
 }

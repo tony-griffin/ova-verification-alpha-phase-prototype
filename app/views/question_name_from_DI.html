@@ -1,49 +1,106 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block pageTitle %} Question page template – {{
+serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
+{{ govukPhaseBanner({ tag: { text: "alpha" }, html: 'This is a new service –
+your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
+}}
+<a class="govuk-back-link" href="/question_discharge_date">Back</a>
+{% endblock %} {% block content %}
 
-{% block pageTitle %}
-  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
-{% endblock %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="form" action="question_name_from_DI" method="post">
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="sign-in-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">
+              What was the name you were using when you left the armed forces?
+            </h1>
+          </legend>
 
-{% block beforeContent %}
-  <a class="govuk-back-link" href="/start_veteran_verify">Back</a>
-{% endblock %}
+          {#
+          <div id="sign-in-hint" class="govuk-hint">
+            You’ll need an account to prove your identity and complete your Self
+            Assessment.
+          </div>
+          #}
 
-{% block content %}
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input
+                class="govuk-radios__input"
+                id="what_was_your_name"
+                name="what_was_your_name"
+                type="radio"
+                {#
+                value="government-gateway"
+                #}
+                aria-describedby="what_was_your_name_item_hint"
+              />
+              <label
+                class="govuk-label govuk-radios__label"
+                for="what_was_your_name_1"
+              >
+                {{data["current_DI_name"]}}
+              </label>
+              <div id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
+                We believe this is the most current verified name we have on
+                record for you
+              </div>
+            </div>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+            {% for item in data["previous_DI_names"] %}
+            <div class="govuk-radios__item">
+              <input
+                class="govuk-radios__input"
+                id="what_was_your_name"
+                name="what_was_your_name"
+                type="radio"
+                value="govuk-verify"
+                aria-describedby="what_was_your_name_item_hint"
+              />
+              <label
+                class="govuk-label govuk-radios__label"
+                for="what_was_your_name"
+              >
+                {{item}}
+              </label>
+              <div
+                id="what_was_your_name_item_hint"
+                class="govuk-hint govuk-radios__hint"
+              >
+                We believe this is a previously verified name.
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </fieldset>
+      </div>
 
-      <form class="form" action="question_name_from_DI" method="post">
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Why are we asking this?
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>We found these names for you in your GOV.UK account:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              We will use the name you used while serving to find your military
+              records
+            </li>
+            <li>
+              The veteran's ID card will have the name you currently use on it
+            </li>
+          </ul>
+        </div>
+      </details>
 
-      {% from "govuk/components/radios/macro.njk" import govukRadios %}
-
-      {{ govukRadios({
-        idPrefix: "what-was-your-name",
-        name: "what-was-your-name",
-        fieldset: {
-          legend: {
-            text: "NAME FROM DI!!! What was your name when you were discharged from the Armed Forces?",
-            isPageHeading: true,
-            classes: "govuk-fieldset__legend--l"
-          }
-        },
-        items: [
-          {
-            value: data["full_name"],
-            text: data["full_name"]
-          },
-          {
-            value: data["previous_name"],
-            text: data["previous_name"]
-          }
-        ]
-        }) }}
-        <button class="govuk-button" data-module="govuk-button">Continue</button>
-
-
-      </form>
-
-    </div>
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+    </form>
   </div>
+</div>
 
 {% endblock %}
+
+// checked("['vehicle1']['vehicle-features']"
