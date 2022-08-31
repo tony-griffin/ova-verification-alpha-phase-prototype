@@ -10,13 +10,16 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
   <div class="govuk-grid-column-two-thirds">
     <form class="form" action="question_name_from_DI" method="post">
     
-      <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset" aria-describedby="name_at_discharge">
+      <div class="govuk-form-group--error">
+        <fieldset class="govuk-fieldset" aria-describedby="name_at_discharge_error">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading">
               What was the name you were using when you left the armed forces?
             </h1>
           </legend>
+          <p id="name_at_discharge_error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span>Select a name
+          </p>
 
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">

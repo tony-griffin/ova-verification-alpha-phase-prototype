@@ -304,7 +304,7 @@ router.post("/question_choice_discharge_date", function (req, res) {
       req.session.data[`previous_DI_name_${index + 1}`] = name;
     });
 
-    console.log("Data Storage!!!---:", req.session.data);
+    // console.log("Data Storage!!!---:", req.session.data);
 
     res.redirect("/question_name_from_DI");
   } else {
@@ -315,31 +315,14 @@ router.post("/question_choice_discharge_date", function (req, res) {
 
 //////////////////////////////////////////////////////
 router.post("/question_name_from_DI", function (req, res) {
-  // let birthYear = Number(req.session.data["enlistment-year-year"]) - 20;
-  // req.session.data["birthYear"] = birthYear;
+  
+  let nameAtDischarge = req.session.data["name_at_discharge"];
 
-  // // Identity claim set up
-  // const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear)); // All the names
-
-  // // Set up session storage for current & previous names
-  // req.session.data["current_DI_name"] = claimNames[0];
-  // let previousNames = getPreviousNames(claimNames);
-  // req.session.data["previous_DI_names"] = previousNames;
-
-  // previousNames.forEach((name, index) => {
-  //   req.session.data[`previous_DI_name_${index + 1}`] = name;
-  // });
-
-  // console.log("Data Storage!!!---:", req.session.data);
-
-  var answer = req.session.data["what_was_your_name"];
-
-  if (!answer) {
-    error = { text: "Select a name" };
-    return res.render("question_name_from_DI", { error });
+  if (!nameAtDischarge) {
+    return res.render("question_name_from_DI_error");
   }
 
-  if (answer) {
+  if (nameAtDischarge) {
     return res.redirect("/question_NIN");
   }
 });
