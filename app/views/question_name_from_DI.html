@@ -9,6 +9,7 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <form class="form" action="question_name_from_DI" method="post">
+    
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset" aria-describedby="sign-in-hint">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -17,28 +18,19 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
             </h1>
           </legend>
 
-          {#
-          <div id="sign-in-hint" class="govuk-hint">
-            You’ll need an account to prove your identity and complete your Self
-            Assessment.
-          </div>
-          #}
-
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">
               <input
                 class="govuk-radios__input"
-                id="what_was_your_name"
-                name="what_was_your_name"
+                id="name_at_discharge_0"
+                name="name_at_discharge"
+                value="{{data["current_DI_name"]}}"
                 type="radio"
-                {#
-                value="government-gateway"
-                #}
-                aria-describedby="what_was_your_name_item_hint"
+                aria-describedby="name_at_discharge_item_hint"
               />
               <label
                 class="govuk-label govuk-radios__label"
-                for="what_was_your_name_1"
+                for="name_at_discharge_0"
               >
                 {{data["current_DI_name"]}}
               </label>
@@ -50,31 +42,24 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
 
             {% for item in data["previous_DI_names"] %}
             <div class="govuk-radios__item">
-              <input
-                class="govuk-radios__input"
-                id="what_was_your_name"
-                name="what_was_your_name"
-                type="radio"
-                value="govuk-verify"
-                aria-describedby="what_was_your_name_item_hint"
-              />
+              <input class="govuk-radios__input"
+              id="name_at_discharge_{{loop.index}}" 
+              name="name_at_discharge"
+              value="{{item}}"
+              type="radio"
+              aria-describedby="name_at_discharge_item_hint" />
               <label
                 class="govuk-label govuk-radios__label"
-                for="what_was_your_name"
+                for="name_at_discharge_{{loop.index}}"
               >
                 {{item}}
               </label>
-              <div
-                id="what_was_your_name_item_hint"
-                class="govuk-hint govuk-radios__hint"
-              >
-                We believe this is a previously verified name.
-              </div>
             </div>
             {% endfor %}
           </div>
         </fieldset>
       </div>
+      
 
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
@@ -101,6 +86,4 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
   </div>
 </div>
 
-{% endblock %}
-
-// checked("['vehicle1']['vehicle-features']"
+{% endblock %} 
