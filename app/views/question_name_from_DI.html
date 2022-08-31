@@ -11,7 +11,14 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
     <form class="form" action="question_name_from_DI" method="post">
       
     {% set itemsArr = [] %}
-    {% set itemsArr = (itemsArr.push({value:data["current_DI_name"], text:data["current_DI_name"], checked: checked("name_at_discharge", data["current_DI_name"])}), itemsArr) %}
+    {% set itemsArr = (itemsArr.push(
+                                     {
+                                       value:data["current_DI_name"], text:data["current_DI_name"], 
+                                       checked: checked("name_at_discharge", data["current_DI_name"]), 
+                                       hint: { text: "We believe this is the most current verified name we have on
+                record for you."}
+                                      }
+                                     ), itemsArr) %}
     
     {% for name in data["previous_DI_names"] %}
      {% set itemsArr = (itemsArr.push({value:name, text:name, checked: checked("name_at_discharge", name)}), itemsArr) %}
