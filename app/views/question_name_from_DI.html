@@ -9,57 +9,27 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <form class="form" action="question_name_from_DI" method="post">
-    
-      <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset" aria-describedby="name_at_discharge">
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <h1 class="govuk-fieldset__heading">
-              What was the name you were using when you left the armed forces?
-            </h1>
-          </legend>
-
-          <div class="govuk-radios" data-module="govuk-radios">
-            <div class="govuk-radios__item">
-              <input
-                class="govuk-radios__input"
-                id="name_at_discharge_0"
-                name="name_at_discharge"
-                value="{{data["current_DI_name"]}}"
-                type="radio"
-                aria-describedby="name_at_discharge_item_hint"
-              />
-              <label
-                class="govuk-label govuk-radios__label"
-                for="name_at_discharge_0"
-              >
-                {{data["current_DI_name"]}}
-              </label>
-              <div id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
-                We believe this is the most current verified name we have on
-                record for you
-              </div>
-            </div>
-
-            {% for item in data["previous_DI_names"] %}
-            <div class="govuk-radios__item">
-              <input class="govuk-radios__input"
-              id="name_at_discharge_{{loop.index}}" 
-              name="name_at_discharge"
-              value="{{item}}"
-              type="radio"
-              aria-describedby="name_at_discharge_item_hint" />
-              <label
-                class="govuk-label govuk-radios__label"
-                for="name_at_discharge_{{loop.index}}"
-              >
-                {{item}}
-              </label>
-            </div>
-            {% endfor %}
-          </div>
-        </fieldset>
-      </div>
       
+    {% set itemsArr = [] %}
+    {% set itemsArr = (itemsArr.push({value:data["current_DI_name"], text:data["current_DI_name"], checked: checked("name_at_discharge", data["current_DI_name"])}), itemsArr) %}
+    
+    {% for name in data["previous_DI_names"] %}
+     {% set itemsArr = (itemsArr.push({value:name, text:name, checked: checked("name_at_discharge", name)}), itemsArr) %}
+    {% endfor %}
+      
+      {{ govukRadios({
+        idPrefix: "name_at_discharge",
+        name: "name_at_discharge",
+        fieldset: {
+          legend: {
+            text: "What was the name you were using when you left the armed forces?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: itemsArr,
+        errorMessage: error
+      }) }}
 
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
@@ -80,8 +50,8 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
           </ul>
         </div>
       </details>
-
-      <button class="govuk-button" data-module="govuk-button">Continue</button>
+      
+      <button class="govuk-button" id="btn" data-module="govuk-button">Continue</button>
     </form>
   </div>
 </div>

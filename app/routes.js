@@ -313,20 +313,18 @@ router.post("/question_choice_discharge_date", function (req, res) {
   }
 });
 
-//////////////////////////////////////////////////////
 router.post("/question_name_from_DI", function (req, res) {
-  
   let nameAtDischarge = req.session.data["name_at_discharge"];
 
   if (!nameAtDischarge) {
-    return res.render("question_name_from_DI_error");
+    error = { text: "Select a name" };
+    return res.render("question_name_from_DI", { error });
   }
 
   if (nameAtDischarge) {
     return res.redirect("/question_NIN");
   }
 });
-/////////////////////////////////////////////////////
 
 router.post("/question_NIN_input", function (req, res) {
   var answer = req.session.data["national_insurance_number"];
