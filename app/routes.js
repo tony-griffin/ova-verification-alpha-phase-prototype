@@ -17,7 +17,7 @@ const {
 const {
   getClaimNames,
   getPreviousNames,
-  displayVerifiableCredential,
+  getLikelyDischargeName,
 } = require("./assets/javascripts/getClaimNames");
 
 // These keys are base64 encoded in .env
@@ -307,7 +307,7 @@ router.post("/question_choice_discharge_date", function (req, res) {
     // console.log("Discharge Year ROUTE!!!---:", req.session.data["discharge-year-year"]);
     console.log(
       "CREDS OBJ~~~~~~:",
-      displayVerifiableCredential(
+      getLikelyDischargeName(
         getFakeDIClaimResponse(
           birthYear,
           req.session.data["discharge-year-year"]

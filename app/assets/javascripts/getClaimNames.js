@@ -34,7 +34,7 @@ function getPreviousNames(claimNames) {
   return claimNames.slice(1, claimNames.length);
 }
 
-function displayVerifiableCredential(getFakeDIClaimResponse, dischargeYear) {
+function getLikelyDischargeName(getFakeDIClaimResponse, dischargeYear) {
   // get JWT credential subject name array
   const claimObj = getFakeDIClaimResponse.vc.credentialSubject.name;
   console.log("claimObj******:", claimObj);
@@ -93,48 +93,33 @@ function displayVerifiableCredential(getFakeDIClaimResponse, dischargeYear) {
       obj.validUntil = claimObj[i].validUntil;
       obj.value = fullNameListFromClaim[i];
     }
-
     dateAndNameArr.push(obj);
   }
 
   dateAndNameArr.push(fromDOB);
 
-  console.log("Name Array", dateAndNameArr);
-  ////////////////////////////////////////////
   let dischargeYearSelected = "1978";
   console.log("Discharge Year@@@@@: ", dischargeYearSelected);
+
   let startDischargeYear = `${dischargeYearSelected}-01-01`;
   let endDischargeYear = `${dischargeYearSelected}-12-31`;
+  let likelyName;
 
-  // dateAndNameArr.forEach((el, i) => {});
-
-  let likelyDate = [];
   for (let i = 0; i < dateAndNameArr.length; i = i + 2) {
     if (
       Date.parse(startDischargeYear) >
         Date.parse(dateAndNameArr[i + 1].validFrom) &&
       Date.parse(endDischargeYear) < Date.parse(dateAndNameArr[i].validUntil)
     ) {
-      likelyDate.push(dateAndNameArr[i].value);
+      likelyName = dateAndNameArr[i].value;
     }
   }
 
-  // for (let i = 0; i < dateAndNameArr.length; i = i + 2) {
-  //   console.log("INDEX @ VALID FROM****:", Date.parse(dateAndNameArr[i + 1].validFrom));
-  // if (
-  //   Date.parse(startDischargeYear) >
-  //     Date.parse(dateAndNameArr[i + i].validFrom) &&
-  //   Date.parse(endDischargeYear) < Date.parse(dateAndNameArr[i].validUntil)
-  // ) {
-  //   likelyDate.push(dateAndNameArr[i]);
-  // }
-  // }
-
-  return likelyDate[0].toString();
+  return likelyName;
 }
 
 module.exports = {
   getClaimNames,
   getPreviousNames,
-  displayVerifiableCredential,
+  getLikelyDischargeName,
 };
