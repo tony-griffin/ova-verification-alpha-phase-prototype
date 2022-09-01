@@ -13,12 +13,12 @@ const validator = require("validator");
 const {
   getFakeDIClaimResponse,
 } = require("./assets/javascripts/fakeDIClaimJWT");
+
 const {
   getClaimNames,
   getPreviousNames,
-  displayPreviousDIClaimNames,
+  displayVerifiableCredential,
 } = require("./assets/javascripts/getClaimNames");
-const { forEach } = require("lodash");
 
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
@@ -293,18 +293,29 @@ router.post("/question_choice_discharge_date", function (req, res) {
     req.session.data["birthYear"] = birthYear;
 
     // Identity claim set up
-    const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear)); // All the names
+    const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)); // All the names
 
     // Set up session storage for current & previous names
-    req.session.data["current_DI_name"] = claimNames[0];
-    let previousNames = getPreviousNames(claimNames);
+    req.session.data["current_DI_name"] = distinctClaimNames[0];
+    let previousNames = getPreviousNames(distinctClaimNames);
     req.session.data["previous_DI_names"] = previousNames;
 
     previousNames.forEach((name, index) => {
       req.session.data[`previous_DI_name_${index + 1}`] = name;
     });
 
-    // console.log("Data Storage!!!---:", req.session.data);
+    // console.log("Discharge Year ROUTE!!!---:", req.session.data["discharge-year-year"]);
+    console.log(
+      "CREDS OBJ~~~~~~:",
+      displayVerifiableCredential(
+        getFakeDIClaimResponse(
+          birthYear,
+          req.session.data["discharge-year-year"]
+        )
+      )
+    );
+
+    console.log("SESSION!!!!!!!!!!!!!: ", req.session.data);
 
     res.redirect("/question_name_from_DI");
   } else {
@@ -322,6 +333,7 @@ router.post("/question_name_from_DI", function (req, res) {
   }
 
   if (nameAtDischarge) {
+    console.log("NEW!!!---:", req.session.data);
     return res.redirect("/question_NIN");
   }
 });

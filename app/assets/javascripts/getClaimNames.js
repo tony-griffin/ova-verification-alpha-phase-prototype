@@ -6,7 +6,6 @@ function getClaimNames(getFakeDIClaimResponse) {
   let namesExport = [];
 
   claimNames.map((name) => {
-    
     if (name.validFrom) {
       let fullName = [];
       name.nameParts.map((namePart) => {
@@ -20,14 +19,14 @@ function getClaimNames(getFakeDIClaimResponse) {
       name.nameParts.map((namePart) => {
         fullName.push(namePart.value);
       });
-      
+
       previousNames.push(fullName.join(" "));
     }
   });
 
   namesExport.push(currentName[0]);
   namesExport.push(previousNames);
-  
+
   return namesExport.flat();
 }
 
@@ -35,58 +34,107 @@ function getPreviousNames(claimNames) {
   return claimNames.slice(1, claimNames.length);
 }
 
-function displayPreviousDIClaimNames(claimNames) {
-  let previousNames = getPreviousNames(claimNames);
-  let previousNamesHtml = [];
+function displayVerifiableCredential(getFakeDIClaimResponse, dischargeYear) {
+  // get JWT credential subject name array
+  const claimObj = getFakeDIClaimResponse.vc.credentialSubject.name;
+  console.log("claimObj******:", claimObj);
 
-  let radioElementCurrent = `<div class="govuk-radios__item">
-              <input
-                class="govuk-radios__input"
-                id="current_DI_name"
-                name="current_DI_name"
-                type="radio"
-                value="govuk-verify"
-                aria-describedby="current_DI_name_item_hint"
-              />
-              <label class="govuk-label govuk-radios__label" for="current_DI_name">
-                {{data["current_DI_name"]}}
-              </label>
-              <div
-                id="current_DI_name_item_hint"
-                class="govuk-hint govuk-radios__hint"
-              >
-                We believe this is the most current verified name we have on record for you.
-              </div>`;
+  // extract name list into new array
+  let fullNameListFromClaim = [];
+  claimObj.map((name) => {
+    if (name.validFrom) {
+      let fullName = [];
+      name.nameParts.map((namePart) => {
+        fullName.push(namePart.value);
+      });
+      fullNameListFromClaim.push(fullName.join(" "));
+    }
 
-  for (let index = 0; index < previousNames.length; index++) {
-    let radioElementPrevious = `<div class="govuk-radios__item">
-              <input
-                class="govuk-radios__input"
-                id="previous_DI_name_${index + 1}"
-                name="previous_DI_name_${index + 1}"
-                type="radio"
-                value="govuk-verify"
-                aria-describedby="previous_DI_name_${index + 1}_item_hint"
-              />
-              <label class="govuk-label govuk-radios__label" for="previous_DI_name_${
-                index + 1
-              }">
-                {{data["previous_DI_name_${index + 1}"]}}
-              </label>
-              <div
-                id="previous_DI_name_${index + 1}_item_hint"
-                class="govuk-hint govuk-radios__hint"
-              >
-                We believe this was is an older name you had previously used.
-              </div>`;
+    if (name.validUntil) {
+      let fullName = [];
+      name.nameParts.map((namePart) => {
+        fullName.push(namePart.value);
+      });
 
-    previousNamesHtml.push(radioElementPrevious);
+      fullNameListFromClaim.push(fullName.join(" "));
+    }
+  });
+
+  // set up today's date
+  const dateAndNameArr = [];
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+  const currentDay = new Date().getDate();
+  const currentDate = [currentYear, currentMonth, currentDay]
+    .join("-")
+    .toString();
+
+  // create new validUntil object
+  const mostRecentUntil = {
+    validUntil: currentDate,
+    value: fullNameListFromClaim[0],
+  };
+  dateAndNameArr.push(mostRecentUntil);
+
+  // create new validFrom DOB object
+  const fromDOB = {
+    validFrom: getFakeDIClaimResponse.vc.credentialSubject.birthDate[0].value,
+    value: fullNameListFromClaim[fullNameListFromClaim.length - 1],
+  };
+
+  for (let i = 0; i < claimObj.length; i++) {
+    let obj = {};
+    if (claimObj[i].validFrom) {
+      obj.validFrom = claimObj[i].validFrom;
+      obj.value = fullNameListFromClaim[i];
+    }
+
+    if (claimObj[i].validUntil) {
+      obj.validUntil = claimObj[i].validUntil;
+      obj.value = fullNameListFromClaim[i];
+    }
+
+    dateAndNameArr.push(obj);
   }
-  return previousNamesHtml;
+
+  dateAndNameArr.push(fromDOB);
+
+  console.log("Name Array", dateAndNameArr);
+  ////////////////////////////////////////////
+  let dischargeYearSelected = "1978";
+  console.log("Discharge Year@@@@@: ", dischargeYearSelected);
+  let startDischargeYear = `${dischargeYearSelected}-01-01`;
+  let endDischargeYear = `${dischargeYearSelected}-12-31`;
+
+  // dateAndNameArr.forEach((el, i) => {});
+
+  let likelyDate = [];
+  for (let i = 0; i < dateAndNameArr.length; i = i + 2) {
+    if (
+      Date.parse(startDischargeYear) >
+        Date.parse(dateAndNameArr[i + 1].validFrom) &&
+      Date.parse(endDischargeYear) < Date.parse(dateAndNameArr[i].validUntil)
+    ) {
+      likelyDate.push(dateAndNameArr[i].value);
+    }
+  }
+
+  // for (let i = 0; i < dateAndNameArr.length; i = i + 2) {
+  //   console.log("INDEX @ VALID FROM****:", Date.parse(dateAndNameArr[i + 1].validFrom));
+  // if (
+  //   Date.parse(startDischargeYear) >
+  //     Date.parse(dateAndNameArr[i + i].validFrom) &&
+  //   Date.parse(endDischargeYear) < Date.parse(dateAndNameArr[i].validUntil)
+  // ) {
+  //   likelyDate.push(dateAndNameArr[i]);
+  // }
+  // }
+
+  return likelyDate[0].toString();
 }
 
 module.exports = {
   getClaimNames,
   getPreviousNames,
-  displayPreviousDIClaimNames,
+  displayVerifiableCredential,
 };
