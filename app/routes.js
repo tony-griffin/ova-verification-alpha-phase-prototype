@@ -294,12 +294,12 @@ router.post("/question_choice_discharge_date", function (req, res) {
 
     // Identity claim set up
     const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)); // All the names
-
+    
     // Set up session storage for current & previous names
     req.session.data["current_DI_name"] = distinctClaimNames[0];
     let previousNames = getPreviousNames(distinctClaimNames);
     req.session.data["previous_DI_names"] = previousNames;
-
+    
     previousNames.forEach((name, index) => {
       req.session.data[`previous_DI_name_${index + 1}`] = name;
     });
@@ -311,27 +311,13 @@ router.post("/question_choice_discharge_date", function (req, res) {
         getFakeDIClaimResponse(birthYear),
         dischargeYear
       );
-      console.log(
-        "likely_discharge_name----: ",
-        req.session.data["likely_discharge_name"]
-      );
 
-      // let copyPreviousNames = [...previousNames];
-      // copyPreviousNames.unshift(req.session.data["likely_discharge_name"]);
-
-      // let uniquePrevNames = [...new Set(copyPreviousNames)];
-      // req.session.data["likely_ordered_previous_names"] = uniquePrevNames;
-
-      // previousNames.unshift(req.session.data["likely_discharge_name"]);
-
-      // let uniquePrevNames = [...new Set(previousNames)];
-      // req.session.data["likely_ordered_previous_names"] = uniquePrevNames;
+      let filteredPreviousNames = previousNames.filter((name) => {
+        return name !== req.session.data["likely_discharge_name"];
+      });
+      
+      req.session.data["previous_DI_names"] = filteredPreviousNames;
     }
-
-    console.log(
-      "Likely Name Returned~~~~~~:",
-      getLikelyDischargeName(getFakeDIClaimResponse(birthYear), dischargeYear)
-    );
 
     console.log("SESSION!!!!!!!!!!!!!: ", req.session.data);
 
