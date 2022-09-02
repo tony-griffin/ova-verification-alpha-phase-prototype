@@ -321,19 +321,19 @@ router.post('/question_choice_discharge_date', function (req, res) {
 
     console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
 
-    res.redirect('/question_name_from_DI')
+    res.redirect('/question_name_from_identity_claim')
   } else {
     const error = { text: 'Enter a valid year' }
     return res.render('question_discharge_date', { error })
   }
 })
 
-router.post('/question_name_from_DI', function (req, res) {
+router.post('/question_name_from_identity_claim', function (req, res) {
   const nameAtDischarge = req.session.data.name_at_discharge
 
   if (!nameAtDischarge) {
     const error = { text: 'Select a name' }
-    return res.render('question_name_from_DI', { error })
+    return res.render('question_name_from_identity_claim', { error })
   }
 
   if (nameAtDischarge) {
@@ -358,7 +358,9 @@ router.post('/question_NIN_input', function (req, res) {
   if (answer === 'QQ123456C' || (answer && regexUse.test(answer))) {
     res.redirect('/question_served_with')
   } else {
-    const error = { text: 'Enter a National Insurance number in the correct format' }
+    const error = {
+      text: 'Enter a National Insurance number in the correct format'
+    }
     return res.render('question_NIN', { error })
   }
 })
