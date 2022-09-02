@@ -11,21 +11,54 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
     <form class="form" action="question_name_from_identity_claim" method="post">
       {% set itemsArr = [] %} 
       
-      {% set itemsArr = (itemsArr.push( {
+      {% if data["likely_discharge_name"] and data["likely_discharge_name"] == data["current_DI_name"] %}
+        {% set itemsArr = (itemsArr.push( {
+      value:data["current_DI_name"], 
+      text:data["current_DI_name"], 
+      checked: checked("name_at_discharge", data["current_DI_name"]), 
+      hint: { text: "We believe this is the name you used while serving and is the name you currently use"}
+      } ), itemsArr)%} 
+        {% else %} 
+        {% set itemsArr = (itemsArr.push( {
+      value:data["current_DI_name"], 
+      text:data["current_DI_name"], 
+      checked: checked("name_at_discharge", data["current_DI_name"]), 
+      hint: { text: "This
+      is what we have on record as the name you currently use"}
+      } ), itemsArr)%}
+      {% endif %}
+      
+      
+      
+      {# {% set itemsArr = (itemsArr.push( {
       value:data["current_DI_name"], 
       text:data["current_DI_name"], 
       checked: checked("name_at_discharge", data["current_DI_name"]), 
       hint: { text: "This
       is what we have on record as the name you currently use."}
-      } ), itemsArr)%} 
+      } ), itemsArr)%}  #}
       
-      {% set itemsArr = (itemsArr.push( {
+      
+      {% if data["likely_discharge_name"] and data["likely_discharge_name"] != data["current_DI_name"] %}
+        {% set itemsArr = (itemsArr.push( {
       value:data["likely_discharge_name"], 
       text:data["likely_discharge_name"],
       checked: checked("name_at_discharge", 
       data["likely_discharge_name"]),
       hint: { text: "We believe this is the name you used while serving"} } ),
       itemsArr) %} 
+      {% endif %}
+      
+      {# {% set itemsArr = (itemsArr.push( {
+      value:data["likely_discharge_name"], 
+      text:data["likely_discharge_name"],
+      checked: checked("name_at_discharge", 
+      data["likely_discharge_name"]),
+      hint: { text: "We believe this is the name you used while serving"} } ),
+      itemsArr) %}  #}
+      
+      
+      
       
       {% for name in data["previous_DI_names"] %} 
       {% set itemsArr =
