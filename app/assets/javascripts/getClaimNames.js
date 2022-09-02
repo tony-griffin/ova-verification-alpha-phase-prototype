@@ -149,7 +149,6 @@ function getLikelyDischargeName (getFakeDIClaimResponse, dischargeYear) {
       Date.parse(endDischargeYear) < Date.parse(dateAndNameArr[i].validUntil)
     ) {
       likelyName = dateAndNameArr[i].value
-      // console.log("Likely Name $ $ $ $: ", likelyName);
     }
   }
 

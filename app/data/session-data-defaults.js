@@ -33,5 +33,4 @@ module.exports = {
   phone_number: ['07700 900457'],
   birthYear: [''],
   communications_choice: ['N/A']
-
 }
