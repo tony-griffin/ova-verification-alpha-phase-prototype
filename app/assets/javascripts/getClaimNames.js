@@ -103,42 +103,42 @@ function getLikelyDischargeName(getFakeDIClaimResponse, dischargeYear) {
 
   ////////////////////////////////////
 
-  for (let i = 0; i < dateAndNameArr.length; i = i + 2) {
-    let isRight = false;
-    let parsedStartDischargeYear = Date.parse(startDischargeYear);
-    let parsedNameArrValidFrom = Date.parse(dateAndNameArr[i + 1].validFrom);
-    let parsedEndDischargeYear = Date.parse(endDischargeYear);
-    let parsedNameArrValidUntil = Date.parse(dateAndNameArr[i].validUntil);
+  // for (let i = 0; i < dateAndNameArr.length; i = i + 2) {
+  //   let isRight = false;
+  //   let parsedStartDischargeYear = Date.parse(startDischargeYear);
+  //   let parsedNameArrValidFrom = Date.parse(dateAndNameArr[i + 1].validFrom);
+  //   let parsedEndDischargeYear = Date.parse(endDischargeYear);
+  //   let parsedNameArrValidUntil = Date.parse(dateAndNameArr[i].validUntil);
 
-    console.log("///////////////////////////////////////////");
-    console.log(
-      `parsedNameArrValidFrom ${dateAndNameArr[i + 1].validFrom}`,
-      parsedNameArrValidFrom
-    );
-    console.log(
-      `parsedStartDischargeYear ${dischargeYear}`,
-      parsedStartDischargeYear
-    );
-    console.log(
-      `parsedEndDischargeYear ${dischargeYear}`,
-      parsedEndDischargeYear
-    );
-    console.log(
-      `parsedNameArrValidUntil ${dateAndNameArr[i].validUntil}`,
-      parsedNameArrValidUntil
-    );
-    console.log("///////////////////////////////////////////");
+  //   console.log("///////////////////////////////////////////");
+  //   console.log(
+  //     `parsedNameArrValidFrom ${dateAndNameArr[i + 1].validFrom}`,
+  //     parsedNameArrValidFrom
+  //   );
+  //   console.log(
+  //     `parsedStartDischargeYear ${dischargeYear}`,
+  //     parsedStartDischargeYear
+  //   );
+  //   console.log(
+  //     `parsedEndDischargeYear ${dischargeYear}`,
+  //     parsedEndDischargeYear
+  //   );
+  //   console.log(
+  //     `parsedNameArrValidUntil ${dateAndNameArr[i].validUntil}`,
+  //     parsedNameArrValidUntil
+  //   );
+  //   console.log("///////////////////////////////////////////");
 
-    if (
-      Date.parse(startDischargeYear) >
-        Date.parse(dateAndNameArr[i + 1].validFrom) &&
-      Date.parse(endDischargeYear) < Date.parse(dateAndNameArr[i].validUntil)
-    ) {
-      isRight = true;
-      likelyName = dateAndNameArr[i].value;
-    }
-    console.log("Is Right!!! !!! !!!: ", isRight);
-  }
+  //   if (
+  //     Date.parse(startDischargeYear) >
+  //       Date.parse(dateAndNameArr[i + 1].validFrom) &&
+  //     Date.parse(endDischargeYear) < Date.parse(dateAndNameArr[i].validUntil)
+  //   ) {
+  //     isRight = true;
+  //     likelyName = dateAndNameArr[i].value;
+  //   }
+  //   console.log("Is Right!!! !!! !!!: ", isRight);
+  // }
 
   ////////////////////////////////////
 
