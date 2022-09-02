@@ -18,6 +18,7 @@ const {
   getClaimNames,
   getPreviousNames,
   getLikelyDischargeName
+
 } = require('./assets/javascripts/getClaimNames')
 
 // These keys are base64 encoded in .env
@@ -104,8 +105,8 @@ router.post('/sp4v1_start_veteran_verify_choice', function (req, res) {
   const answer = req.session.data.start_veteran_match_status
 
   if (!answer) {
-    const error = { text: "Select 'Success' or 'Fail'" }
-    return res.render('eligibility-two', { error })
+    const error = { text: "Select 'happy path' or 'unhappy path'" }
+    return res.render('index', { error })
   }
 
   if (answer === 'Success') {
@@ -125,7 +126,8 @@ router.post('/eligibility-one', function (req, res) {
     return res.render('eligibility-one', { error }) // relative URL, for reasons unknown
   }
 
-  if (formermember == 'no') {
+
+  if (formermember === 'no') {
     res.redirect('/ineligible')
   } else {
     res.redirect('/eligibility-two')
@@ -140,7 +142,7 @@ router.post('/eligibility-two', function (req, res) {
     return res.render('eligibility-two', { error })
   }
 
-  if (ukresident == 'no') {
+  if (ukresident === 'no') {
     res.redirect('/ineligible_non_resident')
   } else {
     res.redirect('/govuk_account_check')
@@ -151,7 +153,7 @@ router.post('/eligibility-two', function (req, res) {
 //   post2005 = req.body["post-2005"];
 
 //   if (!post2005) {
-//    let error = { text: "Select 'Yes' or 'No'" };
+//     const error = { text: "Select 'Yes' or 'No'" };
 //     return res.render("eligibility-three", { error });
 //   }
 
@@ -175,7 +177,7 @@ router.post('/govuk_account_check', function (req, res) {
     return res.render('govuk_account_check', { error })
   }
 
-  if (answer == 'yes') {
+  if (answer === 'yes') {
     res.redirect('/govuk_account_sign_in')
   } else {
     res.redirect('/govuk_create_or_sign_in')
@@ -337,7 +339,6 @@ router.post('/question_name_from_identity_claim', function (req, res) {
   }
 
   if (nameAtDischarge) {
-    console.log('NEW!!!---:', req.session.data)
     return res.redirect('/question_NIN')
   }
 })
@@ -403,11 +404,11 @@ router.post('/govuk_use_address_choice', function (req, res) {
     return res.render('govuk_use_address', { error })
   }
 
-  if (answer == 'yes') {
+  if (answer === 'yes') {
     res.redirect('/govuk_use_email')
   }
 
-  if (answer == 'no') {
+  if (answer === 'no') {
     res.redirect('/govuk_update_details_sign_in_address')
   }
 })
