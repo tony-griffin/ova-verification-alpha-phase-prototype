@@ -104,8 +104,8 @@ router.post('/sp4v1_start_veteran_verify_choice', function (req, res) {
   const answer = req.session.data.start_veteran_match_status
 
   if (!answer) {
-    const error = { text: "Select 'Success' or 'Fail'" }
-    return res.render('eligibility-two', { error })
+    const error = { text: "Select 'happy path' or 'unhappy path'" }
+    return res.render('index', { error })
   }
 
   if (answer === 'Success') {
