@@ -13,12 +13,9 @@ const validator = require('validator')
 const {
   getFakeDIClaimResponse
 } = require('./assets/javascripts/fakeDIClaimJWT')
-
 const {
   getClaimNames,
-  getPreviousNames,
-  getLikelyDischargeName
-
+  getPreviousNames
 } = require('./assets/javascripts/getClaimNames')
 
 // These keys are base64 encoded in .env
@@ -125,7 +122,6 @@ router.post('/eligibility-one', function (req, res) {
     const error = { text: "Select 'Yes' or 'No'" }
     return res.render('eligibility-one', { error }) // relative URL, for reasons unknown
   }
-
 
   if (formermember === 'no') {
     res.redirect('/ineligible')
@@ -295,47 +291,32 @@ router.post('/question_choice_discharge_date', function (req, res) {
     req.session.data.birthYear = birthYear
 
     // Identity claim set up
-    const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
+    const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
 
     // Set up session storage for current & previous names
-    req.session.data.current_DI_name = distinctClaimNames[0]
-    const previousNames = getPreviousNames(distinctClaimNames)
+    req.session.data.current_DI_name = claimNames[0]
+    const previousNames = getPreviousNames(claimNames)
     req.session.data.previous_DI_names = previousNames
 
     previousNames.forEach((name, index) => {
       req.session.data[`previous_DI_name_${index + 1}`] = name
     })
 
-    if (
-      getLikelyDischargeName(getFakeDIClaimResponse(birthYear), dischargeYear)
-    ) {
-      req.session.data.likely_discharge_name = getLikelyDischargeName(
-        getFakeDIClaimResponse(birthYear),
-        dischargeYear
-      )
+    // console.log("Data Storage!!!---:", req.session.data);
 
-      const filteredPreviousNames = previousNames.filter((name) => {
-        return name !== req.session.data.likely_discharge_name
-      })
-
-      req.session.data.previous_DI_names = filteredPreviousNames
-    }
-
-    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
-
-    res.redirect('/question_name_from_identity_claim')
+    res.redirect('/question_name_from_DI')
   } else {
     const error = { text: 'Enter a valid year' }
     return res.render('question_discharge_date', { error })
   }
 })
 
-router.post('/question_name_from_identity_claim', function (req, res) {
+router.post('/question_name_from_DI', function (req, res) {
   const nameAtDischarge = req.session.data.name_at_discharge
 
   if (!nameAtDischarge) {
     const error = { text: 'Select a name' }
-    return res.render('question_name_from_identity_claim', { error })
+    return res.render('question_name_from_DI', { error })
   }
 
   if (nameAtDischarge) {
