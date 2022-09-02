@@ -8,34 +8,44 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <form class="form" action="question_name_from_DI" method="post">
+    <form class="form" action="question_name_from_identity_claim" method="post">
+      {% set itemsArr = [] %} 
       
-    {% set itemsArr = [] %}
-    {% set itemsArr = (itemsArr.push(
-                                     {
-                                       value:data["current_DI_name"], text:data["current_DI_name"], 
-                                       checked: checked("name_at_discharge", data["current_DI_name"]), 
-                                       hint: { text: "This is what we have on record as the name you currently use."}
-                                      }
-                                     ), itemsArr) %}
-    
-    {% for name in data["previous_DI_names"] %}
-     {% set itemsArr = (itemsArr.push({value:name, text:name, checked: checked("name_at_discharge", name)}), itemsArr) %}
-    {% endfor %}
+      {% set itemsArr = (itemsArr.push( {
+      value:data["current_DI_name"], 
+      text:data["current_DI_name"], 
+      checked: checked("name_at_discharge", data["current_DI_name"]), 
+      hint: { text: "This
+      is what we have on record as the name you currently use."}
+      } ), itemsArr)%} 
       
-      {{ govukRadios({
-        idPrefix: "name_at_discharge",
-        name: "name_at_discharge",
-        fieldset: {
-          legend: {
-            text: "What name were you using when you left the armed forces?",
-            isPageHeading: true,
-            classes: "govuk-fieldset__legend--l"
-          }
-        },
-        items: itemsArr,
-        errorMessage: error
-      }) }}
+      {% set itemsArr = (itemsArr.push( {
+      value:data["likely_discharge_name"], 
+      text:data["likely_discharge_name"],
+      checked: checked("name_at_discharge", 
+      data["likely_discharge_name"]),
+      hint: { text: "We believe this is the name you used while serving"} } ),
+      itemsArr) %} 
+      
+      {% for name in data["previous_DI_names"] %} 
+      {% set itemsArr =
+      (itemsArr.push({value:name, 
+      text:name, 
+      checked:
+      checked("name_at_discharge", name)}), itemsArr) %} 
+      {% endfor %} 
+      
+      {{
+      govukRadios({ 
+      idPrefix: "name_at_discharge", 
+      name: "name_at_discharge",
+      fieldset: { legend: { text: "What name were you using when you left the
+      armed forces?", 
+      isPageHeading: true, 
+      classes: "govuk-fieldset__legend--l"
+      } }, 
+      items: itemsArr, 
+      errorMessage: error }) }}
 
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
@@ -56,10 +66,12 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
           </ul>
         </div>
       </details>
-      
-      <button class="govuk-button" id="btn" data-module="govuk-button">Continue</button>
+
+      <button class="govuk-button" id="btn" data-module="govuk-button">
+        Continue
+      </button>
     </form>
   </div>
 </div>
 
-{% endblock %} 
+{% endblock %}
