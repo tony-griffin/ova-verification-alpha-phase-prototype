@@ -304,15 +304,33 @@ router.post("/question_choice_discharge_date", function (req, res) {
       req.session.data[`previous_DI_name_${index + 1}`] = name;
     });
 
-    // console.log("Discharge Year ROUTE!!!---:", req.session.data["discharge-year-year"]);
+    if (
+      getLikelyDischargeName(getFakeDIClaimResponse(birthYear), dischargeYear)
+    ) {
+      req.session.data["likely_discharge_name"] = getLikelyDischargeName(
+        getFakeDIClaimResponse(birthYear),
+        dischargeYear
+      );
+      console.log(
+        "likely_discharge_name----: ",
+        req.session.data["likely_discharge_name"]
+      );
+
+      // let copyPreviousNames = [...previousNames];
+      // copyPreviousNames.unshift(req.session.data["likely_discharge_name"]);
+
+      // let uniquePrevNames = [...new Set(copyPreviousNames)];
+      // req.session.data["likely_ordered_previous_names"] = uniquePrevNames;
+
+      // previousNames.unshift(req.session.data["likely_discharge_name"]);
+
+      // let uniquePrevNames = [...new Set(previousNames)];
+      // req.session.data["likely_ordered_previous_names"] = uniquePrevNames;
+    }
+
     console.log(
-      "CREDS OBJ~~~~~~:",
-      getLikelyDischargeName(
-        getFakeDIClaimResponse(
-          birthYear,
-          req.session.data["discharge-year-year"]
-        )
-      )
+      "Likely Name Returned~~~~~~:",
+      getLikelyDischargeName(getFakeDIClaimResponse(birthYear), dischargeYear)
     );
 
     console.log("SESSION!!!!!!!!!!!!!: ", req.session.data);
