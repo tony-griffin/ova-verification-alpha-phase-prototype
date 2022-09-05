@@ -1,5 +1,9 @@
 {% extends "layout.html" %} {% block pageTitle %} {{
 serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
+{{ govukPhaseBanner({ tag: {
+    text: "alpha"
+  },
+  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
 <a class="govuk-back-link" href="/govuk_use_email">Back</a>
 {% endblock %} {% block content %}
 
@@ -40,7 +44,7 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
         <details class="govuk-details" data-module="govuk-details">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
-              What sort of communications will I be sent?
+              What sort of communications will I be sent
             </span>
           </summary>
           <div class="govuk-details__text">

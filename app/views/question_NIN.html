@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block beforeContent %}
-  <a class="govuk-back-link" href="/question_discharge_date">Back</a>
+ {{ govukPhaseBanner({ tag: {
+    text: "alpha"
+  },
+  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+  <a class="govuk-back-link" href="/question_name_from_DI">Back</a>
 {% endblock %}
 
 {% block content %}
