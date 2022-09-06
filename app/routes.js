@@ -141,7 +141,7 @@ router.post('/eligibility-two', function (req, res) {
   if (ukresident === 'no') {
     res.redirect('/ineligible_non_resident')
   } else {
-    res.redirect('/govuk_account_check')
+    res.redirect('/question_email_address')
   }
 })
 
@@ -163,6 +163,22 @@ router.post('/question_id_form', function (req, res) {
   res.send(
     "This is where the journey comes to a screeching halt. Sorry. Please see the <a href='https://drive.google.com/file/d/1DRK4h-TRTeDHjioJRtVo3V6MJVeZTwJ3/view'>TO BE flow, in particular, the 'Verification delivery' part."
   )
+})
+
+router.post('/question_email_address', function (req, res) {
+  const answer = req.session.data.question_email_address
+
+  if (!answer) {
+    const error = { text: 'Enter your email address' }
+    return res.render('question_email_address', { error })
+  }
+
+  if (answer && validator.isEmail(answer)) {
+    res.redirect('/question_service_number')
+  } else {
+    const error = { text: 'Enter a valid email address' }
+    return res.render('question_email_address', { error })
+  }
 })
 
 router.post('/govuk_account_check', function (req, res) {
