@@ -302,43 +302,67 @@ router.post('/question_choice_discharge_date', function (req, res) {
     (validator.isAfter(dischargeYear, enlistmentYear) ||
       dischargeYear === enlistmentYear)
   ) {
-    // set up DI claim names
-    const birthYear = Number(req.session.data['enlistment-year-year']) - 20
-    req.session.data.birthYear = birthYear
-
-    // Identity claim set up
-    const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
-
-    // Set up session storage for current & previous names
-    req.session.data.current_DI_name = claimNames[0]
-    const previousNames = getPreviousNames(claimNames)
-    req.session.data.previous_DI_names = previousNames
-
-    previousNames.forEach((name, index) => {
-      req.session.data[`previous_DI_name_${index + 1}`] = name
-    })
-
-    // console.log("Data Storage!!!---:", req.session.data);
-
-    res.redirect('/question_name_from_DI')
+  
+    res.redirect('/question_NIN')
   } else {
     const error = { text: 'Enter a valid year' }
     return res.render('question_discharge_date', { error })
   }
 })
 
-router.post('/question_name_from_DI', function (req, res) {
-  const nameAtDischarge = req.session.data.name_at_discharge
+// router.post('/question_choice_discharge_date', function (req, res) {
+//   const dischargeYear = req.session.data['discharge-year-year']
+//   const enlistmentYear = req.session.data['enlistment-year-year']
 
-  if (!nameAtDischarge) {
-    const error = { text: 'Select a name' }
-    return res.render('question_name_from_DI', { error })
-  }
+//   if (!dischargeYear) {
+//     const error = { text: 'Enter a value for the year' }
+//     return res.render('question_discharge_date', { error })
+//   }
 
-  if (nameAtDischarge) {
-    return res.redirect('/question_NIN')
-  }
-})
+//   if (
+//     dischargeYear &&
+//     validator.isBefore(dischargeYear) && // is before today
+//     validator.isAfter(dischargeYear, '1939') &&
+//     (validator.isAfter(dischargeYear, enlistmentYear) ||
+//       dischargeYear === enlistmentYear)
+//   ) {
+//     // set up DI claim names
+//     const birthYear = Number(req.session.data['enlistment-year-year']) - 20
+//     req.session.data.birthYear = birthYear
+
+//     // Identity claim set up
+//     const claimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
+
+//     // Set up session storage for current & previous names
+//     req.session.data.current_DI_name = claimNames[0]
+//     const previousNames = getPreviousNames(claimNames)
+//     req.session.data.previous_DI_names = previousNames
+
+//     previousNames.forEach((name, index) => {
+//       req.session.data[`previous_DI_name_${index + 1}`] = name
+//     })
+
+//     // console.log("Data Storage!!!---:", req.session.data);
+
+//     res.redirect('/question_name_from_DI')
+//   } else {
+//     const error = { text: 'Enter a valid year' }
+//     return res.render('question_discharge_date', { error })
+//   }
+// })
+
+// router.post('/question_name_from_DI', function (req, res) {
+//   const nameAtDischarge = req.session.data.name_at_discharge
+
+//   if (!nameAtDischarge) {
+//     const error = { text: 'Select a name' }
+//     return res.render('question_name_from_DI', { error })
+//   }
+
+//   if (nameAtDischarge) {
+//     return res.redirect('/question_NIN')
+//   }
+// })
 
 router.post('/question_NIN_input', function (req, res) {
   let answer = req.session.data.national_insurance_number
