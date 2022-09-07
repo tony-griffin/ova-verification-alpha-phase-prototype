@@ -8,77 +8,31 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <form class="form" action="question_name_from_identity_claim" method="post">
-      {% set itemsArr = [] %} 
-      
-      {% if data["likely_discharge_name"] and data["likely_discharge_name"] == data["current_DI_name"] %}
-      
-        {% set itemsArr = (itemsArr.push( {
-      value:data["current_DI_name"], 
-      text:data["current_DI_name"], 
-      checked: checked("name_at_discharge", data["current_DI_name"]), 
-      hint: { text: "We believe this is the name you used while serving and is the name you currently use"}
-      } ), itemsArr)%} 
-        {% else %} 
-        {% set itemsArr = (itemsArr.push( {
-      value:data["current_DI_name"], 
-      text:data["current_DI_name"], 
-      checked: checked("name_at_discharge", data["current_DI_name"]), 
-      hint: { text: "This
-      is what we have on record as the name you currently use"}
-      } ), itemsArr)%}
-      {% endif %}
-      
-      
-      
-      {# {% set itemsArr = (itemsArr.push( {
-      value:data["current_DI_name"], 
-      text:data["current_DI_name"], 
-      checked: checked("name_at_discharge", data["current_DI_name"]), 
-      hint: { text: "This
-      is what we have on record as the name you currently use."}
-      } ), itemsArr)%}  #}
-      
-      
-      {% if data["likely_discharge_name"] and data["likely_discharge_name"] != data["current_DI_name"] %}
-        {% set itemsArr = (itemsArr.push( {
-      value:data["likely_discharge_name"], 
-      text:data["likely_discharge_name"],
-      checked: checked("name_at_discharge", 
-      data["likely_discharge_name"]),
-      hint: { text: "We believe this is the name you used while serving"} } ),
-      itemsArr) %} 
-      {% endif %}
-      
-      {# {% set itemsArr = (itemsArr.push( {
-      value:data["likely_discharge_name"], 
-      text:data["likely_discharge_name"],
-      checked: checked("name_at_discharge", 
-      data["likely_discharge_name"]),
-      hint: { text: "We believe this is the name you used while serving"} } ),
-      itemsArr) %}  #}
-      
-      
-      
-      
-      {% for name in data["previous_DI_names"] %} 
-      {% set itemsArr =
-      (itemsArr.push({value:name, 
-      text:name, 
-      checked:
-      checked("name_at_discharge", name)}), itemsArr) %} 
-      {% endfor %} 
+  <h1 class="govuk-heading-l">Was "{{data["current_DI_name"]}}" the name were you using when you left the armed forces?</h1>
+ 
+    <form class="form" action="question_name_from_identity_claim_choice" method="post">
+     
       
       {{
       govukRadios({ 
       idPrefix: "name_at_discharge", 
       name: "name_at_discharge",
-      fieldset: { legend: { text: "What name were you using when you left the
-      armed forces?", 
-      isPageHeading: true, 
+      fieldset: { legend: { text: "", 
+      isPageHeading: false, 
       classes: "govuk-fieldset__legend--l"
       } }, 
-      items: itemsArr, 
+      items: [
+          {
+            value: data["current_DI_name"],
+            text: "Yes",
+            checked: checked("name_at_discharge",["current_DI_name"])
+          },
+          {
+            value: "No",
+            text: "No",
+            checked: checked("name_at_discharge", "No")
+          }
+        ], 
       errorMessage: error }) }}
 
       <details class="govuk-details" data-module="govuk-details">
