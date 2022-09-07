@@ -18,6 +18,8 @@
     <div class="govuk-grid-column-two-thirds">
 
       <h1 class="govuk-heading-l">What was your name when you left the UK armed forces?</h1>
+      
+      <p>We will use this name to look up your service records </p>
 
       <form class="form" action="question_name_at_discharge_input" method="post">
 
@@ -31,7 +33,7 @@
         name: "first_name_at_discharge",
         value: data["first_name_at_discharge"],
         hint: {
-          text: "First name"
+          text: "First name(s)"
         },
         autocomplete: "name",
         spellcheck: false,
@@ -55,18 +57,7 @@
         errorMessage: lastNameError
         }) }}
         
-        <details class="govuk-details" data-module="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-              Help with your service number
-            </span>
-          </summary>
-          <div class="govuk-details__text">
-          <div>
-            <p>If you need to check your service number, you’ll find it on your discharge letter or other forms of documentation about your service.</p>
-            <p>If you need help with this, contact <a href="https://www.gov.uk/guidance/veterans-uk-contact-us" target="_new">Veterans UK</a></p>
-          </div>
-        </details>
+        <p>As you've entered a different name to the one(s) held in your GOV.UK account, we may need to do some manual checks.</p>
 
         <button class="govuk-button" data-module="govuk-button">Continue</button>
 
