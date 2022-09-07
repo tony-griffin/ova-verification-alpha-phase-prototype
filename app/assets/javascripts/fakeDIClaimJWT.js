@@ -1,4 +1,4 @@
-function getFakeDIClaimResponse (birthYear) {
+function getFakeDIClaimResponse(birthYear) {
   const birthYearNumber = Number(birthYear)
 
   const fakeJWT = {
