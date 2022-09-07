@@ -302,7 +302,6 @@ router.post('/question_choice_discharge_date', function (req, res) {
     (validator.isAfter(dischargeYear, enlistmentYear) ||
       dischargeYear === enlistmentYear)
   ) {
-  
     res.redirect('/question_NIN')
   } else {
     const error = { text: 'Enter a valid year' }
@@ -396,71 +395,84 @@ router.post('/question_id_route', function (req, res) {
   }
 
   if (answer) {
-    res.redirect('/govuk_use_photo')
+    res.redirect('/upload_photo')
   }
 })
 
-router.post('/govuk_use_photo', function (req, res) {
-  const answer = req.body.govuk_user_photo
+router.post('/upload_photo', function (req, res) {
+  // const answer = req.body.uploaded_user_photo
 
-  if (!answer) {
-    const error = { text: "Select 'Yes' or 'No'" }
-    return res.render('govuk_use_photo', { error })
+  // if (!answer) {
+  //   const error = { text: "You must upload a valid photo" }
+  //   return res.render('upload_photo', { error })
+  // }
+
+  res.redirect('/question_address')
+})
+
+// router.post('/govuk_use_photo', function (req, res) {
+//   const answer = req.body.govuk_user_photo
+
+//   if (!answer) {
+//     const error = { text: "Select 'Yes' or 'No'" }
+//     return res.render('govuk_use_photo', { error })
+//   }
+
+//   if (answer === 'yes') {
+//     res.redirect('/govuk_use_address')
+//   }
+
+//   if (answer === 'no') {
+//     res.redirect('/govuk_update_details_sign_in_photo')
+//   }
+// })
+
+router.post('/question_address_input', function (req, res) {
+  const address_house_flat_number = req.body.address_house_flat_number
+  const address_line_1 = req.body.address_line_1
+  const address_town_city = req.body.address_town_city
+  const address_postcode = req.body.address_postcode
+
+  if (!address_house_flat_number) {
+    const errorHome = { text: 'Enter the number of your home' }
+    return res.render('question_address', { errorHome })
   }
 
-  if (answer === 'yes') {
-    res.redirect('/govuk_use_address')
+  if (!address_line_1) {
+    const errorAddress = { text: 'Enter your address' }
+    return res.render('question_address', { errorAddress })
   }
 
-  if (answer === 'no') {
-    res.redirect('/govuk_update_details_sign_in_photo')
+  if (!address_town_city) {
+    const errorTownCity = { text: 'Enter the town or city you live in' }
+    return res.render('question_address', { errorTownCity })
+  }
+
+  if (!address_postcode) {
+    const errorPostcode = { text: 'Enter your postcode' }
+    return res.render('question_address', { errorPostcode })
+  }
+
+  if (
+    (address_house_flat_number,
+    address_line_1,
+    address_town_city,
+    address_postcode)
+  ) {
+    res.redirect('/question_vetcard_comms')
   }
 })
 
-router.post('/govuk_use_address_choice', function (req, res) {
-  const answer = req.body.govuk_user_address
+router.post('/question_vetcard_comms', function (req, res) {
+  const answer = req.body.question_comms_choice
 
   if (!answer) {
     const error = { text: "Select 'Yes' or 'No'" }
-    return res.render('govuk_use_address', { error })
-  }
-
-  if (answer === 'yes') {
-    res.redirect('/govuk_use_email')
-  }
-
-  if (answer === 'no') {
-    res.redirect('/govuk_update_details_sign_in_address')
-  }
-})
-
-router.post('/govuk_use_email', function (req, res) {
-  const answer = req.body.govuk_user_email
-
-  if (!answer) {
-    const error = { text: "Select 'Yes' or 'No'" }
-    return res.render('govuk_use_email', { error })
-  }
-
-  if (answer === 'yes') {
-    res.redirect('/govuk_vetcard_comms')
-  }
-
-  if (answer === 'no') {
-    res.redirect('/govuk_update_details_sign_in_email')
-  }
-})
-
-router.post('/govuk_vetcard_comms', function (req, res) {
-  const answer = req.body.govuk_comms_choice
-
-  if (!answer) {
-    const error = { text: "Select 'Yes' or 'No'" }
-    return res.render('govuk_vetcard_comms', { error })
+    return res.render('question_vetcard_comms', { error })
   }
 
   if (answer === 'Yes') {
-    res.redirect('/govuk_vetcard_communications_preference')
+    res.redirect('/vetcard_communications_preference')
   }
 
   if (answer === 'No') {
@@ -468,18 +480,82 @@ router.post('/govuk_vetcard_comms', function (req, res) {
   }
 })
 
-router.post('/govuk_vetcard_communications_preference', function (req, res) {
+router.post('/vetcard_communications_preference', function (req, res) {
   const answer = req.body.communications_choice
 
   if (answer === '_unchecked') {
     const error = { text: 'Select at least one option' }
-    return res.render('govuk_vetcard_communications_preference', { error })
+    return res.render('vetcard_communications_preference', { error })
   }
 
   if (answer) {
     res.redirect('/vetcard_account_summary_extra')
   }
 })
+
+// router.post('/govuk_use_address_choice', function (req, res) {
+//   const answer = req.body.govuk_user_address
+
+//   if (!answer) {
+//     const error = { text: "Select 'Yes' or 'No'" }
+//     return res.render('govuk_use_address', { error })
+//   }
+
+//   if (answer === 'yes') {
+//     res.redirect('/govuk_use_email')
+//   }
+
+//   if (answer === 'no') {
+//     res.redirect('/govuk_update_details_sign_in_address')
+//   }
+// })
+
+// router.post('/govuk_use_email', function (req, res) {
+//   const answer = req.body.govuk_user_email
+
+//   if (!answer) {
+//     const error = { text: "Select 'Yes' or 'No'" }
+//     return res.render('govuk_use_email', { error })
+//   }
+
+//   if (answer === 'yes') {
+//     res.redirect('/govuk_vetcard_comms')
+//   }
+
+//   if (answer === 'no') {
+//     res.redirect('/govuk_update_details_sign_in_email')
+//   }
+// })
+
+// router.post('/govuk_vetcard_comms', function (req, res) {
+//   const answer = req.body.govuk_comms_choice
+
+//   if (!answer) {
+//     const error = { text: "Select 'Yes' or 'No'" }
+//     return res.render('govuk_vetcard_comms', { error })
+//   }
+
+//   if (answer === 'Yes') {
+//     res.redirect('/govuk_vetcard_communications_preference')
+//   }
+
+//   if (answer === 'No') {
+//     res.redirect('/vetcard_account_summary_extra')
+//   }
+// })
+
+// router.post('/govuk_vetcard_communications_preference', function (req, res) {
+//   const answer = req.body.communications_choice
+
+//   if (answer === '_unchecked') {
+//     const error = { text: 'Select at least one option' }
+//     return res.render('govuk_vetcard_communications_preference', { error })
+//   }
+
+//   if (answer) {
+//     res.redirect('/vetcard_account_summary_extra')
+//   }
+// })
 
 router.post('/govuk_vetcard_acc_summary_choice', function (req, res) {
   const answer = req.session.data.id_choice
@@ -506,8 +582,10 @@ router.post('/vetcard_account_summary_choice', function (req, res) {
   let idChoice = req.session.data.id_choice
   const fullName = req.session.data.full_name
   const postalAddress = req.session.data.postal_address
-  const emailAddress = req.session.data.govuk_question_email
+  const emailAddress = req.session.data.question_email_address
   const serviceNumber = req.session.data.question_service_number
+  
+  console.log('EMAIL:-------', req.session.data.question_email_address)
 
   const matchStatus = req.session.data.start_veteran_match_status
 
