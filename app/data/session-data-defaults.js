@@ -30,7 +30,7 @@ module.exports = {
   previous_name: ['Sandy Williams'],
   govuk_question_email: [''],
   postal_address: ['14 Lime Court, Weston-super-mare BS22, 0AA'],
-  phone_number: ['07700 900457'],
+  phone_number: ['077 009 004 57'],
   birthYear: [''],
   communications_choice: ['N/A'],
   birth_year_number: ['1950']
