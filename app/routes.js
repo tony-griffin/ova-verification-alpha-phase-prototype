@@ -142,7 +142,7 @@ router.post('/eligibility-two', function (req, res) {
   if (ukresident === 'no') {
     res.redirect('/ineligible_non_resident')
   } else {
-    res.redirect('/question_email_address')
+    res.redirect('/govuk_create_or_sign_in')
   }
 })
 
@@ -166,7 +166,7 @@ router.post('/question_id_form', function (req, res) {
   )
 })
 
-router.post('/question_email_address', function (req, res) {
+router.post('/question_email_address_input', function (req, res) {
   const email = req.session.data.question_email_address
   const matchStatus = req.session.data.start_veteran_match_status
 
@@ -191,25 +191,25 @@ router.post('/question_email_address', function (req, res) {
     req.session.data[`previous_DI_name_${index + 1}`] = name
   })
 
-  if (
-    getLikelyDischargeName(getFakeDIClaimResponse(birthYear), dischargeYear)
-  ) {
-    req.session.data.likely_discharge_name = getLikelyDischargeName(
-      getFakeDIClaimResponse(birthYear),
-      dischargeYear
-    )
+  // if (
+  //   getLikelyDischargeName(getFakeDIClaimResponse(birthYear), dischargeYear)
+  // ) {
+  //   req.session.data.likely_discharge_name = getLikelyDischargeName(
+  //     getFakeDIClaimResponse(birthYear),
+  //     dischargeYear
+  //   )
 
-    const filteredPreviousNames = previousNames.filter((name) => {
-      return name !== req.session.data.likely_discharge_name
-    })
+  //   const filteredPreviousNames = previousNames.filter((name) => {
+  //     return name !== req.session.data.likely_discharge_name
+  //   })
 
-    req.session.data.previous_DI_names = filteredPreviousNames
-  }
+  //   req.session.data.previous_DI_names = filteredPreviousNames
+  // }
 
   console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
-  
+
   //////////////////////////
-  
+
   if (email && validator.isEmail(email) && matchStatus === 'Success') {
     res.redirect('/govuk_create_check_email')
   } else {
@@ -218,36 +218,74 @@ router.post('/question_email_address', function (req, res) {
   }
 })
 
-router.post('/govuk_account_check', function (req, res) {
-  const answer = req.session.data.gov_uk_account_check
+router.post('/question_name_from_identity_claim_choice', function (req, res) {
+  const nameChoice = req.session.data.name_at_discharge
 
-  if (!answer) {
+  if (!nameChoice) {
     const error = { text: "Select 'Yes' or 'No'" }
-    return res.render('govuk_account_check', { error })
+    return res.render('question_name_from_identity_claim', { error })
   }
 
-  if (answer === 'yes') {
-    res.redirect('/govuk_account_sign_in')
+  if (nameChoice === req.session.data.current_DI_name) {
+    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
+    res.redirect('/question_service_number')
   } else {
-    res.redirect('/govuk_create_or_sign_in')
+    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
+    res.redirect('/question_name_at_discharge')
   }
 })
 
-router.post('/govuk_account_sign_in_input', function (req, res) {
-  const email = req.session.data.govuk_question_email
+router.post('/question_name_at_discharge_input', function (req, res) {
+  const givenName = req.session.data.given_name_at_discharge
+  const familyName = req.session.data.family_name_at_discharge
 
-  if (!email) {
-    const error = { text: 'Enter the email address you registered on GOV.UK' }
-    return res.render('govuk_account_sign_in', { error })
+  if (!givenName) {
+    const givenNameError = { text: 'Enter your given name' }
+    return res.render('question_name_at_discharge', { givenNameError })
   }
 
-  if (email && validator.isEmail(email)) {
-    res.redirect('/govuk_account_password')
-  } else {
-    const error = { text: 'Enter a valid email address' }
-    return res.render('govuk_account_sign_in', { error })
+  if (!familyName) {
+    const familyNameError = { text: 'Enter your family name' }
+    return res.render('question_name_at_discharge', { familyNameError })
+  }
+
+  if (givenName && familyName) {
+    req.session.data.name_at_discharge = `${givenName} ${familyName}`
+    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
+    res.redirect('/certificate_upload')
   }
 })
+
+// router.post('/govuk_account_check', function (req, res) {
+//   const answer = req.session.data.gov_uk_account_check
+
+//   if (!answer) {
+//     const error = { text: "Select 'Yes' or 'No'" }
+//     return res.render('govuk_account_check', { error })
+//   }
+
+//   if (answer === 'yes') {
+//     res.redirect('/govuk_account_sign_in')
+//   } else {
+//     res.redirect('/govuk_create_or_sign_in')
+//   }
+// })
+
+// router.post('/govuk_account_sign_in_input', function (req, res) {
+//   const email = req.session.data.govuk_question_email
+
+//   if (!email) {
+//     const error = { text: 'Enter the email address you registered on GOV.UK' }
+//     return res.render('govuk_account_sign_in', { error })
+//   }
+
+//   if (email && validator.isEmail(email)) {
+//     res.redirect('/govuk_account_password')
+//   } else {
+//     const error = { text: 'Enter a valid email address' }
+//     return res.render('govuk_account_sign_in', { error })
+//   }
+// })
 
 router.post('/govuk_account_password_input', function (req, res) {
   const answer = req.session.data.govuk_password
