@@ -15,7 +15,8 @@ const {
 } = require('./assets/javascripts/fakeDIClaimJWT')
 const {
   getClaimNames,
-  getPreviousNames
+  getPreviousNames,
+  getLikelyDischargeName
 } = require('./assets/javascripts/getClaimNames')
 
 // These keys are base64 encoded in .env
@@ -166,15 +167,51 @@ router.post('/question_id_form', function (req, res) {
 })
 
 router.post('/question_email_address', function (req, res) {
-  const answer = req.session.data.question_email_address
+  const email = req.session.data.question_email_address
+  const matchStatus = req.session.data.start_veteran_match_status
 
-  if (!answer) {
+  if (!email) {
     const error = { text: 'Enter your email address' }
     return res.render('question_email_address', { error })
   }
+  //////////////////////////////////////
 
-  if (answer && validator.isEmail(answer)) {
-    res.redirect('/question_service_number')
+  // set up DI claim names
+  const birthYear = req.session.data['birth_year_number']
+
+  // Identity claim set up
+  const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
+
+  // Set up session storage for current & previous names
+  req.session.data.current_DI_name = distinctClaimNames[0]
+  const previousNames = getPreviousNames(distinctClaimNames)
+  req.session.data.previous_DI_names = previousNames
+
+  previousNames.forEach((name, index) => {
+    req.session.data[`previous_DI_name_${index + 1}`] = name
+  })
+
+  if (
+    getLikelyDischargeName(getFakeDIClaimResponse(birthYear), dischargeYear)
+  ) {
+    req.session.data.likely_discharge_name = getLikelyDischargeName(
+      getFakeDIClaimResponse(birthYear),
+      dischargeYear
+    )
+
+    const filteredPreviousNames = previousNames.filter((name) => {
+      return name !== req.session.data.likely_discharge_name
+    })
+
+    req.session.data.previous_DI_names = filteredPreviousNames
+  }
+
+  console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
+  
+  //////////////////////////
+  
+  if (email && validator.isEmail(email) && matchStatus === 'Success') {
+    res.redirect('/govuk_create_check_email')
   } else {
     const error = { text: 'Enter a valid email address' }
     return res.render('question_email_address', { error })
@@ -197,14 +234,14 @@ router.post('/govuk_account_check', function (req, res) {
 })
 
 router.post('/govuk_account_sign_in_input', function (req, res) {
-  const answer = req.session.data.govuk_question_email
+  const email = req.session.data.govuk_question_email
 
-  if (!answer) {
+  if (!email) {
     const error = { text: 'Enter the email address you registered on GOV.UK' }
     return res.render('govuk_account_sign_in', { error })
   }
 
-  if (answer && validator.isEmail(answer)) {
+  if (email && validator.isEmail(email)) {
     res.redirect('/govuk_account_password')
   } else {
     const error = { text: 'Enter a valid email address' }
@@ -584,8 +621,6 @@ router.post('/vetcard_account_summary_choice', function (req, res) {
   const postalAddress = req.session.data.postal_address
   const emailAddress = req.session.data.question_email_address
   const serviceNumber = req.session.data.question_service_number
-  
-  console.log('EMAIL:-------', req.session.data.question_email_address)
 
   const matchStatus = req.session.data.start_veteran_match_status
 

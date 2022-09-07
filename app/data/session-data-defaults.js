@@ -32,5 +32,6 @@ module.exports = {
   postal_address: ['14 Lime Court, Weston-super-mare BS22, 0AA'],
   phone_number: ['07700 900457'],
   birthYear: [''],
-  communications_choice: ['N/A']
+  communications_choice: ['N/A'],
+  birth_year_number: ['1950']
 }
