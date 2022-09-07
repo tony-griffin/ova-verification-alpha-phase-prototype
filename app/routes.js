@@ -142,6 +142,23 @@ router.post('/eligibility-two', function (req, res) {
   if (ukresident === 'no') {
     res.redirect('/ineligible_non_resident')
   } else {
+    //////////////////////////////////
+    // set up DI claim names
+    const birthYear = req.session.data['birth_year_number']
+
+    // Identity claim set up
+    const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
+
+    // Set up session storage for current & previous names
+    req.session.data.current_DI_name = distinctClaimNames[0]
+    const previousNames = getPreviousNames(distinctClaimNames)
+    req.session.data.previous_DI_names = previousNames
+
+    previousNames.forEach((name, index) => {
+      req.session.data[`previous_DI_name_${index + 1}`] = name
+    })
+    //////////////////////////////////
+
     res.redirect('/govuk_create_or_sign_in')
   }
 })
@@ -159,54 +176,23 @@ router.post('/eligibility-two', function (req, res) {
 //   }
 // });
 
-/* This is as far as I got before going on leave. Sorry. */
-router.post('/question_id_form', function (req, res) {
-  res.send(
-    "This is where the journey comes to a screeching halt. Sorry. Please see the <a href='https://drive.google.com/file/d/1DRK4h-TRTeDHjioJRtVo3V6MJVeZTwJ3/view'>TO BE flow, in particular, the 'Verification delivery' part."
-  )
-})
-
 router.post('/question_email_address_input', function (req, res) {
   const email = req.session.data.question_email_address
   const matchStatus = req.session.data.start_veteran_match_status
+  const previousApplicationEmail = req.session.data.previous_application_email
 
   if (!email) {
     const error = { text: 'Enter your email address' }
     return res.render('question_email_address', { error })
   }
-  //////////////////////////////////////
 
-  // set up DI claim names
-  const birthYear = req.session.data['birth_year_number']
-
-  // Identity claim set up
-  const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
-
-  // Set up session storage for current & previous names
-  req.session.data.current_DI_name = distinctClaimNames[0]
-  const previousNames = getPreviousNames(distinctClaimNames)
-  req.session.data.previous_DI_names = previousNames
-
-  previousNames.forEach((name, index) => {
-    req.session.data[`previous_DI_name_${index + 1}`] = name
-  })
-
-  // if (
-  //   getLikelyDischargeName(getFakeDIClaimResponse(birthYear), dischargeYear)
-  // ) {
-  //   req.session.data.likely_discharge_name = getLikelyDischargeName(
-  //     getFakeDIClaimResponse(birthYear),
-  //     dischargeYear
-  //   )
-
-  //   const filteredPreviousNames = previousNames.filter((name) => {
-  //     return name !== req.session.data.likely_discharge_name
-  //   })
-
-  //   req.session.data.previous_DI_names = filteredPreviousNames
-  // }
-
-  //////////////////////////
+  if (
+    email &&
+    validator.isEmail(email) &&
+    previousApplicationEmail.toString() === email
+  ) {
+    res.redirect('/govuk_previous_application_email')
+  }
 
   if (email && validator.isEmail(email) && matchStatus === 'Success') {
     res.redirect('/govuk_create_check_email')
@@ -266,21 +252,22 @@ router.post('/question_name_at_discharge_input', function (req, res) {
 //   }
 // })
 
-// router.post('/govuk_account_sign_in_input', function (req, res) {
-//   const email = req.session.data.govuk_question_email
+router.post('/govuk_account_sign_in_input', function (req, res) {
+  const email = req.session.data.govuk_question_email
 
-//   if (!email) {
-//     const error = { text: 'Enter the email address you registered on GOV.UK' }
-//     return res.render('govuk_account_sign_in', { error })
-//   }
+  if (!email) {
+    const error = { text: 'Enter the email address you registered on GOV.UK' }
+    return res.render('govuk_account_sign_in', { error })
+  }
 
-//   if (email && validator.isEmail(email)) {
-//     res.redirect('/govuk_account_password')
-//   } else {
-//     const error = { text: 'Enter a valid email address' }
-//     return res.render('govuk_account_sign_in', { error })
-//   }
-// })
+  if (email && validator.isEmail(email)) {
+    req.session.data.question_email_address = email
+    res.redirect('/govuk_account_password')
+  } else {
+    const error = { text: 'Enter a valid email address' }
+    return res.render('govuk_account_sign_in', { error })
+  }
+})
 
 router.post('/govuk_account_password_input', function (req, res) {
   const answer = req.session.data.govuk_password
@@ -291,7 +278,7 @@ router.post('/govuk_account_password_input', function (req, res) {
   }
 
   if (answer) {
-    res.redirect('/govuk_account_sign_in_confirmed')
+    res.redirect('/govuk_account_sign_in_confirmed_copy')
   }
 })
 
@@ -638,12 +625,12 @@ router.post('/question_email_update_input', function (req, res) {
   }
 
   if (emailUpdate && emailAndSms) {
-    req.session.data.question_email_address = emailUpdate
+    req.session.data.comms_preference_email_address = emailUpdate
     res.redirect('/question_phone_number_to_send_to_duo')
   }
 
   if (emailUpdate) {
-    req.session.data.question_email_address = emailUpdate
+    req.session.data.comms_preference_email_address = emailUpdate
     res.redirect('/vetcard_account_summary_extra')
   }
 })
@@ -689,12 +676,12 @@ router.post('/question_phone_number_update_input', function (req, res) {
   }
 
   if (phoneNumberUpdate && emailAndSms) {
-    req.session.data.phone_number = phoneNumberUpdate
+    req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   }
 
   if (phoneNumberUpdate) {
-    req.session.data.phone_number = phoneNumberUpdate
+    req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   }
 })
