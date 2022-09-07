@@ -9,13 +9,14 @@
     text: "alpha"
   },
   html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
-  <a class="govuk-back-link" href="/govuk_vetcard_communications_preference">Back</a>
+  <a class="govuk-back-link" href="/vetcard_communications_preference">Back</a>
 {% endblock %}
 
 {% block content %}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
+    
      <form class="form" action="/vetcard_account_summary_choice" method="post">
       <h1 class="govuk-heading-l">Check your answers before sending your application</h1>
       
@@ -34,11 +35,11 @@
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Name</dt>
+        <dt class="govuk-summary-list__key">Name on card</dt>
         <dd class="govuk-summary-list__value">{{data['full_name']}}</dd>
         <dd class="govuk-summary-list__actions">
           <a class="govuk-link" href="#">
-            Change<span class="govuk-visually-hidden"> name</span>
+            Change<span class="govuk-visually-hidden"> name on card</span>
           </a>
         </dd>
       </div>
@@ -54,7 +55,7 @@
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Email</dt>
         <dd class="govuk-summary-list__value">
-          <p class="govuk-body">{{data["govuk_question_email"]}}</p>
+          <p class="govuk-body">{{data["question_email_address"]}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
           <a class="govuk-link" href="#">
@@ -147,7 +148,7 @@
                 }
               ]
             }
-          },
+          }, 
           {
             key: {
               text: "National insurance number"
@@ -195,7 +196,7 @@
               text: "Receive future communications"
             },
             value: {
-              text: data['govuk_comms_choice']
+              text: data['question_comms_choice']
             },
             actions: {
               items: [
