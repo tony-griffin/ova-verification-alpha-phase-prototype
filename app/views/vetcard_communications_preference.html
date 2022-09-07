@@ -1,0 +1,48 @@
+{% extends "layout.html" %} {% block pageTitle %}  {{
+serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
+{{ govukPhaseBanner({ tag: {
+    text: "alpha"
+  },
+  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+<a class="govuk-back-link" href="/question_vetcard_comms">Back</a>
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">How would you like to receive communications from us?</h1>
+    
+    <form class="form" action="/vetcard_communications_preference" method="post">
+        {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+        {{ govukCheckboxes({
+          idPrefix: "communications_choice",
+          name: "communications_choice",
+          fieldset: {
+            legend: {
+              text: "",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "Email",
+              text: "Email",
+              checked: checked("communications_choice", "Email")
+            },
+            {
+              value: "SMS",
+              text: "SMS",
+              checked: checked("communications_choice", "SMS")
+            }
+          ],
+          errorMessage: error
+        }) }}
+      
+
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
