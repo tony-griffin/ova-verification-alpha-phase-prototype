@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukPhaseBanner({ tag: {
+    text: "alpha"
+  },
+  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+  <a class="govuk-back-link" href="/question_phone_number_to_send_to_duo">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">What phone number should we use for SMS updates?</h1>
+
+      <form class="form" action="question_phone_number_update_input" method="post">
+
+        {{ govukInput({
+          label: {
+            
+            isPageHeading: false
+        },
+        classes: "govuk-input--width-10",
+        id: "question_phone_number_update",
+        name: "question_phone_number_update",
+        value: data["question_phone_number_update"],
+        errorMessage: errorDuo
+        }) }}
+        
+
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %} 

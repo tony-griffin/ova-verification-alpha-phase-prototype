@@ -11,7 +11,7 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">How would you like to receive communications from us?</h1>
     
-    <form class="form" action="/vetcard_communications_preference" method="post">
+    <form class="form" action="/vetcard_communications_preference_choice" method="post">
         {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 
         {{ govukCheckboxes({
