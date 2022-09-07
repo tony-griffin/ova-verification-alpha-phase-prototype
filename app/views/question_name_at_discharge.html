@@ -27,13 +27,15 @@
             isPageHeading: true
         },
         classes: "govuk-input--width-20",
-        id: "given_name_at_discharge",
-        name: "given_name_at_discharge",
-        value: data["given_name_at_discharge"],
+        id: "first_name_at_discharge",
+        name: "first_name_at_discharge",
+        value: data["first_name_at_discharge"],
         hint: {
-          text: "Your given name"
+          text: "First name"
         },
-        errorMessage: givenNameError
+        autocomplete: "name",
+        spellcheck: false,
+        errorMessage: firstNameError
         }) }}
         
         {{ govukInput({
@@ -42,13 +44,15 @@
             isPageHeading: true
         },
         classes: "govuk-input--width-20",
-        id: "family_name_at_discharge",
-        name: "family_name_at_discharge",
-        value: data["family_name_at_discharge"],
+        id: "last_name_at_discharge",
+        name: "last_name_at_discharge",
+        value: data["last_name_at_discharge"],
         hint: {
-          text: "Your family name"
+          text: "Last name"
         },
-        errorMessage: familyNameError
+        autocomplete: "name",
+        spellcheck: false,
+        errorMessage: lastNameError
         }) }}
         
         <details class="govuk-details" data-module="govuk-details">
