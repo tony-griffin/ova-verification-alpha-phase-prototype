@@ -206,8 +206,6 @@ router.post('/question_email_address_input', function (req, res) {
   //   req.session.data.previous_DI_names = filteredPreviousNames
   // }
 
-  console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
-
   //////////////////////////
 
   if (email && validator.isEmail(email) && matchStatus === 'Success') {
@@ -227,31 +225,28 @@ router.post('/question_name_from_identity_claim_choice', function (req, res) {
   }
 
   if (nameChoice === req.session.data.current_DI_name) {
-    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
     res.redirect('/question_service_number')
   } else {
-    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
     res.redirect('/question_name_at_discharge')
   }
 })
 
 router.post('/question_name_at_discharge_input', function (req, res) {
-  const givenName = req.session.data.given_name_at_discharge
-  const familyName = req.session.data.family_name_at_discharge
+  const firstName = req.session.data.first_name_at_discharge
+  const lastName = req.session.data.last_name_at_discharge
 
-  if (!givenName) {
-    const givenNameError = { text: 'Enter your given name' }
-    return res.render('question_name_at_discharge', { givenNameError })
+  if (!firstName) {
+    const firstNameError = { text: 'Enter your first name' }
+    return res.render('question_name_at_discharge', { firstNameError })
   }
 
-  if (!familyName) {
-    const familyNameError = { text: 'Enter your family name' }
-    return res.render('question_name_at_discharge', { familyNameError })
+  if (!lastName) {
+    const lastNameError = { text: 'Enter your last name' }
+    return res.render('question_name_at_discharge', { lastNameError })
   }
 
-  if (givenName && familyName) {
-    req.session.data.name_at_discharge = `${givenName} ${familyName}`
-    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
+  if (firstName && lastName) {
+    req.session.data.name_at_discharge = `${firstName} ${lastName}`
     res.redirect('/certificate_upload')
   }
 })
@@ -482,7 +477,24 @@ router.post('/upload_photo', function (req, res) {
   //   return res.render('upload_photo', { error })
   // }
 
-  res.redirect('/question_address')
+  res.redirect('/question_address_to_send_to')
+})
+
+router.post('/question_address_to_send_to_choice', function (req, res) {
+  const postalAddressChoice = req.body.postal_address_choice
+
+  if (!postalAddressChoice) {
+    const error = { text: "Select 'Yes' or 'No'" }
+    return res.render('question_address_to_send_to', { error })
+  }
+
+  if (postalAddressChoice === 'Yes') {
+    res.redirect('/question_vetcard_comms')
+  }
+
+  if (postalAddressChoice === 'No') {
+    res.redirect('/question_address')
+  }
 })
 
 // router.post('/govuk_use_photo', function (req, res) {
@@ -534,6 +546,8 @@ router.post('/question_address_input', function (req, res) {
     address_town_city,
     address_postcode)
   ) {
+    req.session.data.postal_address = `${address_house_flat_number}, ${address_line_1}, ${address_town_city}, ${address_postcode}`
+    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
     res.redirect('/question_vetcard_comms')
   }
 })
@@ -555,15 +569,132 @@ router.post('/question_vetcard_comms', function (req, res) {
   }
 })
 
-router.post('/vetcard_communications_preference', function (req, res) {
+router.post('/vetcard_communications_preference_choice', function (req, res) {
   const answer = req.body.communications_choice
 
   if (answer === '_unchecked') {
     const error = { text: 'Select at least one option' }
     return res.render('vetcard_communications_preference', { error })
   }
+  answer.shift()
+
+  if (answer.length === 1 && answer.includes('Email')) {
+    res.redirect('/question_email_to_send_to')
+  }
+
+  if (answer.length === 1 && answer.includes('SMS')) {
+    res.redirect('/question_phone_number_to_send_to')
+  }
 
   if (answer) {
+    req.session.data.comms_preference_email_sms = true
+    res.redirect('/question_email_to_send_to_duo')
+  }
+})
+
+router.post('/question_email_to_send_to_choice', function (req, res) {
+  const emailChoice = req.body.email_choice
+  const emailAndSms = req.session.data.comms_preference_email_sms
+
+  if (!emailChoice && emailAndSms) {
+    const error = { text: "Select 'Yes' or 'No'" }
+    return res.render('question_email_to_send_to_duo', { error })
+  }
+
+  if (!emailChoice) {
+    const error = { text: "Select 'Yes' or 'No'" }
+    return res.render('question_email_to_send_to', { error })
+  }
+
+  if (emailChoice === 'No' && emailAndSms) {
+    res.redirect('/question_email_update_duo')
+  }
+
+  if (emailChoice === 'Yes' && emailAndSms) {
+    res.redirect('/question_phone_number_to_send_to_duo')
+  }
+
+  if (emailChoice === 'Yes') {
+    res.redirect('/vetcard_account_summary_extra')
+  }
+
+  if (emailChoice === 'No') {
+    res.redirect('/question_email_update')
+  }
+})
+
+router.post('/question_email_update_input', function (req, res) {
+  const emailUpdate = req.body.question_email_address_update
+  const emailAndSms = req.session.data.comms_preference_email_sms
+
+  if (!emailUpdate && emailAndSms) {
+    const errorDuo = { text: 'Enter a valid email address' }
+    return res.render('question_email_update_duo', { errorDuo })
+  }
+
+  if (!emailUpdate) {
+    const error = { text: 'Enter a valid email address' }
+    return res.render('question_email_update', { error })
+  }
+
+  if (emailUpdate && emailAndSms) {
+    req.session.data.question_email_address = emailUpdate
+    res.redirect('/question_phone_number_to_send_to_duo')
+  }
+
+  if (emailUpdate) {
+    req.session.data.question_email_address = emailUpdate
+    res.redirect('/vetcard_account_summary_extra')
+  }
+})
+
+router.post('/question_phone_number_to_send_to_choice', function (req, res) {
+  const phoneNumberChoice = req.body.phone_number_choice
+  const emailAndSms = req.session.data.comms_preference_email_sms
+
+  if (!phoneNumberChoice && emailAndSms) {
+    const errorDuo = { text: "Select 'Yes' or 'No'" }
+    return res.render('question_phone_number_to_send_to_duo', { errorDuo })
+  }
+
+  if (!phoneNumberChoice) {
+    const error = { text: "Select 'Yes' or 'No'" }
+    return res.render('question_phone_number_to_send_to', { error })
+  }
+  if (phoneNumberChoice === 'No' && emailAndSms) {
+    res.redirect('/question_phone_number_update_duo')
+  }
+
+  if (phoneNumberChoice === 'Yes') {
+    res.redirect('/vetcard_account_summary_extra')
+  }
+
+  if (phoneNumberChoice === 'No') {
+    res.redirect('/question_phone_number_update')
+  }
+})
+
+router.post('/question_phone_number_update_input', function (req, res) {
+  const phoneNumberUpdate = req.body.question_phone_number_update
+  const emailAndSms = req.session.data.comms_preference_email_sms
+
+  if (!phoneNumberUpdate && emailAndSms) {
+    const errorDuo = { text: 'Enter a UK mobile number' }
+    return res.render('question_phone_number_update_duo', { errorDuo })
+  }
+
+  if (!phoneNumberUpdate) {
+    const error = { text: 'Enter a UK mobile number' }
+    return res.render('question_phone_number_update', { error })
+  }
+
+  if (phoneNumberUpdate && emailAndSms) {
+    req.session.data.phone_number = phoneNumberUpdate
+    res.redirect('/vetcard_account_summary_extra')
+  }
+
+  if (phoneNumberUpdate) {
+    req.session.data.phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   }
 })
