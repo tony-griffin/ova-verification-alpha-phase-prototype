@@ -15,7 +15,7 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
 
         
         {{ govukRadios({
-          classes: "govuk-radios--inline",
+          classes: "govuk-fieldset__legend--l",
           idPrefix: "question_comms_choice",
           name: "question_comms_choice",
           fieldset: {
@@ -49,9 +49,8 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
           </summary>
           <div class="govuk-details__text">
           <div>
-            <p>We send email and SMS (short message service) text messages to veterans using GOV.UK Notify.</p>
-            <p>These could include updates about the support that veterans are eligible for, information about the wider veteran community and other relevant information for UK ex-service personnel.</p>
-            <p>You can opt out of receiving communications at any time.</p>
+            <p>We send email and text messages to veterans using GOV.UK Notify.</p>
+            <p>These include updates about the support that veterans are eligible for and other relevant information for UK ex armed forces personnel.</p>
           </div>
         </details>
 
