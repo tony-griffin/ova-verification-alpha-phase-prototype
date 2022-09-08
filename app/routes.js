@@ -675,12 +675,12 @@ router.post('/question_phone_number_update_input', function (req, res) {
   const emailAndSms = req.session.data.comms_preference_email_sms
 
   if (!phoneNumberUpdate && emailAndSms) {
-    const errorDuo = { text: 'Enter a UK mobile number, like 07700 900000' }
+    const errorDuo = { text: 'Enter a valid UK mobile number, like 07700 900000' }
     return res.render('question_phone_number_update_duo', { errorDuo })
   }
 
   if (!phoneNumberUpdate) {
-    const error = { text: 'Enter a UK mobile number, like 07700 900000' }
+    const error = { text: 'Enter a valid UK mobile number, like 07700 900000' }
     return res.render('question_phone_number_update', { error })
   }
 
