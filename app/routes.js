@@ -178,7 +178,6 @@ router.post('/eligibility-two', function (req, res) {
 
 router.post('/question_email_address_input', function (req, res) {
   const email = req.session.data.question_email_address
-  const matchStatus = req.session.data.start_veteran_match_status
   const previousApplicationEmail = req.session.data.previous_application_email
 
   if (!email) {
@@ -194,7 +193,7 @@ router.post('/question_email_address_input', function (req, res) {
     res.redirect('/govuk_previous_application_email')
   }
 
-  if (email && validator.isEmail(email) && matchStatus === 'Success') {
+  if (email && validator.isEmail(email)) {
     res.redirect('/govuk_create_check_email')
   } else {
     const error = { text: 'Enter a valid email address' }
@@ -210,9 +209,14 @@ router.post('/question_name_from_identity_claim_choice', function (req, res) {
     return res.render('question_name_from_identity_claim', { error })
   }
 
-  if (nameChoice === req.session.data.current_DI_name) {
+  if (nameChoice === 'Yes') {
+    // req.session.data.current_DI_name
     res.redirect('/question_service_number')
-  } else {
+  }
+
+  if (nameChoice === 'No') {
+    // Matching set to fail - manual check required
+    req.session.data.start_veteran_match_status = 'Fail'
     res.redirect('/question_name_at_discharge')
   }
 })
