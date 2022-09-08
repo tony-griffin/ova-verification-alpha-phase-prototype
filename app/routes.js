@@ -307,11 +307,11 @@ router.post('/question_service_number_input', function (req, res) {
     return res.render('question_service_number', { error })
   }
 
-  if (answer && answer.length === 11) {
+  if (answer && answer.length >= 8 && answer.length <= 15) {
     res.redirect('/question_enlistment_date')
   } else {
     const error = {
-      text: 'Enter a valid service number length of 11 characters'
+      text: 'Enter a valid service number of 8 to 15 characters'
     }
     return res.render('question_service_number', { error })
   }
