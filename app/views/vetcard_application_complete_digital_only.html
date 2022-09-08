@@ -16,14 +16,13 @@ Prototype Kit {% endblock %}
     {{ govukPanel({ titleText: "Application complete", html: "Your reference
     number<br /><strong>HDJ2123F</strong>" }) }}
 
-    <p>We have matched your record</p>
-
     <h3 class="govuk-heading-m">What happens next</h3>
-
+    
     <p>
-      You will shortly receive an email which will contain a link for you to download a digital version of your
-      Veteran ID card.
+      We have sent an email to <strong>{{data["comms_preference_email_address"]}}</strong>
     </p>
+    
+    <p>You said you'd like a digital card. You can download this at the link in the email we've sent</p>
 
     <p>
       For more information on the services and benefits you can access with your

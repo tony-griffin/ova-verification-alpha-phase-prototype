@@ -538,7 +538,6 @@ router.post('/question_address_input', function (req, res) {
     address_postcode)
   ) {
     req.session.data.postal_address = `${address_house_flat_number}, ${address_line_1}, ${address_town_city}, ${address_postcode}`
-    console.log('SESSION!!!!!!!!!!!!!: ', req.session.data)
     res.redirect('/question_vetcard_comms')
   }
 })
@@ -602,10 +601,14 @@ router.post('/question_email_to_send_to_choice', function (req, res) {
   }
 
   if (emailChoice === 'Yes' && emailAndSms) {
+    req.session.data.comms_preference_email_address =
+      req.session.data.question_email_address
     res.redirect('/question_phone_number_to_send_to_duo')
   }
 
   if (emailChoice === 'Yes') {
+    req.session.data.comms_preference_email_address =
+      req.session.data.question_email_address
     res.redirect('/vetcard_account_summary_extra')
   }
 
@@ -657,6 +660,8 @@ router.post('/question_phone_number_to_send_to_choice', function (req, res) {
   }
 
   if (phoneNumberChoice === 'Yes') {
+     req.session.data.comms_preference_phone_number =
+       req.session.data.phone_number
     res.redirect('/vetcard_account_summary_extra')
   }
 
@@ -779,7 +784,7 @@ router.post('/vetcard_account_summary_choice', function (req, res) {
   let idChoice = req.session.data.id_choice
   const fullName = req.session.data.full_name
   const postalAddress = req.session.data.postal_address
-  const emailAddress = req.session.data.question_email_address
+  const emailAddress = req.session.data.comms_preference_email_address
   const serviceNumber = req.session.data.question_service_number
 
   const matchStatus = req.session.data.start_veteran_match_status
@@ -810,7 +815,7 @@ router.post('/vetcard_account_summary_choice', function (req, res) {
       .then((response) => console.log(response))
       .catch((err) => console.error(err.response.data))
 
-    res.redirect('/vetcard_application_complete_match_fail')
+    res.redirect('/match_fail_explanation')
     return false
   }
 
@@ -972,5 +977,110 @@ router.post('/notify_email_address_page', function (req, res) {
     res.redirect('/confirmation_page')
   }
 })
+
+// router.post('/match_fail_comms_preference_choice', function (req, res) {
+//   const answer = req.body.match_fail_comms_preference_check
+//   req.session.data.match_fail_comms_pref_email_phone = false;
+
+//   if (answer === '_unchecked') {
+//     const error = { text: 'Select at least one option' }
+//     return res.render('match_fail_comms_preference', { error })
+//   }
+//   answer.shift()
+
+//   if (answer.length === 1 && answer.includes('Email')) {
+//     res.redirect('/match_fail_email_to_send_to')
+//   }
+
+//   if (answer.length === 1 && answer.includes('Phone')) {
+//     res.redirect('/match_fail_phone_to_send_to')
+//   }
+
+//   if (answer.includes('Email') && answer.includes('Phone')) {
+//     console.log("YYYYOOOO!!!!!");
+//     req.session.data.match_fail_comms_pref_email_phone = true
+//     res.redirect('/match_fail_email_to_send_to')
+//   }
+// })
+
+// router.post('/match_fail_email_to_send_to_choice', function (req, res) {
+//   const emailChoice = req.body.match_fail_email_to_send_to_radio
+//   const newEmail = req.body.match_fail_preferred_email_to_send_to
+//   const emailAndPhone = req.session.data.match_fail_comms_pref_email_phone
+//   console.log('SESSION~~~~~~:', req.session.data)
+//   console.log('EMAIL&PHONE~~~~~~:',  emailAndPhone)
+  
+//   if (!emailChoice) {
+//     const error = { text: 'Select at least one option' }
+//     return res.render('match_fail_email_to_send_to', { error })
+//   }
+  
+//   if (emailChoice && !newEmail) {
+//     const errorEmail = { text: 'Enter a valid email' }
+//     return res.render('match_fail_email_to_send_to', { errorEmail })
+//   }
+  
+//    if (emailChoice === 'No' && newEmail && emailAndPhone) {
+//      console.log('UPDATE -- SESSION~~~~~~:', req.session.data)
+//      console.log(
+//        'UPDATED email after fail:',
+//        req.session.data.match_fail_preferred_email_to_send_to
+//      )
+//      console.log('TYPE OF EMIAL&PHONE BOOL:', emailAndPhone)
+//      res.redirect('/match_fail_phone_to_send_to_duo')
+//    }
+   
+//    if (emailChoice === 'Yes' && emailAndPhone) {
+//      res.redirect('/match_fail_phone_to_send_to_duo')
+//    }
+   
+//    if (emailChoice === 'No' && newEmail) {
+//      console.log('UPDATE -- SESSION~~~~~~:', req.session.data)
+//      console.log(
+//        'UPDATED email after fail:',
+//        req.session.data.match_fail_preferred_email_to_send_to
+//      )
+//      // console.log('TYPE OF EMIAL&PHONE BOOL:', emailAndPhone)
+//      res.redirect('/vetcard_application_complete_match_fail')
+//    }
+  
+//   if (emailChoice === 'Yes') {
+//      req.session.data.match_fail_preferred_email_to_send_to =
+//        req.session.question_email_update
+//     res.redirect('/vetcard_application_complete_match_fail')
+//   }
+// })
+
+// router.post('/match_fail_phone_to_send_to_choice', function (req, res) {
+//   const phoneChoice = req.body.match_fail_phone_to_send_to_choice
+//   const newPhoneNumber = req.body.match_fail_preferred_phone_to_send_to
+//   const emailAndPhone = req.session.data.match_fail_comms_pref_email_phone
+
+//   if (!phoneChoice) {
+//     const error = { text: 'Select at least one option' }
+//     return res.render('match_fail_phone_to_send_to', { error })
+//   }
+
+//   if (phoneChoice && !newPhoneNumber) {
+//     const errorPhone = { text: 'Enter a valid UK mobile number' }
+//     return res.render('match_fail_phone_to_send_to', { errorPhone })
+//   }
+
+//   // if (phoneChoice === 'Yes' && newPhoneNumber) {
+//   //   res.redirect('/vetcard_application_complete_match_fail')
+//   // }
+
+//   if (phoneChoice === 'No' && newPhoneNumber) {
+//     // console.log('UPDATE -- SESSION~~~~~~:', req.session.data)
+//     res.redirect('/vetcard_application_complete_match_fail')
+//   }
+
+//   if (phoneChoice === 'Yes') {
+//     req.session.data.match_fail_preferred_phone_to_send_to =
+//       req.session.question_phone_number_update
+//       //  console.log('UPDATE -- SESSION~~~~~~:', req.session.data)
+//     res.redirect('/vetcard_application_complete_match_fail')
+//   }
+// })
 
 module.exports = router

@@ -1,0 +1,64 @@
+{# {% extends "layout.html" %} {% block pageTitle %} Question page template – {{
+serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
+{{ govukPhaseBanner({ tag: { text: "alpha" }, html: 'This is a new service –
+your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
+}}
+<a class="govuk-back-link" href="/match_fail_email_to_send_to">Back</a>
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+  <h1 class="govuk-heading-l">Is this the phone number you want to be contacted on?</h1>
+  
+  <p>{{data["comms_preference_phone_number"]}}</p>
+ 
+    <form class="form" action="match_fail_phone_to_send_to_choice" method="post">
+      
+      {% set phoneHtml %}
+        {{ govukInput({
+          id: "match_fail_preferred_phone_to_send_to",
+          name: "match_fail_preferred_phone_to_send_to",
+          type: "tel",
+          autocomplete: "tel",
+          classes: "govuk-!-width-one-third",
+          label: {
+            text: "Enter your preferred phone number"
+          },
+          value: data["match_fail_preferred_phone_to_send_to"], 
+          errorMessage: errorPhone
+        }) }}
+        {% endset -%}
+     
+      {{
+      govukRadios({ 
+      idPrefix: "match_fail_phone_to_send_to_choice", 
+      name: "match_fail_phone_to_send_to_choice",
+      fieldset: { legend: { text: "", 
+      isPageHeading: false, 
+      classes: "govuk-fieldset__legend--l"
+      } }, 
+      items: [
+          {
+            value: "Yes",
+            text: "Yes",
+            checked: checked("match_fail_phone_to_send_to_choice", "Yes")
+          },
+          {
+            value: "No",
+            text: "No",
+            conditional: {
+              html: phoneHtml
+            },
+            checked: checked("match_fail_phone_to_send_to_choice", "No")
+          }
+        ], 
+      errorMessage: error }) }}
+
+      <button class="govuk-button" id="btn" data-module="govuk-button">
+        Continue
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %} #}

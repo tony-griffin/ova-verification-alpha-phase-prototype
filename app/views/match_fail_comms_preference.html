@@ -1,0 +1,48 @@
+{# {% extends "layout.html" %} {% block pageTitle %}  {{
+serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
+{{ govukPhaseBanner({ tag: {
+    text: "alpha"
+  },
+  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+<a class="govuk-back-link" href="/match_fail_explanation">Back</a>
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">How do you want to be contacted on the progress of your application?</h1>
+    
+    <form class="form" action="/match_fail_comms_preference_choice" method="post">
+        {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+        {{ govukCheckboxes({
+          idPrefix: "match_fail_comms_preference_check",
+          name: "match_fail_comms_preference_check",
+          fieldset: {
+            legend: {
+              text: "",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "Email",
+              text: "Email",
+              checked: checked("match_fail_comms_preference_check", "Email")
+            },
+            {
+              value: "Phone",
+              text: "Phone",
+              checked: checked("match_fail_comms_preference_check", "Phone")
+            }
+          ],
+          errorMessage: error
+        }) }}
+      
+
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %} #}
