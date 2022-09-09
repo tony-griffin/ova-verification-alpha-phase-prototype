@@ -13,11 +13,15 @@ const validator = require('validator')
 const {
   getFakeDIClaimResponse
 } = require('./assets/javascripts/fakeDIClaimJWT')
+
 const {
   getClaimNames,
-  getPreviousNames,
-  getLikelyDischargeName
+  getPreviousNames
 } = require('./assets/javascripts/getClaimNames')
+
+const {
+  regexUkMobileNumber
+} = require('./assets/javascripts/regexUkMobileNumber')
 
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
@@ -565,7 +569,7 @@ router.post('/question_vetcard_comms', function (req, res) {
 
 router.post('/vetcard_communications_preference_choice', function (req, res) {
   const answer = req.body.communications_choice
-  req.session.data.comms_preference_email_sms = false;
+  req.session.data.comms_preference_email_sms = false
 
   if (answer === '_unchecked') {
     const error = { text: 'Select at least one option' }
@@ -678,31 +682,30 @@ router.post('/question_phone_number_to_send_to_choice', function (req, res) {
 router.post('/question_phone_number_update_input', function (req, res) {
   const phoneNumberUpdate = req.body.question_phone_number_update
   const emailAndSms = req.session.data.comms_preference_email_sms
-  const regexMobile = new RegExp(process.env.UK_MOBILE_REGEX)
- 
+
   if (!phoneNumberUpdate && emailAndSms) {
-    console.log("error check 1");
+    console.log('error check 1')
     const errorDuo = {
-      text: 'Enter a valid UK mobile number with no spaces, e.g. 07745678901'
+      text: 'Enter a valid UK mobile number, like 077 456 78901'
     }
     return res.render('question_phone_number_update_duo', { errorDuo })
   }
 
   if (!phoneNumberUpdate && !emailAndSms) {
-     console.log('error check 2')
+    console.log('error check 2')
     const error = {
-      text: 'Enter a valid UK mobile number with no spaces, e.g. 07745678901'
+      text: 'Enter a valid UK mobile number, like 077 456 78901'
     }
     return res.render('question_phone_number_update', { error })
   }
 
-  if (phoneNumberUpdate && regexMobile.test(phoneNumberUpdate)) {
+  if (phoneNumberUpdate && regexUkMobileNumber(phoneNumberUpdate)) {
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   } else {
     console.log('error check 3')
     const error = {
-      text: 'Enter a valid UK mobile number with no spaces, e.g. 07745678901'
+      text: 'Enter a valid UK mobile number, like 077 456 78901'
     }
     return res.render('question_phone_number_update', { error })
   }
