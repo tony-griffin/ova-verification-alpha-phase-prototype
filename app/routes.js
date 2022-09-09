@@ -23,6 +23,10 @@ const {
   regexUkMobileNumber
 } = require('./assets/javascripts/regexUkMobileNumber')
 
+const {
+  removeStringWhiteSpace
+} = require('./assets/javascripts/removeStringWhiteSpace')
+
 // These keys are base64 encoded in .env
 // const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
 // const cert = Buffer.from(process.env.CERT, 'base64').toString('utf8').replace(/\\n/gm, '\n')
@@ -261,7 +265,7 @@ router.post('/question_name_at_discharge_input', function (req, res) {
 // })
 
 router.post('/govuk_account_sign_in_input', function (req, res) {
-  const email = req.session.data.govuk_question_email
+  const email = req.session.data.question_email_address
 
   if (!email) {
     const error = { text: 'Enter the email address you registered on GOV.UK' }
@@ -561,8 +565,11 @@ router.post('/question_vetcard_comms', function (req, res) {
   if (answer === 'No') {
     req.session.data.comms_preference_email_address =
       req.session.data.question_email_address
-    req.session.data.comms_preference_phone_number =
-      req.session.data.phone_number
+
+    req.session.data.comms_preference_phone_number = removeStringWhiteSpace(
+      req.session.data.phone_number.toString()
+    )
+
     res.redirect('/vetcard_account_summary_extra')
   }
 })
@@ -640,14 +647,17 @@ router.post('/question_email_update_input', function (req, res) {
     return res.render('question_email_update', { error })
   }
 
-  if (emailUpdate && emailAndSms) {
+  if (emailUpdate && validator.isEmail(emailUpdate) && emailAndSms) {
     req.session.data.comms_preference_email_address = emailUpdate
     res.redirect('/question_phone_number_to_send_to_duo')
   }
 
-  if (emailUpdate) {
+  if (emailUpdate && validator.isEmail(emailUpdate)) {
     req.session.data.comms_preference_email_address = emailUpdate
     res.redirect('/vetcard_account_summary_extra')
+  } else {
+    const error = { text: 'Enter a valid email address' }
+    return res.render('question_email_update', { error })
   }
 })
 
@@ -669,8 +679,9 @@ router.post('/question_phone_number_to_send_to_choice', function (req, res) {
   }
 
   if (phoneNumberChoice === 'Yes') {
-    req.session.data.comms_preference_phone_number =
-      req.session.data.phone_number
+    req.session.data.comms_preference_phone_number = removeStringWhiteSpace(
+      req.session.data.phone_number.toString()
+    )
     res.redirect('/vetcard_account_summary_extra')
   }
 
@@ -700,7 +711,8 @@ router.post('/question_phone_number_update_input', function (req, res) {
   }
 
   if (phoneNumberUpdate && regexUkMobileNumber(phoneNumberUpdate)) {
-    req.session.data.comms_preference_phone_number = phoneNumberUpdate
+    req.session.data.comms_preference_phone_number =
+      removeStringWhiteSpace(phoneNumberUpdate)
     res.redirect('/vetcard_account_summary_extra')
   } else {
     console.log('error check 3')
