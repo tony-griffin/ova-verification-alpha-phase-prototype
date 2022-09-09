@@ -555,6 +555,10 @@ router.post('/question_vetcard_comms', function (req, res) {
   }
 
   if (answer === 'No') {
+    req.session.data.comms_preference_email_address =
+      req.session.data.question_email_address
+    req.session.data.comms_preference_phone_number =
+      req.session.data.phone_number
     res.redirect('/vetcard_account_summary_extra')
   }
 })
@@ -690,11 +694,7 @@ router.post('/question_phone_number_update_input', function (req, res) {
     return res.render('question_phone_number_update', { error })
   }
 
-  if (
-    phoneNumberUpdate &&
-    emailAndSms &&
-    phoneNumberUpdate.length === 11
-  ) {
+  if (phoneNumberUpdate && emailAndSms && phoneNumberUpdate.length === 11) {
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   } else {
