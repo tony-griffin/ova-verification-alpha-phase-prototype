@@ -660,8 +660,8 @@ router.post('/question_phone_number_to_send_to_choice', function (req, res) {
   }
 
   if (phoneNumberChoice === 'Yes') {
-     req.session.data.comms_preference_phone_number =
-       req.session.data.phone_number
+    req.session.data.comms_preference_phone_number =
+      req.session.data.phone_number
     res.redirect('/vetcard_account_summary_extra')
   }
 
@@ -672,26 +672,42 @@ router.post('/question_phone_number_to_send_to_choice', function (req, res) {
 
 router.post('/question_phone_number_update_input', function (req, res) {
   const phoneNumberUpdate = req.body.question_phone_number_update
+  // const regexElevenDigits = new RegExp(/^\d{11}$/)
+  // console.log('LOOOK!!!!! ', phoneNumberUpdate)
+  // console.log('LOOOK!!!!! ', typeof phoneNumberUpdate)
+  // console.log('LOOOK!!!!! ', regexElevenDigits.test(phoneNumberUpdate))
   const emailAndSms = req.session.data.comms_preference_email_sms
 
   if (!phoneNumberUpdate && emailAndSms) {
-    const errorDuo = { text: 'Enter a valid UK mobile number, like 07700 900000' }
+    const errorDuo = {
+      text: 'Enter a valid UK mobile number, like 07745678901'
+    }
     return res.render('question_phone_number_update_duo', { errorDuo })
   }
 
   if (!phoneNumberUpdate) {
-    const error = { text: 'Enter a valid UK mobile number, like 07700 900000' }
+    const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
     return res.render('question_phone_number_update', { error })
   }
 
-  if (phoneNumberUpdate && emailAndSms) {
+  if (
+    phoneNumberUpdate &&
+    emailAndSms &&
+    phoneNumberUpdate.length === 11
+  ) {
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
+  } else {
+    const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
+    return res.render('question_phone_number_update', { error })
   }
 
-  if (phoneNumberUpdate) {
+  if (phoneNumberUpdate && phoneNumberUpdate.length === 11) {
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
+  } else {
+    const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
+    return res.render('question_phone_number_update', { error })
   }
 })
 
@@ -1009,17 +1025,17 @@ router.post('/notify_email_address_page', function (req, res) {
 //   const emailAndPhone = req.session.data.match_fail_comms_pref_email_phone
 //   console.log('SESSION~~~~~~:', req.session.data)
 //   console.log('EMAIL&PHONE~~~~~~:',  emailAndPhone)
-  
+
 //   if (!emailChoice) {
 //     const error = { text: 'Select at least one option' }
 //     return res.render('match_fail_email_to_send_to', { error })
 //   }
-  
+
 //   if (emailChoice && !newEmail) {
 //     const errorEmail = { text: 'Enter a valid email' }
 //     return res.render('match_fail_email_to_send_to', { errorEmail })
 //   }
-  
+
 //    if (emailChoice === 'No' && newEmail && emailAndPhone) {
 //      console.log('UPDATE -- SESSION~~~~~~:', req.session.data)
 //      console.log(
@@ -1029,11 +1045,11 @@ router.post('/notify_email_address_page', function (req, res) {
 //      console.log('TYPE OF EMIAL&PHONE BOOL:', emailAndPhone)
 //      res.redirect('/match_fail_phone_to_send_to_duo')
 //    }
-   
+
 //    if (emailChoice === 'Yes' && emailAndPhone) {
 //      res.redirect('/match_fail_phone_to_send_to_duo')
 //    }
-   
+
 //    if (emailChoice === 'No' && newEmail) {
 //      console.log('UPDATE -- SESSION~~~~~~:', req.session.data)
 //      console.log(
@@ -1043,7 +1059,7 @@ router.post('/notify_email_address_page', function (req, res) {
 //      // console.log('TYPE OF EMIAL&PHONE BOOL:', emailAndPhone)
 //      res.redirect('/vetcard_application_complete_match_fail')
 //    }
-  
+
 //   if (emailChoice === 'Yes') {
 //      req.session.data.match_fail_preferred_email_to_send_to =
 //        req.session.question_email_update
