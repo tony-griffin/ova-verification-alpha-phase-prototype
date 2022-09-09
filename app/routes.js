@@ -565,6 +565,7 @@ router.post('/question_vetcard_comms', function (req, res) {
 
 router.post('/vetcard_communications_preference_choice', function (req, res) {
   const answer = req.body.communications_choice
+  req.session.data.comms_preference_email_sms = false;
 
   if (answer === '_unchecked') {
     const error = { text: 'Select at least one option' }
