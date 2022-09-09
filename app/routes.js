@@ -695,21 +695,20 @@ router.post('/question_phone_number_update_input', function (req, res) {
     return res.render('question_phone_number_update', { error })
   }
 
-  if (phoneNumberUpdate && emailAndSms) {
-    console.log('CHECK 1')
+  if (phoneNumberUpdate && phoneNumberUpdate.length === 11) {
+    console.log('CHECK 1 2 choices')
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
+  } else {
+    const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
+    return res.render('question_phone_number_update', { error })
   }
-  // else {
-  //   const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
-  //   return res.render('question_phone_number_update', { error })
-  // }
 
-  if (phoneNumberUpdate) {
-    console.log('CHECK 2')
-    req.session.data.comms_preference_phone_number = phoneNumberUpdate
-    res.redirect('/vetcard_account_summary_extra')
-  }
+  // if (phoneNumberUpdate && !emailAndSms && phoneNumberUpdate.length === 11) {
+  //   console.log('CHECK 2 1 choice')
+  //   req.session.data.comms_preference_phone_number = phoneNumberUpdate
+  //   res.redirect('/vetcard_account_summary_extra')
+  // }
   // else {
   //   const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
   //   return res.render('question_phone_number_update', { error })
