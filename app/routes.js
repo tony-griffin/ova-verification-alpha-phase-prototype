@@ -681,6 +681,7 @@ router.post('/question_phone_number_update_input', function (req, res) {
   // console.log('LOOOK!!!!! ', typeof phoneNumberUpdate)
   // console.log('LOOOK!!!!! ', regexElevenDigits.test(phoneNumberUpdate))
   const emailAndSms = req.session.data.comms_preference_email_sms
+  console.log('LOOOK!!!!! ', emailAndSms)
 
   if (!phoneNumberUpdate && emailAndSms) {
     const errorDuo = {
@@ -698,19 +699,21 @@ router.post('/question_phone_number_update_input', function (req, res) {
     console.log('CHECK 1')
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
-  } else {
-    const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
-    return res.render('question_phone_number_update', { error })
   }
+  // else {
+  //   const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
+  //   return res.render('question_phone_number_update', { error })
+  // }
 
   if (phoneNumberUpdate) {
     console.log('CHECK 2')
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
-  } else {
-    const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
-    return res.render('question_phone_number_update', { error })
   }
+  // else {
+  //   const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
+  //   return res.render('question_phone_number_update', { error })
+  // }
 })
 
 // router.post('/govuk_use_address_choice', function (req, res) {
