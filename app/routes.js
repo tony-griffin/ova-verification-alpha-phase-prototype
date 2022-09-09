@@ -676,31 +676,33 @@ router.post('/question_phone_number_to_send_to_choice', function (req, res) {
 
 router.post('/question_phone_number_update_input', function (req, res) {
   const phoneNumberUpdate = req.body.question_phone_number_update
-  // const regexElevenDigits = new RegExp(/^\d{11}$/)
-  // console.log('LOOOK!!!!! ', phoneNumberUpdate)
-  // console.log('LOOOK!!!!! ', typeof phoneNumberUpdate)
-  // console.log('LOOOK!!!!! ', regexElevenDigits.test(phoneNumberUpdate))
   const emailAndSms = req.session.data.comms_preference_email_sms
-  console.log('LOOOK!!!!! ', emailAndSms)
-
+  const regexMobile = new RegExp(process.env.UK_MOBILE_REGEX)
+ 
   if (!phoneNumberUpdate && emailAndSms) {
+    console.log("error check 1");
     const errorDuo = {
-      text: 'Enter a valid UK mobile number, like 07745678901'
+      text: 'Enter a valid UK mobile number with no spaces, e.g. 07745678901'
     }
     return res.render('question_phone_number_update_duo', { errorDuo })
   }
 
-  if (!phoneNumberUpdate) {
-    const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
+  if (!phoneNumberUpdate && !emailAndSms) {
+     console.log('error check 2')
+    const error = {
+      text: 'Enter a valid UK mobile number with no spaces, e.g. 07745678901'
+    }
     return res.render('question_phone_number_update', { error })
   }
 
-  if (phoneNumberUpdate && phoneNumberUpdate.length === 11) {
-    console.log('CHECK for choice length')
+  if (phoneNumberUpdate && regexMobile.test(phoneNumberUpdate)) {
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   } else {
-    const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
+    console.log('error check 3')
+    const error = {
+      text: 'Enter a valid UK mobile number with no spaces, e.g. 07745678901'
+    }
     return res.render('question_phone_number_update', { error })
   }
 })
