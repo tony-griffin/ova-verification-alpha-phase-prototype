@@ -696,23 +696,13 @@ router.post('/question_phone_number_update_input', function (req, res) {
   }
 
   if (phoneNumberUpdate && phoneNumberUpdate.length === 11) {
-    console.log('CHECK 1 2 choices')
+    console.log('CHECK for choice length')
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   } else {
     const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
     return res.render('question_phone_number_update', { error })
   }
-
-  // if (phoneNumberUpdate && !emailAndSms && phoneNumberUpdate.length === 11) {
-  //   console.log('CHECK 2 1 choice')
-  //   req.session.data.comms_preference_phone_number = phoneNumberUpdate
-  //   res.redirect('/vetcard_account_summary_extra')
-  // }
-  // else {
-  //   const error = { text: 'Enter a valid UK mobile number, like 07745678901' }
-  //   return res.render('question_phone_number_update', { error })
-  // }
 })
 
 // router.post('/govuk_use_address_choice', function (req, res) {
