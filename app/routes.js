@@ -694,7 +694,8 @@ router.post('/question_phone_number_update_input', function (req, res) {
     return res.render('question_phone_number_update', { error })
   }
 
-  if (phoneNumberUpdate && emailAndSms && phoneNumberUpdate.length === 11) {
+  if (phoneNumberUpdate && emailAndSms) {
+    console.log('CHECK 1')
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   } else {
@@ -702,7 +703,8 @@ router.post('/question_phone_number_update_input', function (req, res) {
     return res.render('question_phone_number_update', { error })
   }
 
-  if (phoneNumberUpdate && phoneNumberUpdate.length === 11) {
+  if (phoneNumberUpdate) {
+    console.log('CHECK 2')
     req.session.data.comms_preference_phone_number = phoneNumberUpdate
     res.redirect('/vetcard_account_summary_extra')
   } else {
