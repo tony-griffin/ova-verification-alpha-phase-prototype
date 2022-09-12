@@ -6,20 +6,20 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %}
     text: "alpha"
   },
   html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
-<a class="govuk-back-link" href="/govuk_account_check">Back</a>
+<a class="govuk-back-link" href="/eligibility-two">Back</a>
 {% endblock %} {% block content %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Please create a GOV.UK account or sign in</h1>
+    <h1 class="govuk-heading-l">Create a GOV.UK account or sign in</h1>
 
     <p>You'll need:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>an email address</li>
-      <li>a UK mobile phone number</li>
+      <li>a way to get security codes - this can be a UK mobile phone number or an authenticator app</li>
     </ul>
 
-    <form class="form" action="#" method="post">
+    <form class="form" action="question_email_address" method="post">
       <button class="govuk-button" data-module="govuk-button">
         Create a GOV.UK account
       </button>
@@ -34,8 +34,9 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %}
         </span>
       </summary>
       <div class="govuk-details__text">
-      <p>GOV.UK accounts are new. They are the first step towards creating a single account that you can use to sign in to all government services. <p>GOV.UK accounts will eventually replace all other government accounts. We're working on adding more features and services.</p>
-      <p>For now, you need to use different accounts to access different government services</p>
+      <p>GOV.UK accounts are new. They are the first step towards creating a single account that you can use to sign in to all government services. 
+      <p>GOV.UK accounts will eventually replace all other government accounts. We're working on adding more features and services.</p>
+      <p>For now, you need to use different accounts to access different government services.</p>
       </div>
     </details>
   </div>

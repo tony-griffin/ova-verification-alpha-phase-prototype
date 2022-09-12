@@ -15,11 +15,13 @@ Prototype Kit {% endblock %}
     {{ govukPanel({ titleText: "Application complete", html: "Your reference
     number<br /><strong>HDJ2123F</strong>" }) }}
 
-    <p>We have matched your record</p>
-
     <h3 class="govuk-heading-m">What happens next</h3>
+    
+    <p>
+      We have sent an email to <strong>{{data["comms_preference_email_address"]}}</strong> to confirm your application.
+    </p>
 
-    <p>Your physical card will be delivered by post within 7 working days from today.</p>
+    <p>You said you'd like a physical card. This will be delivered by post within 7 working days from today.</p>
 
     <p>
       For more information on the services and benefits you can access with your

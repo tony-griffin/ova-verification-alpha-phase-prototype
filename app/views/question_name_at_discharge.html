@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukPhaseBanner({ tag: {
+    text: "alpha"
+  },
+  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+  <a class="govuk-back-link" href="/question_name_from_identity_claim">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">What was your name when you left the UK armed forces?</h1>
+      
+      <p>Please use the name that’s on your official service documentation, such as your discharge letter.</p>
+      
+      <p>We will use this name to look up your service records </p>
+
+      <form class="form" action="question_name_at_discharge_input" method="post">
+
+        {{ govukInput({
+          label: {
+            
+            isPageHeading: true
+        },
+        classes: "govuk-input--width-20",
+        id: "first_name_at_discharge",
+        name: "first_name_at_discharge",
+        value: data["first_name_at_discharge"],
+        hint: {
+          text: "First name(s)"
+        },
+        autocomplete: "name",
+        spellcheck: false,
+        errorMessage: firstNameError
+        }) }}
+        
+        {{ govukInput({
+          label: {
+            
+            isPageHeading: true
+        },
+        classes: "govuk-input--width-20",
+        id: "last_name_at_discharge",
+        name: "last_name_at_discharge",
+        value: data["last_name_at_discharge"],
+        hint: {
+          text: "Last name"
+        },
+        autocomplete: "name",
+        spellcheck: false,
+        errorMessage: lastNameError
+        }) }}
+        
+        {# <p>As you've entered a different name to the one(s) held in your GOV.UK account, we may need to do some manual checks.</p> #}
+
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

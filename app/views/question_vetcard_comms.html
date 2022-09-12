@@ -4,20 +4,20 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
     text: "alpha"
   },
   html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
-<a class="govuk-back-link" href="/govuk_use_email">Back</a>
+<a class="govuk-back-link" href="/question_address_to_send_to">Back</a>
 {% endblock %} {% block content %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Do you want to receive communications about veteran affairs?</h1>
+    <h1 class="govuk-heading-l">Do you want to receive communications for veterans?</h1>
     
-    <form class="form" action="/govuk_vetcard_comms" method="post">
-        {% from "govuk/components/radios/macro.njk" import govukRadios %}
+    <form class="form" action="/question_vetcard_comms" method="post">
+
         
         {{ govukRadios({
-          classes: "govuk-radios--inline",
-          idPrefix: "govuk_comms_choice",
-          name: "govuk_comms_choice",
+          classes: "govuk-fieldset__legend--l",
+          idPrefix: "question_comms_choice",
+          name: "question_comms_choice",
           fieldset: {
             legend: {
               text: "",
@@ -28,13 +28,13 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
             {
               value: "Yes",
               text: "Yes",
-              checked: checked("govuk_comms_choice", "Yes")
+              checked: checked("question_comms_choice", "Yes")
              
             },
             {
               value: "No",
               text: "No",
-              checked: checked("govuk_comms_choice", "No")
+              checked: checked("question_comms_choice", "No")
              
             }
           ],
@@ -44,14 +44,13 @@ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
         <details class="govuk-details" data-module="govuk-details">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
-              What sort of communications will I be sent
+              What sort of communications will I be sent?
             </span>
           </summary>
           <div class="govuk-details__text">
           <div>
-            <p>We send email and text messages to veterans using GOV.UK Notify. </p>
-            <p>These could include updates about the support that veterans are eligible for, information about the wider veteran community and other relevant information for UK ex-service personnel.</p>
-            <p>You can opt out of receiving communications at any time.</p>
+            <p>We send email and text messages to veterans using GOV.UK Notify.</p>
+            <p>These include updates about the support that veterans are eligible for and other relevant information for UK ex armed forces personnel.</p>
           </div>
         </details>
 

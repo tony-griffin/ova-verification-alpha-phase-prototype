@@ -1,0 +1,46 @@
+{% extends "layout.html" %} {% block pageTitle %} Question page template – {{
+serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent %}
+{{ govukPhaseBanner({ tag: { text: "alpha" }, html: 'This is a new service –
+your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
+}}
+<a class="govuk-back-link" href="/vetcard_communications_preference">Back</a>
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+  <h1 class="govuk-heading-l">Is this the phone number you want to receive text messages on?</h1>
+  
+  <p>{{data["phone_number"]}}</p>
+ 
+    <form class="form" action="question_phone_number_to_send_to_choice" method="post">
+     
+      {{
+      govukRadios({ 
+      idPrefix: "phone_number_choice", 
+      name: "phone_number_choice",
+      fieldset: { legend: { text: "", 
+      isPageHeading: false, 
+      classes: "govuk-fieldset__legend--l"
+      } }, 
+      items: [
+          {
+            value: "Yes",
+            text: "Yes",
+            checked: checked("phone_number_choice", "Yes")
+          },
+          {
+            value: "No",
+            text: "No",
+            checked: checked("phone_number_choice", "No")
+          }
+        ], 
+      errorMessage: error }) }}
+
+      <button class="govuk-button" id="btn" data-module="govuk-button">
+        Continue
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

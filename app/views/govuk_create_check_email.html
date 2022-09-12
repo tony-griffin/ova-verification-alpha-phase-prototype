@@ -9,7 +9,7 @@
     text: "alpha"
   },
   html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
-  <a class="govuk-back-link" href="/govuk_question_email">Back</a>
+  <a class="govuk-back-link" href="/question_email_address">Back</a>
 {% endblock %}
 
 {% block content %}
@@ -23,7 +23,7 @@
       
       <div class="govuk-inset-text">
        We have sent an email to: 
-       <h3 class="govuk-heading-s">{{ data['govuk_question_email'] }}</h3>
+       <h3 class="govuk-heading-s">{{ data['question_email_address'] }}</h3>
       </div>
       
       <p>This email contains a 6 digit code.</p>
@@ -42,6 +42,7 @@
         classes: "govuk-input--width-5",
         id: "govuk_email_code",
         name: "govuk_email_code",
+        value: data["govuk_email_code"],
         errorMessage: error
         }) }}
         

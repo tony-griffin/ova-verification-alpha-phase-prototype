@@ -29,8 +29,10 @@ module.exports = {
   full_name: ['Sandy Smith'],
   previous_name: ['Sandy Williams'],
   govuk_question_email: [''],
+  previous_application_email: ['s.smith@gmail.com'],
   postal_address: ['14 Lime Court, Weston-super-mare BS22, 0AA'],
-  phone_number: ['07700 900457'],
+  phone_number: ['077 009 004 57'],
   birthYear: [''],
-  communications_choice: ['N/A']
+  communications_choice: ['N/A'],
+  birth_year_number: ['1950']
 }
