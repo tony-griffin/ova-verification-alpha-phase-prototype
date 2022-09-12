@@ -4,7 +4,7 @@
 
 module.exports = {
   // Service name used in header. Eg: 'Renew your passport'
-  serviceName: `Apply for a veteran's ID card`,
+  serviceName: 'Apply for a veteran\'s ID card',
 
   // URL FOR THE HEROKU APP (used in footer when running locally)
   herokuURL: 'https://ova-prototype-v1.herokuapp.com/',

@@ -1,4 +1,4 @@
-function getClaimNames(getFakeDIClaimResponse) {
+function getClaimNames (getFakeDIClaimResponse) {
   const claimNames = getFakeDIClaimResponse.vc.credentialSubject.name
 
   const currentName = []
@@ -30,11 +30,11 @@ function getClaimNames(getFakeDIClaimResponse) {
   return namesExport.flat()
 }
 
-function getPreviousNames(claimNames) {
+function getPreviousNames (claimNames) {
   return claimNames.slice(1, claimNames.length)
 }
 
-function getLikelyDischargeName(getFakeDIClaimResponse, dischargeYear) {
+function getLikelyDischargeName (getFakeDIClaimResponse, dischargeYear) {
   // get JWT claim credential subject name array
   const claimObj = getFakeDIClaimResponse.vc.credentialSubject.name
 

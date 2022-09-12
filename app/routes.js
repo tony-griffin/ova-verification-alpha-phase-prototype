@@ -150,9 +150,9 @@ router.post('/eligibility-two', function (req, res) {
   if (ukresident === 'no') {
     res.redirect('/ineligible_non_resident')
   } else {
-    //////////////////////////////////
+    /// ///////////////////////////////
     // set up DI claim names
-    const birthYear = req.session.data['birth_year_number']
+    const birthYear = req.session.data.birth_year_number
 
     // Identity claim set up
     const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
@@ -165,7 +165,7 @@ router.post('/eligibility-two', function (req, res) {
     previousNames.forEach((name, index) => {
       req.session.data[`previous_DI_name_${index + 1}`] = name
     })
-    //////////////////////////////////
+    /// ///////////////////////////////
 
     res.redirect('/govuk_create_or_sign_in')
   }
@@ -514,39 +514,39 @@ router.post('/question_address_to_send_to_choice', function (req, res) {
 // })
 
 router.post('/question_address_input', function (req, res) {
-  const address_house_flat_number = req.body.address_house_flat_number
-  const address_line_1 = req.body.address_line_1
-  const address_town_city = req.body.address_town_city
-  let address_postcode = req.body.address_postcode
+  const addressHouseFlatNumber = req.body.address_house_flat_number
+  const addressLine1 = req.body.address_line_1
+  const addressTownCity = req.body.address_town_city
+  let addressPostcode = req.body.address_postcode
 
-  if (!address_house_flat_number) {
+  if (!addressHouseFlatNumber) {
     const errorHome = { text: 'Enter the number of your home' }
     return res.render('question_address', { errorHome })
   }
 
-  if (!address_line_1) {
+  if (!addressLine1) {
     const errorAddress = { text: 'Enter your address' }
     return res.render('question_address', { errorAddress })
   }
 
-  if (!address_town_city) {
+  if (!addressTownCity) {
     const errorTownCity = { text: 'Enter the town or city you live in' }
     return res.render('question_address', { errorTownCity })
   }
 
-  if (!address_postcode) {
+  if (!addressPostcode) {
     const errorPostcode = { text: 'Enter your postcode' }
     return res.render('question_address', { errorPostcode })
   }
 
   if (
-    (address_house_flat_number,
-    address_line_1,
-    address_town_city,
-    address_postcode)
+    (addressHouseFlatNumber,
+    addressLine1,
+    addressTownCity,
+    addressPostcode)
   ) {
-    address_postcode = removeStringWhiteSpace(address_postcode)
-    req.session.data.postal_address = `${address_house_flat_number}, ${address_line_1}, ${address_town_city}, ${address_postcode}`
+    addressPostcode = removeStringWhiteSpace(addressPostcode)
+    req.session.data.postal_address = `${addressHouseFlatNumber}, ${addressLine1}, ${addressTownCity}, ${addressPostcode}`
     res.redirect('/question_vetcard_comms')
   }
 })
