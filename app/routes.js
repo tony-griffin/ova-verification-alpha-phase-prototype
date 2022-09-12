@@ -589,7 +589,7 @@ router.post('/vetcard_communications_preference_choice', function (req, res) {
     res.redirect('/question_email_to_send_to')
   }
 
-  if (answer.length === 1 && answer.includes('SMS')) {
+  if (answer.length === 1 && answer.includes('Text message')) {
     res.redirect('/question_phone_number_to_send_to')
   }
 
