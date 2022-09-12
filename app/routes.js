@@ -517,7 +517,7 @@ router.post('/question_address_input', function (req, res) {
   const address_house_flat_number = req.body.address_house_flat_number
   const address_line_1 = req.body.address_line_1
   const address_town_city = req.body.address_town_city
-  const address_postcode = req.body.address_postcode
+  let address_postcode = req.body.address_postcode
 
   if (!address_house_flat_number) {
     const errorHome = { text: 'Enter the number of your home' }
@@ -545,6 +545,7 @@ router.post('/question_address_input', function (req, res) {
     address_town_city,
     address_postcode)
   ) {
+    address_postcode = removeStringWhiteSpace(address_postcode)
     req.session.data.postal_address = `${address_house_flat_number}, ${address_line_1}, ${address_town_city}, ${address_postcode}`
     res.redirect('/question_vetcard_comms')
   }
