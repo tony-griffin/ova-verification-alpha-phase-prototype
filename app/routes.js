@@ -219,6 +219,7 @@ router.post('/question_name_from_identity_claim_choice', function (req, res) {
 
   if (nameChoice === 'Yes') {
     // req.session.data.current_DI_name
+    req.session.data.start_veteran_match_status = 'Success'
     res.redirect('/question_service_number')
   }
 
