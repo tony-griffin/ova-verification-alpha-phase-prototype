@@ -1,4 +1,4 @@
-function removeStringWhiteSpace(value) {
+function removeStringWhiteSpace (value) {
   return value.replace(/\s+/g, '')
 }
 
