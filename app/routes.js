@@ -121,6 +121,7 @@ router.post('/sp4v1_start_veteran_verify_choice', function (req, res) {
   }
 
   if (answer === 'Fail') {
+    req.session.data.set_unhappy_path = true
     res.redirect('/sp4v1_start_veteran_verify')
   }
 })
@@ -220,6 +221,10 @@ router.post('/question_name_from_identity_claim_choice', function (req, res) {
 
   if (nameChoice === 'Yes') {
     // req.session.data.current_DI_name
+
+    if (req.session.data.set_unhappy_path !== true) {
+      req.session.data.start_veteran_match_status = 'Success'
+    }
     res.redirect('/question_service_number')
   }
 
