@@ -7,7 +7,6 @@ const passport = require('passport')
 const { Issuer, Strategy, generators, custom } = require('openid-client')
 const pem2jwk = require('rsa-pem-to-jwk')
 const { v4: uuidv4 } = require('uuid')
-const { generateCustomUuid } = require('custom-uuid')
 const validator = require('validator')
 
 const {
@@ -821,7 +820,7 @@ router.post('/vetcard_account_summary_choice', function (req, res) {
   const personalisation = {
     full_name: fullName.toString(),
     postal_address: postalAddress.toString(),
-    submission_reference: uuidv4(),
+    submission_reference: 'HDJ2123F',
     service_number: serviceNumber.toString()
   }
 
@@ -931,81 +930,82 @@ router.post('/vetcard_communications_choice', function (req, res) {
 
 // The URL here needs to match the URL of the page that the user is on
 // when they type in their email address
-router.post('/notify_email_address_page', function (req, res) {
-  let idChoice = req.session.data.id_choice
-  const fullName = req.session.data.full_name
-  const postalAddress = req.session.data.postal_address
+// router.post('/notify_email_address_page', function (req, res) {
+//   let idChoice = req.session.data.id_choice
+//   const fullName = req.session.data.full_name
+//   const postalAddress = req.session.data.postal_address
+//   const serviceNumber = req.session.data.question_service_number
 
-  const personalisation = {
-    full_name: fullName.toString(),
-    postal_address: postalAddress.toString(),
-    submission_reference: uuidv4(),
-    service_number: generateCustomUuid('123456789ABC', 11) // ⇨ 'B5B66992471'
-  }
+//   const personalisation = {
+//     full_name: fullName.toString(),
+//     postal_address: postalAddress.toString(),
+//     submission_reference: 'HDJ2123F',
+//     service_number: serviceNumber.toString()
+//   }
 
-  if (!req.body.emailAddress) {
-    const error = { text: 'Enter a valid email address' }
-    return res.render('notify_email_address_page', { error })
-  }
+//   if (!req.body.emailAddress) {
+//     const error = { text: 'Enter a valid email address' }
+//     return res.render('notify_email_address_page', { error })
+//   }
 
-  if (!idChoice) {
-    idChoice = 'Physical card'
-  }
+//   if (!idChoice) {
+//     idChoice = 'Physical card'
+//   }
 
-  if (idChoice === 'Physical card') {
-    notify
-      .sendEmail(
-        process.env.TEST_EMAIL_CARD_ONLY_TEMPLATE,
-        // `emailAddress` here needs to match the name of the form field in
-        // your HTML page
-        req.body.emailAddress,
-        {
-          personalisation,
-          reference: uuidv4()
-        }
-      )
-      .then((response) => console.log(response))
-      .catch((err) => console.error(err.response.data))
+//   if (idChoice === 'Physical card') {
+//     notify
+//       .sendEmail(
+//         process.env.TEST_EMAIL_CARD_ONLY_TEMPLATE,
+//         // `emailAddress` here needs to match the name of the form field in
+//         // your HTML page
+//         req.body.emailAddress,
+//         {
+//           personalisation,
+//           reference: uuidv4()
+//         }
+//       )
+//       .then((response) => console.log(response))
+//       .catch((err) => console.error(err.response.data))
 
-    res.redirect('/confirmation_page')
-  }
+//     res.redirect('/confirmation_page')
+//   }
 
-  if (idChoice === 'Digital card') {
-    notify
-      .sendEmail(
-        process.env.TEST_EMAIL_DIGITAL_ONLY_TEMPLATE,
-        // `emailAddress` here needs to match the name of the form field in
-        // your HTML page
-        req.body.emailAddress,
-        {
-          personalisation,
-          reference: uuidv4()
-        }
-      )
-      .then((response) => console.log(response))
-      .catch((err) => console.error(err.response.data))
+//   if (idChoice === 'Digital card') {
+//     notify
+//       .sendEmail(
+//         process.env.TEST_EMAIL_DIGITAL_ONLY_TEMPLATE,
+//         // `emailAddress` here needs to match the name of the form field in
+//         // your HTML page
+//         req.body.emailAddress,
+//         {
+//           personalisation,
+//           reference: uuidv4()
+//         }
+//       )
+//       .then((response) => console.log(response))
+//       .catch((err) => console.error(err.response.data))
 
-    res.redirect('/confirmation_page')
-  }
+//     res.redirect('/confirmation_page')
+//   }
 
-  if (idChoice === 'Physical and Digital') {
-    notify
-      .sendEmail(
-        process.env.TEST_EMAIL_CARD_AND_DIGITAL_TEMPLATE,
-        // `emailAddress` here needs to match the name of the form field in
-        // your HTML page
-        req.body.emailAddress,
-        {
-          personalisation,
-          reference: uuidv4()
-        }
-      )
-      .then((response) => console.log(response))
-      .catch((err) => console.error(err.response.data))
+//   if (idChoice === 'Physical and Digital') {
+//     notify
+//       .sendEmail(
+//         process.env.TEST_EMAIL_CARD_AND_DIGITAL_TEMPLATE,
+//         // `emailAddress` here needs to match the name of the form field in
+//         // your HTML page
+//         req.body.emailAddress,
+//         {
+//           personalisation,
+//           reference: uuidv4()
+//         }
+//       )
+//       .then((response) => console.log(response))
+//       .catch((err) => console.error(err.response.data))
 
-    res.redirect('/confirmation_page')
-  }
-})
+//     res.redirect('/confirmation_page')
+//   }
+// })
 
 // router.post('/match_fail_comms_preference_choice', function (req, res) {
 //   const answer = req.body.match_fail_comms_preference_check
