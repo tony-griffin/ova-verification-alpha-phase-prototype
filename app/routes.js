@@ -23,6 +23,8 @@ const {
   regexUkMobileNumber
 } = require('./assets/javascripts/regexUkMobileNumber')
 
+const { regexUkPostcode } = require('./assets/javascripts/regexUkPostcodes')
+
 const {
   removeStringWhiteSpace
 } = require('./assets/javascripts/removeStringWhiteSpace')
@@ -535,16 +537,13 @@ router.post('/question_address_input', function (req, res) {
     return res.render('question_address', { errorTownCity })
   }
 
-  if (!addressPostcode) {
-    const errorPostcode = { text: 'Enter your postcode' }
+  if (!addressPostcode || regexUkPostcode(addressPostcode) === false) {
+    const errorPostcode = { text: 'Enter a valid postcode' }
     return res.render('question_address', { errorPostcode })
   }
 
   if (
-    (addressHouseFlatNumber,
-    addressLine1,
-    addressTownCity,
-    addressPostcode)
+    (addressHouseFlatNumber, addressLine1, addressTownCity, addressPostcode)
   ) {
     addressPostcode = removeStringWhiteSpace(addressPostcode)
     req.session.data.postal_address = `${addressHouseFlatNumber}, ${addressLine1}, ${addressTownCity}, ${addressPostcode}`
