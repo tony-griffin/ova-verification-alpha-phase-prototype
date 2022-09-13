@@ -316,7 +316,7 @@ router.post('/question_service_number_input', function (req, res) {
     return res.render('question_service_number', { error })
   }
 
-  if (answer && answer.length >= 8 && answer.length <= 15) {
+  if (answer && answer.length >= 4 && answer.length <= 15) {
     res.redirect('/question_enlistment_date')
   } else {
     const error = {
