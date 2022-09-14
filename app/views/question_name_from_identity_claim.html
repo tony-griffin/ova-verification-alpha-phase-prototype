@@ -9,6 +9,10 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
   <h1 class="govuk-heading-l">Was "{{data["current_DI_name"]}}" the name you were using when you left the armed forces?</h1>
+    
+    hint: {
+                  text: "This should be the official name that would be used in your service records. No need to include your rank or any nicknames"
+                },
  
     <form class="form" action="question_name_from_identity_claim_choice" method="post">
      
