@@ -325,7 +325,7 @@ router.post('/question_service_number_input', function (req, res) {
     res.redirect('/question_enlistment_date')
   } else {
     const error = {
-      text: 'Enter a valid service number of 8 to 15 characters'
+      text: 'Enter a valid service number of 4 to 15 characters'
     }
     return res.render('question_service_number', { error })
   }
