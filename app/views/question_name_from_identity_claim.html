@@ -11,7 +11,6 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
   <h1 class="govuk-heading-l">Was "{{data["current_DI_name"]}}" the name you were using when you left the armed forces?</h1>
  
     <form class="form" action="question_name_from_identity_claim_choice" method="post">
-     
       
       {{
       govukRadios({ 
@@ -21,6 +20,9 @@ your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'})
       isPageHeading: false, 
       classes: "govuk-fieldset__legend--l"
       } }, 
+      hint: {
+                  text: "This should be the official name that would be used in your service records. No need to include your rank or any nicknames"
+                },
       items: [
           {
             value: "Yes",
