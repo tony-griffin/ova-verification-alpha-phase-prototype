@@ -313,6 +313,23 @@ router.post('/govuk_create_check_email_code', function (req, res) {
   }
 })
 
+router.post('/certificate_upload_choice', function (req, res) {
+  const answer = req.session.data.certificate_upload_further_documents
+
+  if (!answer) {
+    const error = { text: "Select 'Yes' or 'No'" }
+    return res.render('certificate_upload_radio', { error })
+  }
+
+  if (answer === 'yes') {
+    res.redirect('/certificate_upload_extra')
+  }
+
+  if (answer === 'no') {
+    res.redirect('/question_service_number')
+  }
+})
+
 router.post('/question_service_number_input', function (req, res) {
   const answer = req.session.data.question_service_number
 

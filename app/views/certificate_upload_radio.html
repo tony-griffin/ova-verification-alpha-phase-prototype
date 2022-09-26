@@ -1,0 +1,46 @@
+{% extends "layout.html" %} {% block pageTitle %} {{
+serviceName }} – GOV.UK Prototype Kit {% endblock %} 
+{% block beforeContent %}
+{{ govukPhaseBanner({ tag: {
+    text: "alpha"
+  },
+  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+<a class="govuk-back-link" href="/certificate_upload">Back</a>
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="form" action="/certificate_upload_choice" method="post">
+        {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+        {{ govukRadios({
+          idPrefix: "certificate_upload_further_documents",
+          name: "certificate_upload_further_documents",
+          fieldset: {
+            legend: {
+              text: "Do you have additional documents to upload regarding your identity?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: checked("certificate_upload_further_documents", "yes")
+            },
+            {
+              value: "no",
+              text: "No",
+              checked: checked("certificate_upload_further_documents", "no")
+            }
+          ],
+          errorMessage: error
+        }) }}
+
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
