@@ -220,7 +220,7 @@ router.post('/question_name_from_identity_claim_choice', function (req, res) {
   }
 
   if (nameChoice === 'Yes') {
-    // req.session.data.current_DI_name
+    req.session.data.name_at_discharge = req.session.data.current_DI_name
 
     if (req.session.data.set_unhappy_path !== true) {
       req.session.data.start_veteran_match_status = 'Success'
