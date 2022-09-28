@@ -1,266 +1,112 @@
-{% extends "layout.html" %}
-
-{% block pageTitle %}
-    {{ serviceName }} – GOV.UK Prototype Kit
-{% endblock %}
-
-{% block beforeContent %}
-{{ govukPhaseBanner({ tag: {
-    text: "alpha"
-  },
-  html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
-  <a class="govuk-back-link" href="/question_vetcard_comms">Back</a>
-{% endblock %}
-
-{% block content %}
+{% extends "layout.html" %} {% block pageTitle %} {{ serviceName }} – GOV.UK
+Prototype Kit {% endblock %} {% block beforeContent %} {{ govukPhaseBanner({
+tag: { text: "alpha" }, html: 'This is a new service – your
+<a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+<a class="govuk-back-link" href="/question_vetcard_comms">Back</a>
+{% endblock %} {% block content %}
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds-from-desktop">
-    
-     <form class="form" action="/vetcard_account_summary_choice" method="post">
-      <h1 class="govuk-heading-l">Check your answers before sending your application</h1>
-      
-      <h2 class="govuk-heading-m">Card and delivery details</h2>
-      
-      <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Photo</dt>
-        <dd class="govuk-summary-list__value">
-          <img src="/public/images/govuk_head_photo.png" />
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            Change<span class="govuk-visually-hidden">photo</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Name on card</dt>
-        <dd class="govuk-summary-list__value">{{data['full_name']}}</dd>
-        
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Postal address</dt>
-        <dd class="govuk-summary-list__value">{{data["postal_address"]}}</dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            Change<span class="govuk-visually-hidden"> postal address</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Email</dt>
-        <dd class="govuk-summary-list__value">
-          <p class="govuk-body">{{data["question_email_address"]}}</p>
-        </dd>
-        
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">ID format</dt>
-        <dd class="govuk-summary-list__value">
-          <p class="govuk-body">{{data["id_choice"]}}</p>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            Change<span class="govuk-visually-hidden"> ID format</span>
-          </a>
-        </dd>
-      </div>
-    </dl>
-      
-      <h2 class="govuk-heading-m">Service details</h2>
-      
-       {{ govukSummaryList({
-        classes: 'govuk-!-margin-bottom-9',
-        rows: [
-          {
-            key: {
-              text: "Service number"
-            },
-            value: {
-              text: data['question_service_number']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "service number"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Start of service"
-            },
-            value: {
-              text: data['enlistment-year-year']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "start of service"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "End of service"
-            },
-            value: {
-              text: data['discharge-year-year']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "end of service"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Name at discharge"
-            },
-            value: {
-              text: data['name_at_discharge']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "name at discharge"
-                }
-              ]
-            }
-          }, 
-          {
-            key: {
-              text: "National Insurance number"
-            },
-            value: {
-              text: data['national_insurance_number']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "national insurance number"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Served with"
-            },
-            value: {
-              text: data['branch-served-with']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "served with"
-                }
-              ]
-            }
-          }
-        ]
-      }) }}
-       
-      <h2 class="govuk-heading-m">Communication details</h2>
-      
-      {{ govukSummaryList({
-        classes: 'govuk-!-margin-bottom-9',
-        rows: [
-          {
-            key: {
-              text: "Receive future communications"
-            },
-            value: {
-              text: data['question_comms_choice']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "receive future communications"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Format of communications"
-            },
-            value: {
-              text: data['communications_choice']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "format of communications"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Contact email"
-            },
-            value: {
-              text: data['comms_preference_email_address']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "contact email"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Contact mobile number"
-            },
-            value: {
-              text: data['comms_preference_phone_number']
-            },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Change",
-                  visuallyHiddenText: "contact mobile  number"
-                }
-              ]
-            }
-          }
-          
-        ]
-      }) }}
-      
-      <h2 class="govuk-heading-m">Now send your application</h2>
-      
-      <p>By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
-      
-      <button class="govuk-button" data-module="govuk-button">Accept and send</button>
-      
-      </form>
+  <div class="govuk-grid-column-two-thirds-from-desktop">
+    <form class="form" action="/vetcard_account_summary_choice" method="post">
+      <h1 class="govuk-heading-l">
+        Check your answers before sending your application
+      </h1>
 
-{% endblock %}
+      <h2 class="govuk-heading-m">Card and delivery details</h2>
+
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Photo</dt>
+          <dd class="govuk-summary-list__value">
+            <img src="/public/images/govuk_head_photo.png" />
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">
+              Change<span class="govuk-visually-hidden">photo</span>
+            </a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Name on card</dt>
+          <dd class="govuk-summary-list__value">{{data["current_DI_name"]}}</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Postal address</dt>
+          <dd class="govuk-summary-list__value">{{data["postal_address"]}}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">
+              Change<span class="govuk-visually-hidden"> postal address</span>
+            </a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Email</dt>
+          <dd class="govuk-summary-list__value">
+            <p class="govuk-body">{{data["question_email_address"]}}</p>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">ID format</dt>
+          <dd class="govuk-summary-list__value">
+            <p class="govuk-body">{{data["id_choice"]}}</p>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">
+              Change<span class="govuk-visually-hidden"> ID format</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m">Service details</h2>
+
+      {{ govukSummaryList({ classes: 'govuk-!-margin-bottom-9', rows: [ { key: {
+      text: "Service number" }, value: { text: data['question_service_number']
+      }, actions: { items: [ { href: "#", text: "Change", visuallyHiddenText:
+      "service number" } ] } }, { key: { text: "Start of service" }, value: {
+      text: data['enlistment-year-year'] }, actions: { items: [ { href: "#",
+      text: "Change", visuallyHiddenText: "start of service" } ] } }, { key: {
+      text: "End of service" }, value: { text: data['discharge-year-year'] },
+      actions: { items: [ { href: "#", text: "Change", visuallyHiddenText: "end
+      of service" } ] } }, { key: { text: "Name at discharge" }, value: { text:
+      data['name_at_discharge'] }, actions: { items: [ { href: "#", text:
+      "Change", visuallyHiddenText: "name at discharge" } ] } }, { key: { text:
+      "National Insurance number" }, value: { text:
+      data['national_insurance_number'] }, actions: { items: [ { href: "#",
+      text: "Change", visuallyHiddenText: "national insurance number" } ] } }, {
+      key: { text: "Served with" }, value: { text: data['branch-served-with'] },
+      actions: { items: [ { href: "#", text: "Change", visuallyHiddenText:
+      "served with" } ] } } ] }) }}
+
+      <h2 class="govuk-heading-m">Communication details</h2>
+
+      {{ govukSummaryList({ classes: 'govuk-!-margin-bottom-9', rows: [ { key: {
+      text: "Receive future communications" }, value: { text:
+      data['question_comms_choice'] }, actions: { items: [ { href: "#", text:
+      "Change", visuallyHiddenText: "receive future communications" } ] } }, {
+      key: { text: "Format of communications" }, value: { text:
+      data['communications_choice'] }, actions: { items: [ { href: "#", text:
+      "Change", visuallyHiddenText: "format of communications" } ] } }, { key: {
+      text: "Contact email" }, value: { text:
+      data['comms_preference_email_address'] }, actions: { items: [ { href: "#",
+      text: "Change", visuallyHiddenText: "contact email" } ] } }, { key: {
+      text: "Contact mobile number" }, value: { text:
+      data['comms_preference_phone_number'] }, actions: { items: [ { href: "#",
+      text: "Change", visuallyHiddenText: "contact mobile number" } ] } } ] })
+      }}
+
+      <h2 class="govuk-heading-m">Now send your application</h2>
+
+      <p>
+        By submitting this application you are confirming that, to the best of
+        your knowledge, the details you are providing are correct.
+      </p>
+
+      <button class="govuk-button" data-module="govuk-button">
+        Accept and send
+      </button>
+    </form>
+
+    {% endblock %}
+  </div>
+</div>
