@@ -7,51 +7,42 @@ tag: { text: "alpha" }, html: 'This is a new service – your
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Upload a copy of your marriage or deed poll certificate</h1>
-
-    <p>
-     
-    </p>
-
-    {# <img src="/public/images/govuk_head_photo.png" alt="User photo" /> #} {#
-    <h1 class="govuk-heading-s">
-      Do you want us to use this image for your card?
-    </h1>
-    #}
-
-    {# <p>Your digital photo must be:</p>
+    <h1 class="govuk-heading-l">Please upload documents to provide evidence of your name change</h1>
+    
+    <p>These can include copies of:</p>
+    
     <ul class="govuk-list govuk-list--bullet">
-      <li>clear and in focus</li>
-      <li>in colour</li>
-      <li>against a plain, light-coloured background</li>
-      <li>your true likeness, with no photoshop or filters</li>
-      <li>at least 600 x 750 pixels</li>
-      <li>JPG, PNG or GIF format - min 50KB, max 20MB</li>
-    </ul> #}
+        <li>marriage certificates</li>
+        <li>civil partnership certificates</li>
+        <li>gender recognition certificates (GRCs)</li>
+        <li>deed poll documentations</li>
+        <li>adoption order or certificates</li>
+        <li>statutory declarations</li>
+        <li>affidavits</li>
+        <li>certificates from the Court of the Lord Lyon of Scotland</li>
 
-    {# <p>In your photo, you must:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>face forwards, looking straight at the camera</li>
-      <li>be alone, with no other objects or people</li>
-      <li>have a plain expression</li>
-      <li>have eyes open and visible, with no hair in front of them</li>
-      <li>
-        not wear sunglasses, but normal glasses are fine if you typically wear
-        them
-      </li>
-      <li>
-        not have a head covering (apart from religious or medical reasons)
-      </li>
-      <li>not have ‘red-eye’, glare or shadows over your face</li>
-    </ul> #}
+    </ul>
 
-    <form class="form" action="question_service_number" method="post">
+    <form class="form" action="certificate_upload_radio" method="post">
     
       {{ govukFileUpload(
         { id: "certificate_upload", 
          name:"certificate_upload", 
          label: { text: "Upload a file" }, 
          errorMessage: error }) }}
+  
+      
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Help with providing proof of a name change
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+         <p> We need to check the link between the name you’re using now and any previous names you tell us about.</p> 
+         <p>If you need help with this, contact <a href="https://www.gov.uk/guidance/veterans-uk-contact-us" target="_new" rel="noreferrer noopener">Veterans UK</a>.</p>
+        </div>
+      </details>
 
       <button class="govuk-button" data-module="govuk-button">Continue</button>
     </form>

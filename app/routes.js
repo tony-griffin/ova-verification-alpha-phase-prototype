@@ -220,7 +220,7 @@ router.post('/question_name_from_identity_claim_choice', function (req, res) {
   }
 
   if (nameChoice === 'Yes') {
-    // req.session.data.current_DI_name
+    req.session.data.name_at_discharge = req.session.data.current_DI_name
 
     if (req.session.data.set_unhappy_path !== true) {
       req.session.data.start_veteran_match_status = 'Success'
@@ -310,6 +310,23 @@ router.post('/govuk_create_check_email_code', function (req, res) {
 
   if (answer) {
     res.redirect('/govuk_account_sign_in_confirmed')
+  }
+})
+
+router.post('/certificate_upload_choice', function (req, res) {
+  const answer = req.session.data.certificate_upload_further_documents
+
+  if (!answer) {
+    const error = { text: "Select 'Yes' or 'No'" }
+    return res.render('certificate_upload_radio', { error })
+  }
+
+  if (answer === 'yes') {
+    res.redirect('/certificate_upload_extra')
+  }
+
+  if (answer === 'no') {
+    res.redirect('/question_service_number')
   }
 })
 
