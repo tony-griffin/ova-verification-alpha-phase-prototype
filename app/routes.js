@@ -108,7 +108,7 @@ const {
 //   })
 // })
 
-router.post('/sp4v1_start_veteran_verify_choice', function (req, res) {
+router.post('/start_veteran_apply_choice', function (req, res) {
   const answer = req.session.data.start_veteran_match_status
 
   if (!answer) {
@@ -117,36 +117,36 @@ router.post('/sp4v1_start_veteran_verify_choice', function (req, res) {
   }
 
   if (answer === 'Success') {
-    res.redirect('/sp4v1_start_veteran_verify')
+    res.redirect('/start_veteran_apply')
   }
 
   if (answer === 'Fail') {
     req.session.data.set_unhappy_path = true
-    res.redirect('/sp4v1_start_veteran_verify')
+    res.redirect('/start_veteran_apply')
   }
 })
 
-router.post('/eligibility-one', function (req, res) {
+router.post('/eligibility_one', function (req, res) {
   const formermember = req.body['former-member']
 
   if (!formermember) {
     const error = { text: "Select 'Yes' or 'No'" }
-    return res.render('eligibility-one', { error }) // relative URL, for reasons unknown
+    return res.render('eligibility_one', { error }) // relative URL, for reasons unknown
   }
 
   if (formermember === 'no') {
     res.redirect('/ineligible')
   } else {
-    res.redirect('/eligibility-two')
+    res.redirect('/eligibility_two')
   }
 })
 
-router.post('/eligibility-two', function (req, res) {
+router.post('/eligibility_two', function (req, res) {
   const ukresident = req.body['uk-resident']
 
   if (!ukresident) {
     const error = { text: "Select 'Yes' or 'No'" }
-    return res.render('eligibility-two', { error })
+    return res.render('eligibility_two', { error })
   }
 
   if (ukresident === 'no') {
@@ -394,20 +394,20 @@ router.post('/question_choice_discharge_date', function (req, res) {
     (validator.isAfter(dischargeYear, enlistmentYear) ||
       dischargeYear === enlistmentYear)
   ) {
-    res.redirect('/question_NIN')
+    res.redirect('/question_national_insurance')
   } else {
     const error = { text: 'Enter a valid year' }
     return res.render('question_discharge_date', { error })
   }
 })
 
-router.post('/question_NIN_input', function (req, res) {
+router.post('/question_national_insurance_input', function (req, res) {
   let answer = req.session.data.national_insurance_number
   const regexUse = new RegExp(process.env.NIN_REGEX)
 
   if (!answer) {
     const error = { text: 'Enter your national insurance number' }
-    return res.render('question_NIN', { error })
+    return res.render('question_national_insurance', { error })
   }
 
   if (answer) {
@@ -420,7 +420,7 @@ router.post('/question_NIN_input', function (req, res) {
     const error = {
       text: 'Enter a National Insurance number in the correct format'
     }
-    return res.render('question_NIN', { error })
+    return res.render('question_national_insurance', { error })
   }
 })
 
@@ -729,7 +729,7 @@ router.post('/vetcard_account_summary_choice', function (req, res) {
       .then((response) => console.log(response))
       .catch((err) => console.error(err.response.data))
 
-    res.redirect('/match_fail_explanation')
+    res.redirect('/vetcard_match_fail_explanation')
     return false
   }
 
