@@ -1,0 +1,23 @@
+{% extends "layout.html" %} {% block pageTitle %} {{ serviceName }} – GOV.UK
+Prototype Kit {% endblock %} {% block beforeContent %} {{ govukPhaseBanner({
+tag: { text: "alpha" }, html: 'This is a new service – your
+<a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+<a class="govuk-back-link" href="/eligibility_one">Back</a>
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="form" action="/eligibility_two" method="post">
+      {% from "govuk/components/radios/macro.njk" import govukRadios %} {{
+      govukRadios({ idPrefix: "uk-resident", name: "uk-resident", fieldset: {
+      legend: { text: "Do you live in the UK?", isPageHeading: true, classes:
+      "govuk-fieldset__legend--l" } }, items: [ { value: "yes", text: "Yes",
+      checked: checked("uk-resident", "yes") }, { value: "no", text: "No",
+      checked: checked("uk-resident", "no") } ], errorMessage: error }) }}
+
+      <button class="govuk-button" data-module="govuk-button">Continue</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
