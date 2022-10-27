@@ -26,5 +26,7 @@ The template IDs should correspond to email templates we've set up in our Notify
 If you're just developing locally, you don't need the template IDs.  But the service will
 fail to start -- even locally -- if `NOTIFYAPIKEY` is undefined. (This is a bug).
 
+You can [read more about using GOV.UK Notify to prototype emails and text messages](docs/documentation/using-notify.md)
+
 Changes merged into the `main` branch will automatically be deployed to GOV.UK PaaS.  You
 can access the prototype at https://ova-alpha.london.cloudapps.digital/
