@@ -3,6 +3,7 @@ applications:
 - name: ova-alpha
   command: npm start
   memory: 256M
+  default-route: true
   buildpacks:
   - nodejs_buildpack
 

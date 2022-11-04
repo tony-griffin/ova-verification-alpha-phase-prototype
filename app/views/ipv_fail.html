@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Profile – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukPhaseBanner({ tag: { text: "alpha" }, html: 'This is a new service – your
+  <a class="govuk-link" href="#">feedback</a> will help us to improve it.'}) }}
+
+  <a class="govuk-back-link" href="javascript:window.history.back()">Back</a>
+{% endblock %}
+  
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+        Sorry, you can't apply for a veteran's ID card online
+      </h1>
+
+      <p>We weren't able to confirm your identity.</p>
+
+      <p>You can still apply in person at the Post Office.</p>
+
+      <p>
+        We have sent an email to
+        <strong>{{ user.email }}</strong> with what to do next, and what
+        you will need to take with you.
+      </p>
+
+      <h3 class="govuk-heading-s">Before you go</h3>
+
+      <p>We use feedback to make our services better.</p>
+      <p><a href="#">Please take the feedback survey</a> (takes 30 seconds)</p>
+
+    </div>
+  </div>
+
+{% endblock %}

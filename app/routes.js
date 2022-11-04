@@ -1,3 +1,5 @@
+const utils = require('../lib/utils.js')
+const env = utils.getNodeEnv()
 const NotifyClient = require('notifications-node-client').NotifyClient
 const notify = new NotifyClient(process.env.NOTIFYAPIKEY)
 const express = require('express')
@@ -5,15 +7,20 @@ const router = express.Router()
 // Add your routes here - above the module.exports line
 const passport = require('passport')
 const { Issuer, Strategy, generators, custom } = require('openid-client')
-const pem2jwk = require('rsa-pem-to-jwk')
+const rsaPemToJwk = require('rsa-pem-to-jwk')
 const { v4: uuidv4 } = require('uuid')
 const validator = require('validator')
+const jwt = require('jsonwebtoken')
+const credential_issuer = (typeof process.env.CREDENTIAL_ISSUER_URL === 'undefined') ?
+  "https://identity.integration.account.gov.uk/" : process.env.CREDENTIAL_ISSUER_URL
 
 const {
+  // These are needed when we are NOT using Identity Proofing and Verification
   getFakeDIClaimResponse
 } = require('./assets/javascripts/fakeDIClaimJWT')
 
 const {
+  // These are needed when we are NOT using Identity Proofing and Verification
   getClaimNames,
   getPreviousNames
 } = require('./assets/javascripts/getClaimNames')
@@ -28,102 +35,136 @@ const {
   removeStringWhiteSpace
 } = require('./assets/javascripts/removeStringWhiteSpace')
 
-// These keys are base64 encoded in .env
-// const privatekey = Buffer.from(process.env.RSA_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/gm, '\n')
-// const cert = Buffer.from(process.env.CERT, 'base64').toString('utf8').replace(/\\n/gm, '\n')
-// const jwk = pem2jwk(privatekey, { kid: '2022-06-ova-alpha', use: 'sig' }, 'private')
+const rsa_private_key = process.env.RSA_PRIVATE_KEY
+const jwk = rsaPemToJwk(rsa_private_key, { kid: '2022-06-ova-alpha', use: 'sig' }, 'private')
 
-// Issuer.discover(process.env.ISSUER_BASE_URL).then(issuer => {
-//   // console.log(issuer);
+Issuer.discover(process.env.ISSUER_BASE_URL).then(issuer => {
 
-//   const client = new issuer.FAPI1Client({
-//     client_id: process.env.CLIENT_ID,
-//     redirect_uris: [process.env.CALLBACK_URL],
-//     response_types: ['code'],
-//     token_endpoint_auth_method: 'private_key_jwt',
-//     id_token_signed_response_alg: 'ES256' // Great Caesar's ghost! It was this.
-//   }, {
-//     keys: [jwk]
-//   })
+  const client = new issuer.FAPI1Client({
+    client_id: process.env.CLIENT_ID,
+    redirect_uris: [process.env.CALLBACK_URL],
+    response_types: ['code'],
+    token_endpoint_auth_method: 'private_key_jwt',
+    id_token_signed_response_alg: 'ES256' // Great Caesar's ghost! It was this.
+  }, {
+    keys: [jwk]
+  })
 
-//   client[custom.http_options] = function () {
-//     const result = {}
-//     result.cert = cert
-//     result.key = privatekey
-//     return result
-//   }
+  client[custom.http_options] = function () {
+    const result = {}
+    result.cert = process.env.CERT
+    result.key = process.env.RSA_PRIVATE_KEY
+    return result
+  }
 
-//   // console.log(client);
+  router.use(passport.initialize())
+  router.use(passport.session())
 
-//   router.use(passport.initialize())
-//   router.use(passport.session())
+  const vtr = ["P2.Cl.Cm"] // https://govukverify.atlassian.net/browse/AUT-771
+  const claims = {
+    userinfo: {
+      "https://vocab.account.gov.uk/v1/coreIdentityJWT": {
+          essential: true
+      }
+    }
+  }
 
-//   passport.use(
-//     'oidc',
-//     new Strategy({
-//       client,
-//       params: {
-//         scope: 'openid email phone',
-//         nonce: generators.nonce()
-//       },
-//       passReqToCallback: true,
-//       sessionKey: 'data'
-//     }, (req, tokenset, userinfo, done) => {
-//       /* TODO: Perform some checks */
+  passport.use(
+    'oidc',
+    new Strategy({
+      client,
+      params: {
+        scope: 'openid email phone',
+        nonce: generators.nonce(),
+        vtr: JSON.stringify(vtr),
+        claims: JSON.stringify(claims),
+      },
+      passReqToCallback: true,
+      sessionKey: 'data'
+    }, (req, tokenset, userinfo, done) => {
 
-//       if (userinfo.sub) {
-//         console.log('sub: ', userinfo.sub, ' logged in')
-//         return done(null, userinfo)
-//       } else {
-//         return done('Userinfo not found. Check the logs.')
-//       }
-//     })
-//   )
+      const core_id_jwt = userinfo["https://vocab.account.gov.uk/v1/coreIdentityJWT"]
 
-//   router.get('/login', (req, res, next) => {
-//     passport.authenticate('oidc')(req, res, next)
-//   })
+      if (!core_id_jwt) {
+        // I doubt this is necessary. We said this claim was 'essential'
+        let errorstring = 'coreIdentityJWT not present.'
+        console.log(errorstring)
+        return done(`${errorstring}. This means we could not prove your identity.`)
+      }
 
-//   router.get('/callback', (req, res, next) => {
-//     passport.authenticate('oidc', {
-//       successRedirect: '/profile',
-//       successMessage: true,
-//       failureRedirect: '/login', /* this may go loopy */
-//       failureMessage: true
-//     })(req, res, next)
-//   })
+      const verification_options = {
+        algorithms: ["ES256"],
+        issuer: credential_issuer,
+        subject: userinfo.sub,
+      }
+      const pubkey = process.env.SPOT_PUBLIC_KEY
 
-//   router.use((req, res, next) => {
-//     // console.log('req.user: ', req.user);
-//     res.locals.user = req.user
-//     next()
-//   })
+      jwt.verify(core_id_jwt, pubkey, verification_options, (err, decoded) => {
+        if (err) {
+          return done(`Could not validate coreIdentityJWT: ${err}`)
+        } else {
+          userinfo.core_identity = decoded // so the "profile" page can parse it
+          return done(null, userinfo)
+        }
+      })
+    })
+  )
 
-//   passport.serializeUser(function (user, cb) {
-//     cb(null, user)
-//   })
+  router.get('/login', (req, res, next) => {
+    passport.authenticate('oidc')(req, res, next)
+  })
 
-//   passport.deserializeUser(function (obj, cb) {
-//     cb(null, obj)
-//   })
-// })
+  router.get('/callback', (req, res, next) => {
+    passport.authenticate('oidc', {
+      successRedirect: '/profile',
+      successMessage: true,
+      failureRedirect: '/ipv_fail',
+      failureMessage: true
+    })(req, res, next)
+  })
+
+  router.use((req, res, next) => {
+    if (env === "development") {
+      res.locals.user = {
+        sub: "urn:fdc:gov.uk:2022:56P4CMsGh_02YOlWpd8PAOI-2sVlB2nsNU7mcLZYhYw=",
+        email: "sandy@example.com",
+        email_verified: true,
+        phone_number: "+447700900451",
+        phone_number_verified: true,
+      }
+      res.locals.user.core_identity = getFakeDIClaimResponse('1975')
+    } else {
+      res.locals.user = req.user
+    }
+    next()
+  })
+
+  passport.serializeUser(function (user, cb) {
+    cb(null, user)
+  })
+
+  passport.deserializeUser(function (obj, cb) {
+    cb(null, obj)
+  })
+})
 
 router.post('/start_veteran_apply_choice', function (req, res) {
   const answer = req.session.data.start_veteran_match_status
 
   if (!answer) {
-    const error = { text: "Select 'happy path' or 'unhappy path'" }
+    const error = { text: "Select 'happy path', 'unhappy path' or 'Test GOV.UK Sign In IPV'" }
     return res.render('index', { error })
-  }
-
-  if (answer === 'Success') {
-    res.redirect('/start_veteran_apply')
   }
 
   if (answer === 'Fail') {
     req.session.data.set_unhappy_path = true
-    res.redirect('/start_veteran_apply')
   }
+
+  if (answer === 'IPV') {
+    req.session.data.test_ipv = true
+  }
+
+  res.redirect('/start_veteran_apply')
 })
 
 router.post('/eligibility_one', function (req, res) {
@@ -152,39 +193,29 @@ router.post('/eligibility_two', function (req, res) {
   if (ukresident === 'no') {
     res.redirect('/ineligible_non_resident')
   } else {
-    /// ///////////////////////////////
-    // set up DI claim names
-    const birthYear = req.session.data.birth_year_number
 
-    // Identity claim set up
-    const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
+    if (req.session.data.test_ipv === true) {
+      res.redirect('/login')
+    } else {
+      // We need fake Digital Identity data
+      const birthYear = req.session.data.birth_year_number
 
-    // Set up session storage for current & previous names
-    req.session.data.current_DI_name = distinctClaimNames[0]
-    const previousNames = getPreviousNames(distinctClaimNames)
-    req.session.data.previous_DI_names = previousNames
+      // Identity claim set up
+      const distinctClaimNames = getClaimNames(getFakeDIClaimResponse(birthYear)) // All the names
 
-    previousNames.forEach((name, index) => {
-      req.session.data[`previous_DI_name_${index + 1}`] = name
-    })
-    /// ///////////////////////////////
+      // Set up session storage for current & previous names
+      req.session.data.current_DI_name = distinctClaimNames[0]
+      const previousNames = getPreviousNames(distinctClaimNames)
+      req.session.data.previous_DI_names = previousNames
 
-    res.redirect('/govuk_create_or_sign_in')
+      previousNames.forEach((name, index) => {
+        req.session.data[`previous_DI_name_${index + 1}`] = name
+      })
+
+      res.redirect('/govuk_create_or_sign_in')
+    }
   }
 })
-
-// router.post("/eligibility-three", function (req, res) {
-//   post2005 = req.body["post-2005"];
-
-//   if (!post2005) {
-//     const error = { text: "Select 'Yes' or 'No'" };
-//     return res.render("eligibility-three", { error });
-//   }
-
-//   if (post2005) {
-//     res.redirect("/govuk_account_check");
-//   }
-// });
 
 router.post('/question_email_address_input', function (req, res) {
   const email = req.session.data.question_email_address
