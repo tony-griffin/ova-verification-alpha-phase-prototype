@@ -2,9 +2,16 @@ version: '3.7'
 services:
   veteranid-verify:
     image: veteranid-verify
+    container_name: veteranid-verify
+    networks:
+      - backend
     ports:
-    - 3000:3000
+      - 3000:3000
   veteranid-matching-service:
     image: veteranid-matching-service
-    ports:
-    - 5000:5000
+    container_name: veteranid-matching-service
+    networks:
+      - backend
+networks:
+  backend:
+    name: backend
